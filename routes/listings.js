@@ -4,17 +4,24 @@ const verify = require('../verifyToken');
 
 //Get all Listings
 //GET '/api/listings/'
+//accepts 'city' query to find listings based on city
 router.get('/', async (req, res) => {
-    try {
-        let listings = await Listing.find({});
+    const cityQuery = req.query.city;
+    let listings = [];
 
-        if (listings.length === 0) {
-            return res.status(500).json({ error: 'No listings found!' });
+    try {
+        if (cityQuery) {
+            listings = await Listing.find({ city: cityQuery });
+        } else {
+            listings = await Listing.find({});
+            if (listings.length === 0) {
+                return res.status(500).json({ error: 'No listings found!' });
+            }
         }
 
         res.status(200).json(listings);
     } catch (err) {
-        console.log(err);
+        res.status(500).json(err);
     }
 });
 
@@ -31,7 +38,7 @@ router.post('/newlisting', verify, async (req, res) => {
         await listing.save();
         return res.status(200).json(listing);
     } catch (err) {
-        console.log(err);
+        res.status(500).json(err);
     }
 });
 
@@ -55,7 +62,7 @@ router.put('/:id', verify, async (req, res) => {
 
         return res.status(200).json(updatedListing);
     } catch (err) {
-        console.log(err);
+        res.status(500).json(err);
     }
 });
 
@@ -67,7 +74,7 @@ router.delete('/:id', verify, async (req, res) => {
 
         res.status(200).json('Listing has been deleted.');
     } catch (err) {
-        console.log(err);
+        res.status(500).json(err);
     }
 });
 
