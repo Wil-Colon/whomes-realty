@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import Home from './Pages/Home/Home';
 import './App.css';
-import AppShell from './Components/AppShell';
+
 import {
     MantineProvider,
     ColorSchemeProvider,
@@ -22,7 +23,7 @@ function App() {
                 withGlobalStyles
                 withNormalizeCSS
             >
-                <AppShell />
+                <Home />
             </MantineProvider>
         </ColorSchemeProvider>
     );
