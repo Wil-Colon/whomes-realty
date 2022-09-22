@@ -7,6 +7,7 @@ import {
     Group,
     Burger,
     Text,
+    Image,
     Drawer,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -99,18 +100,24 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
 
     return (
         <Header
-            height={60}
+            height={70}
             mb={0}
             fixed
             withBorder={false}
             sx={
                 isScrolled
-                    ? { transition: 'all 0.5s', backgroundColor: '#1f1f1ff2' }
-                    : { transition: 'all 0.5s', backgroundColor: '#fff0' }
+                    ? { transition: 'all 1s', backgroundColor: '#1f1f1ff2' }
+                    : { transition: 'all 1s', backgroundColor: '#fff0' }
             }
         >
             <Container className={classes.header}>
-                <Text>WHomes</Text>
+                <Image
+                    src={require('../../assets/images/logo2.png')}
+                    alt="company logo"
+                    width={60}
+                    height={60}
+                />
+
                 <Group spacing={5} className={classes.links}>
                     {items}
                 </Group>

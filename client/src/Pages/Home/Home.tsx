@@ -1,5 +1,5 @@
 import { HeaderSimple } from '../../Components/Header/Header';
-import { HeroImageBackground } from '../../Components/Hero/Hero';
+import { HeroTextOverlay } from '../../Components/Hero/HeroTextOverlay';
 
 export default function Home() {
     const links = [
@@ -20,8 +20,7 @@ export default function Home() {
     return (
         <>
             <HeaderSimple links={links} />
-            <HeroImageBackground />
-            <HeroImageBackground />
+            <HeroTextOverlay />
         </>
     );
 }
