@@ -107,12 +107,12 @@ const useStyles = createStyles((theme) => ({
 
 export function HeroTextOverlay() {
     const { classes, cx } = useStyles();
-    const isMobile = useMediaQuery('(min-width: 520px)');
+    const isMobile = useMediaQuery('(min-width: 480px)');
 
     return (
         <AspectRatio
-            ratio={!isMobile ? 6 / 10 : 6 / 2}
-            sx={{ minHeight: '475px' }}
+            ratio={!isMobile ? 6 / 9 : 6 / 2.6}
+            sx={!isMobile ? { minHeight: '650px' } : { minHeight: '800px' }}
         >
             <HeroVideoSlider />
             <div className={classes.wrapper}>
