@@ -1,5 +1,7 @@
+import FeatureListings from '../../Components/FeatureListings/FeatureListings';
 import { HeaderSimple } from '../../Components/Header/Header';
 import { HeroTextOverlay } from '../../Components/Hero/HeroTextOverlay';
+import QuoteComponent from '../../Components/Quote/QuoteComponent';
 
 export default function Home() {
     const links = [
@@ -21,6 +23,8 @@ export default function Home() {
         <>
             <HeaderSimple links={links} />
             <HeroTextOverlay />
+            <QuoteComponent />
+            <FeatureListings />
         </>
     );
 }

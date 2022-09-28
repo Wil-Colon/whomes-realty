@@ -43,18 +43,10 @@ router.post('/newlisting', verify, async (req, res) => {
 });
 
 //Update Listing
-//PUT 'api/listings/:listingID
+//PUT 'api/listing/:listingID
 router.put('/:id', verify, async (req, res) => {
     try {
-        let listing = await Listing.findById(req.params.id);
-
-        if (!listing) {
-            return res
-                .status(500)
-                .json({ error: 'No listings found to update.' });
-        }
-
-        const updatedListing = await Listing.findOneAndUpdate(
+        const updatedListing = await Listing.findByIdAndUpdate(
             req.params.id,
             { $set: req.body },
             { new: true }

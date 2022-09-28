@@ -1,13 +1,6 @@
-import {
-    Title,
-    Text,
-    Button,
-    Overlay,
-    createStyles,
-    AspectRatio,
-} from '@mantine/core';
-import HeroVideoSlider from './HeroVideoSlider';
+import { Title, Text, Overlay, createStyles, AspectRatio } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import HeroVideoSlider from './HeroVideoSlider';
 
 const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -66,47 +59,10 @@ const useStyles = createStyles((theme) => ({
             paddingTop: '20px',
         },
     },
-
-    controls: {
-        marginTop: theme.spacing.xl * 1.5,
-        display: 'flex',
-        justifyContent: 'left',
-        paddingLeft: theme.spacing.md,
-        paddingRight: theme.spacing.md,
-
-        '@media (max-width: 520px)': {
-            flexDirection: 'column',
-        },
-    },
-
-    control: {
-        height: 42,
-        fontSize: theme.fontSizes.md,
-
-        '&:not(:first-of-type)': {
-            marginLeft: theme.spacing.md,
-        },
-
-        '@media (max-width: 520px)': {
-            '&:not(:first-of-type)': {
-                marginTop: theme.spacing.md,
-                marginLeft: 0,
-            },
-        },
-    },
-
-    secondaryControl: {
-        color: theme.white,
-        backgroundColor: 'rgba(255, 255, 255, .4)',
-
-        '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, .45) !important',
-        },
-    },
 }));
 
 export function HeroTextOverlay() {
-    const { classes, cx } = useStyles();
+    const { classes } = useStyles();
     const isMobile = useMediaQuery('(min-width: 480px)');
 
     return (
@@ -138,31 +94,8 @@ export function HeroTextOverlay() {
                     </Title>
 
                     <Text size="lg" className={classes.description}>
-                        Build more reliable software with AI companion. AI is
-                        also trained to detect lazy developers who do nothing
-                        and just complain on Twitter.
+                        Find your future home in Rhode Island today!
                     </Text>
-
-                    <div className={classes.controls}>
-                        <Button
-                            className={classes.control}
-                            variant="white"
-                            size="lg"
-                            radius="lg"
-                        >
-                            Get started
-                        </Button>
-                        <Button
-                            className={cx(
-                                classes.control,
-                                classes.secondaryControl
-                            )}
-                            size="lg"
-                            radius="lg"
-                        >
-                            Live demo
-                        </Button>
-                    </div>
                 </div>
             </div>
         </AspectRatio>
