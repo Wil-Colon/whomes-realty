@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Home from './Pages/Home/Home';
-import './App.css';
 
 import {
     MantineProvider,

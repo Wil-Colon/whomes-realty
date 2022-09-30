@@ -12,6 +12,7 @@ import {
 import { Carousel } from '@mantine/carousel';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { IconBath, IconBed, IconDimensions } from '@tabler/icons';
 
 export default function Listing() {
     const [listings, setListings] = useState<any[]>([]);
@@ -40,7 +41,7 @@ export default function Listing() {
                         key={list._id}
                         sm={4}
                         xs={4}
-                        style={{ maxWidth: '335px' }}
+                        style={{ maxWidth: '335px', minWidth: '270px' }}
                     >
                         <Card shadow="sm" p="lg" radius="md" withBorder>
                             <Card.Section>
@@ -50,7 +51,7 @@ export default function Listing() {
                                     withIndicators
                                     height={200}
                                 >
-                                    {list.image.map((img) => (
+                                    {list?.image?.map((img) => (
                                         <Carousel.Slide>
                                             <Image
                                                 src={img}
@@ -63,7 +64,7 @@ export default function Listing() {
                             </Card.Section>
 
                             <Group position="apart" mt="md" mb="xs">
-                                <Text weight={700}>{list.city}</Text>
+                                <Text weight={700}>{list?.city}</Text>
                                 <Badge
                                     color="pink"
                                     variant="gradient"
@@ -75,15 +76,23 @@ export default function Listing() {
                                     On Sale
                                 </Badge>
                             </Group>
-                            <Center>
-                                <Text weight={700} color={'darkgreen'}>
-                                    ${list.price}
-                                </Text>
-                            </Center>
+
+                            <Text weight={700} color={'blue'}>
+                                ${list?.price}
+                            </Text>
 
                             <Text size="sm" color="dimmed">
-                                {list.description}
+                                {list?.description}
                             </Text>
+                            <Group spacing="xs" sx={{ marginTop: '10px' }}>
+                                <IconBath size={'20px'} />
+                                {list?.baths}
+                                <IconBed size={'20px'} />
+                                {list?.bedRooms}
+                                <IconDimensions size={'20px'} />
+                                {list?.squareFootage}ft
+                                <sup style={{ marginLeft: '-7px' }}>2</sup>
+                            </Group>
 
                             <Button
                                 variant="light"

@@ -1,16 +1,17 @@
 import './header.scss';
-import { useState } from 'react';
 import {
     createStyles,
     Header,
     Container,
     Group,
     Burger,
-    Text,
     Image,
     Drawer,
+    Text,
 } from '@mantine/core';
+import { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
+import { IconPhone } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -18,17 +19,19 @@ const useStyles = createStyles((theme) => ({
         justifyContent: 'space-between',
         alignItems: 'center',
         height: '100%',
+        maxWidth: '95%',
+        paddingLeft: '0px',
     },
 
     links: {
         [theme.fn.smallerThan('xs')]: {
-            display: 'none',
+            // display: 'none',
         },
     },
 
     burger: {
         [theme.fn.largerThan('xs')]: {
-            display: 'none',
+            // display: 'none',
         },
     },
 
@@ -119,7 +122,10 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
                 />
 
                 <Group spacing={5} className={classes.links}>
-                    {items}
+                    <IconPhone style={{ color: 'white' }} />
+                    <a href="4019435800" style={{ textDecoration: 'none' }}>
+                        <Text sx={{ color: 'white' }}>401-943-5800</Text>{' '}
+                    </a>
                 </Group>
 
                 <Burger
