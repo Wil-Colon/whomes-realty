@@ -1,4 +1,11 @@
-import { Title, Text, Overlay, createStyles, AspectRatio } from '@mantine/core';
+import {
+    Title,
+    Text,
+    Overlay,
+    createStyles,
+    AspectRatio,
+    Button,
+} from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import HeroVideoSlider from './HeroVideoSlider';
 
@@ -59,6 +66,14 @@ const useStyles = createStyles((theme) => ({
             paddingTop: '20px',
         },
     },
+    button: {
+        margin: '10px 0px 0px 16px',
+        width: '180px',
+        backgroundImage: 'linear-gradient(45deg, #4c6ef5 0%, #15aabf 100%)',
+        '&:hover': {
+            backgroundImage: 'linear-gradient(45deg, #4c6ef5 0%, #81aabf 100%)',
+        },
+    },
 }));
 
 export function HeroTextOverlay() {
@@ -96,6 +111,9 @@ export function HeroTextOverlay() {
                     <Text size="lg" className={classes.description}>
                         Find your future home in Rhode Island today!
                     </Text>
+                    <Button className={classes.button} size="lg">
+                        Listings
+                    </Button>
                 </div>
             </div>
         </AspectRatio>

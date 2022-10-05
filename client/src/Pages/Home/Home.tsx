@@ -2,7 +2,7 @@ import FeatureListings from '../../Components/FeatureListings/FeatureListings';
 import { HeaderSimple } from '../../Components/Header/Header';
 import { HeroTextOverlay } from '../../Components/Hero/HeroTextOverlay';
 import BlockQuote from '../../Components/BlockQuote/BlockQuote';
-import Staff from '../../Components/Staff/Staff';
+import Staff from '../../Components/Staff/Staff/Staff';
 
 export default function Home() {
     const links = [
