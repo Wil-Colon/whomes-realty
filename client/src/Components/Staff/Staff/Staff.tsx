@@ -1,7 +1,8 @@
-import { Center, Text, Grid, Card, Image } from '@mantine/core';
+import { Center, Text, Grid, Card, Image, Button } from '@mantine/core';
 import { useState } from 'react';
 import StaffBio from '../StaffBio/StaffBio';
 import './staff.scss';
+import 'imagehover.css/scss/imagehover.scss';
 
 export default function Staff() {
     const [open, setOpened] = useState(false);
@@ -34,9 +35,7 @@ export default function Staff() {
                 }}
             >
                 <Center>
-                    <Text sx={{ fontSize: '30px', color: 'white' }}>
-                        OUR REALSTATE AGENTS
-                    </Text>
+                    <Text className="center-text">OUR REALSTATE AGENTS</Text>
                 </Center>
                 <Grid justify="center">
                     <Grid.Col lg={24} style={{ maxWidth: '335px' }}>
@@ -56,11 +55,22 @@ export default function Staff() {
                             }}
                         >
                             <Card.Section>
-                                <Image
-                                    src={require('../../../assets/images/wendy.png')}
-                                    height={160}
-                                    alt="No way!"
-                                />
+                                <figure className="imghvr-blur">
+                                    <img
+                                        src={require('../../../assets/images/wendy.png')}
+                                        style={{
+                                            width: '319px',
+                                            height: '160px',
+                                            objectFit: 'cover',
+                                            backgroundColor: '',
+                                        }}
+                                        alt="Wendy Garcia"
+                                    />
+                                    <figcaption>
+                                        <p>Wendy Garcia</p>
+                                        <Button>Bio</Button>
+                                    </figcaption>
+                                </figure>
                             </Card.Section>
                         </Card>
                     </Grid.Col>
@@ -80,11 +90,21 @@ export default function Staff() {
                     >
                         <Card shadow="sm" p="xl" component="a">
                             <Card.Section>
-                                <Image
-                                    src="https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg"
-                                    height={160}
-                                    alt="No way!"
-                                />
+                                <figure className="imghvr-blur">
+                                    <img
+                                        src="https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg"
+                                        style={{
+                                            width: '319px',
+                                            height: '160px',
+                                            objectFit: 'cover',
+                                        }}
+                                        alt="Glendy Colon"
+                                    />
+                                    <figcaption>
+                                        <p>Glendy Colon</p>
+                                        <Button>Bio</Button>
+                                    </figcaption>
+                                </figure>
                             </Card.Section>
                         </Card>
                     </Grid.Col>
@@ -104,11 +124,21 @@ export default function Staff() {
                     >
                         <Card shadow="sm" p="xl" component="a">
                             <Card.Section>
-                                <Image
-                                    src="https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg"
-                                    height={160}
-                                    alt="No way!"
-                                />
+                                <figure className="imghvr-blur">
+                                    <img
+                                        src="https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg"
+                                        style={{
+                                            width: '319px',
+                                            height: '160px',
+                                            objectFit: 'cover',
+                                        }}
+                                        alt="Michael Carrasco"
+                                    />
+                                    <figcaption>
+                                        <p>Michael Carrasco</p>
+                                        <Button>Bio</Button>
+                                    </figcaption>
+                                </figure>
                             </Card.Section>
                         </Card>
                     </Grid.Col>
