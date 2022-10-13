@@ -86,7 +86,7 @@ export function HeroTextOverlay() {
             sx={!isMobile ? { minHeight: '650px' } : { minHeight: '800px' }}
         >
             <HeroVideoSlider />
-            <div className={classes.wrapper}>
+            <div id="home" className={classes.wrapper}>
                 <Overlay color="#000" opacity={0.65} zIndex={1} />
 
                 <div className={classes.inner}>

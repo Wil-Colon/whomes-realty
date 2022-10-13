@@ -9,8 +9,8 @@ import {
     Drawer,
     Text,
 } from '@mantine/core';
-import { useState } from 'react';
-import { useDisclosure } from '@mantine/hooks';
+import { useState, useRef } from 'react';
+import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
 import { IconPhone } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
@@ -79,6 +79,7 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
     const [opened, { toggle }] = useDisclosure(false);
     const [active, setActive] = useState(links[0].link);
     const { classes, cx } = useStyles();
+    let element;
 
     window.onscroll = () => {
         setIsScrolled(window.pageYOffset === 0 ? false : true);
@@ -95,6 +96,11 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
             onClick={(event) => {
                 event.preventDefault();
                 setActive(link.link);
+                element = document.getElementById(link.link);
+                element.scrollIntoView({
+                    block: 'center',
+                    behavior: 'smooth',
+                });
             }}
         >
             {link.label}

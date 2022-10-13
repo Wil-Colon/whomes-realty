@@ -27,6 +27,7 @@ export default function Staff() {
             />
 
             <div
+                id="realtors"
                 style={{
                     width: '100%',
                     height: 'auto',
@@ -38,11 +39,20 @@ export default function Staff() {
                     <Text className="center-text">OUR REALSTATE AGENTS</Text>
                 </Center>
                 <Grid justify="center">
-                    <Grid.Col lg={24} style={{ maxWidth: '335px' }}>
+                    <Grid.Col
+                        lg={24}
+                        style={{
+                            maxWidth: '250px',
+                        }}
+                    >
                         <Card
                             shadow="sm"
                             p="xl"
                             component="a"
+                            style={{
+                                borderRadius: '20px',
+                                backgroundColor: '#000',
+                            }}
                             onClick={() => {
                                 setStaffInfo({
                                     avatar: 'wendySolid.jpg',
@@ -57,12 +67,11 @@ export default function Staff() {
                             <Card.Section>
                                 <figure className="imghvr-blur">
                                     <img
-                                        src={require('../../../assets/images/wendy.png')}
+                                        src={require('../../../assets/images/wendySolid-min.jpg')}
                                         style={{
-                                            width: '319px',
-                                            height: '160px',
+                                            width: '100%',
+                                            height: '285px',
                                             objectFit: 'cover',
-                                            backgroundColor: '',
                                         }}
                                         alt="Wendy Garcia"
                                     />
@@ -76,7 +85,7 @@ export default function Staff() {
                     </Grid.Col>
                     <Grid.Col
                         lg={24}
-                        style={{ maxWidth: '335px' }}
+                        style={{ maxWidth: '250px' }}
                         onClick={() => {
                             setStaffInfo({
                                 avatar: 'https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg',
@@ -88,14 +97,22 @@ export default function Staff() {
                             setOpened(true);
                         }}
                     >
-                        <Card shadow="sm" p="xl" component="a">
+                        <Card
+                            shadow="sm"
+                            p="xl"
+                            component="a"
+                            style={{
+                                borderRadius: '20px',
+                                backgroundColor: '#000',
+                            }}
+                        >
                             <Card.Section>
                                 <figure className="imghvr-blur">
                                     <img
                                         src="https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg"
                                         style={{
-                                            width: '319px',
-                                            height: '160px',
+                                            width: '100%',
+                                            height: '285px',
                                             objectFit: 'cover',
                                         }}
                                         alt="Glendy Colon"
@@ -110,7 +127,7 @@ export default function Staff() {
                     </Grid.Col>
                     <Grid.Col
                         lg={24}
-                        style={{ maxWidth: '335px' }}
+                        style={{ maxWidth: '250px' }}
                         onClick={() => {
                             setStaffInfo({
                                 avatar: 'https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg',
@@ -122,14 +139,22 @@ export default function Staff() {
                             setOpened(true);
                         }}
                     >
-                        <Card shadow="sm" p="xl" component="a">
+                        <Card
+                            shadow="sm"
+                            p="xl"
+                            component="a"
+                            style={{
+                                borderRadius: '20px',
+                                backgroundColor: '#000',
+                            }}
+                        >
                             <Card.Section>
                                 <figure className="imghvr-blur">
                                     <img
                                         src="https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg"
                                         style={{
-                                            width: '319px',
-                                            height: '160px',
+                                            width: '100%',
+                                            height: '285px',
                                             objectFit: 'cover',
                                         }}
                                         alt="Michael Carrasco"

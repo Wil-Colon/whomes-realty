@@ -8,15 +8,15 @@ import { Footer } from '../../Components/Footer/Footer';
 export default function Home() {
     const links = [
         {
-            link: 'Home.com',
+            link: 'home',
             label: 'Home',
         },
         {
-            link: 'Yahoo.com',
-            label: 'yahoo',
+            link: 'listings',
+            label: 'Featured Listings',
         },
         {
-            link: 'Realtors',
+            link: 'realtors',
             label: 'Realtors',
         },
     ];
