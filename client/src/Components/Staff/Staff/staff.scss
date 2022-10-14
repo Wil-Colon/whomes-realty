@@ -1,6 +1,23 @@
 .mantine-Drawer-root {
     opacity: 1;
 }
+
+// .mantine-Drawer-drawer {
+//     background: #0f2027; /* fallback for old browsers */
+//     background: -webkit-linear-gradient(
+//         to bottom,
+//         #33404c,
+//         #203a43,
+//         #0f2027
+//     ); /* Chrome 10-25, Safari 5.1-6 */
+//     background: linear-gradient(
+//         to bottom,
+//         #2c5364,
+//         #203a43,
+//         #0f2027
+//     ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+// }
+
 html
     body
     div
@@ -9,8 +26,21 @@ html
     div.mantine-Paper-root.mantine-Drawer-drawer.mantine-1dndi01 {
     position: relative;
     margin: auto auto auto auto;
-    width: 75%;
-    background-color: rgba(51, 64, 76, 0.966);
+    max-width: 800px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow: scroll;
+    background: #0f2027; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #33404c, #203a43, #0f2027);
+    background: linear-gradient(to bottom, #2c5364, #203a43, #0f2027);
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media only screen and (max-width: 600px) {
+        width: 87%;
+    }
 }
 html
     body

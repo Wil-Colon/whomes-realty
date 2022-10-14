@@ -1,4 +1,5 @@
 import './listing.scss';
+import axios from 'axios';
 import {
     Grid,
     Card,
@@ -7,11 +8,10 @@ import {
     Badge,
     Button,
     Group,
-    Center,
+    Loader,
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { IconBath, IconBed, IconDimensions } from '@tabler/icons';
 
 export default function Listing() {
@@ -32,6 +32,7 @@ export default function Listing() {
         };
         getListings();
     }, []);
+    console.log(listings);
 
     return (
         <>
@@ -51,8 +52,8 @@ export default function Listing() {
                                     withIndicators
                                     height={200}
                                 >
-                                    {list?.image?.map((img) => (
-                                        <Carousel.Slide>
+                                    {list?.image?.map((img, i) => (
+                                        <Carousel.Slide key={i}>
                                             <Image
                                                 src={img}
                                                 height={160}
@@ -107,7 +108,7 @@ export default function Listing() {
                     </Grid.Col>
                 ))
             ) : (
-                <p>Loading...</p>
+                <Loader />
             )}
         </>
     );

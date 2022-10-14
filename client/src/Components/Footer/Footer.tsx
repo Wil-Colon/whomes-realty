@@ -1,9 +1,11 @@
+import './footer.scss';
 import { createStyles, Anchor, Group, ActionIcon, Image } from '@mantine/core';
 import {
     IconBrandTwitter,
     IconBrandYoutube,
     IconBrandInstagram,
 } from '@tabler/icons';
+import { HashLink as Link } from 'react-router-hash-link';
 
 const useStyles = createStyles((theme) => ({
     footer: {
@@ -39,18 +41,30 @@ interface FooterCenteredProps {
 }
 
 export function Footer({ links }: FooterCenteredProps) {
+    let element;
     const { classes } = useStyles();
     const items = links.map((link) => (
-        <Anchor<'a'>
-            color="dimmed"
+        <Link
+            className="linkText"
             key={link.label}
-            href={link.link}
-            sx={{ lineHeight: 1 }}
-            onClick={(event) => event.preventDefault()}
-            size="sm"
+            to={`#${link.link}`}
+            onClick={(event) => {
+                event.preventDefault();
+                element = document.getElementById(link.link);
+                element.scrollIntoView({
+                    block: 'center',
+                    behavior: 'smooth',
+                });
+            }}
+            scroll={(e) =>
+                e.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                })
+            }
         >
             {link.label}
-        </Anchor>
+        </Link>
     ));
 
     return (

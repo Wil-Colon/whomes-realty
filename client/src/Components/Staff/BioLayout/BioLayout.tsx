@@ -1,4 +1,5 @@
-import { Avatar, Text, Paper } from '@mantine/core';
+import './biolayout.scss';
+import { Avatar, Text, Paper, ScrollArea } from '@mantine/core';
 
 interface UserInfoActionProps {
     avatar: string;
@@ -20,12 +21,7 @@ export default function BioLayout({
             radius="md"
             withBorder
             p="lg"
-            sx={(theme) => ({
-                backgroundColor:
-                    theme.colorScheme === 'dark'
-                        ? theme.colors.dark[8]
-                        : theme.white,
-            })}
+            sx={{ backgroundColor: '#ececec' }}
         >
             <Avatar
                 // src={require(`../../../assets/images/${avatar}`)}
@@ -41,7 +37,9 @@ export default function BioLayout({
                 {email} • {job}
             </Text>
 
-            <Text align="center">{bio}</Text>
+            <Text className="bioText" align="center">
+                {bio}
+            </Text>
         </Paper>
     );
 }

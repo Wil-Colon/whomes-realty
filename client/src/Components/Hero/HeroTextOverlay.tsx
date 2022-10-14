@@ -79,6 +79,7 @@ const useStyles = createStyles((theme) => ({
 export function HeroTextOverlay() {
     const { classes } = useStyles();
     const isMobile = useMediaQuery('(min-width: 480px)');
+    const element = document.getElementById('listings');
 
     return (
         <AspectRatio
@@ -111,8 +112,18 @@ export function HeroTextOverlay() {
                     <Text size="lg" className={classes.description}>
                         Find your future home in Rhode Island today!
                     </Text>
-                    <Button className={classes.button} size="lg">
-                        Listings
+                    <Button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            element?.scrollIntoView({
+                                block: 'center',
+                                behavior: 'smooth',
+                            });
+                        }}
+                        className={classes.button}
+                        size="lg"
+                    >
+                        View Listings
                     </Button>
                 </div>
             </div>

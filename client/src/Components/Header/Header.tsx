@@ -9,9 +9,10 @@ import {
     Drawer,
     Text,
 } from '@mantine/core';
-import { useState, useRef } from 'react';
-import { useDisclosure, useScrollIntoView } from '@mantine/hooks';
+import { useState } from 'react';
+import { useDisclosure } from '@mantine/hooks';
 import { IconPhone } from '@tabler/icons';
+import { HashLink as Link } from 'react-router-hash-link';
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -79,7 +80,6 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
     const [opened, { toggle }] = useDisclosure(false);
     const [active, setActive] = useState(links[0].link);
     const { classes, cx } = useStyles();
-    let element;
 
     window.onscroll = () => {
         setIsScrolled(window.pageYOffset === 0 ? false : true);
@@ -87,24 +87,24 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
     };
 
     const items = links.map((link) => (
-        <a
+        <Link
             key={link.label}
-            href={link.link}
+            to={`#${link.link}`}
             className={cx(classes.link, {
                 [classes.linkActive]: active === link.link,
             })}
-            onClick={(event) => {
-                event.preventDefault();
+            onClick={() => {
                 setActive(link.link);
-                element = document.getElementById(link.link);
-                element.scrollIntoView({
-                    block: 'center',
-                    behavior: 'smooth',
-                });
             }}
+            scroll={(e) =>
+                e.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                })
+            }
         >
             {link.label}
-        </a>
+        </Link>
     ));
 
     return (

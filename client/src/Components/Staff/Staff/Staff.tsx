@@ -92,7 +92,7 @@ export default function Staff() {
                                 name: 'Glendy Colon',
                                 email: 'glendycolon@yahoo.com',
                                 job: 'Realtor',
-                                bio: 'derp derp depr depramdsada',
+                                bio: 'derp derp depr depramdsa  dsa dasg dsg gads adsads dsa asdad pr depramdsa dsa dasg dsg gads adsads dsa a pr depramdsa dsa dasg dsg gads adsads dsa a pr depramdsa dsa dasg dsg gads adsads dsa a ',
                             });
                             setOpened(true);
                         }}

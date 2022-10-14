@@ -16,4 +16,7 @@
     color: white;
     animation: fadeIn 1s;
     animation-iteration-count: 1;
+    @media only screen and (max-width: 600px) {
+        font-size: 15px;
+    }
 }
