@@ -6,7 +6,10 @@ import {
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import Home from './Pages/Home/Home';
-import AdminHome from './Pages/Admin/Pages/AdminHome';
+import Login from './Pages/Admin/Login/Login';
+import PageNotFound from './Pages/PageNotFound/PageNotFound';
+import CreateListing from './Pages/Admin/CreateListing/CreateListing';
+import AdminHome from './Pages/Admin/AdminHome/AdminHome';
 
 function App() {
     const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
@@ -25,8 +28,18 @@ function App() {
             >
                 <Router>
                     <Routes>
-                        <Route path="/" element={<Home />}></Route>
-                        <Route path="/admin" element={<AdminHome />}></Route>
+                        <Route path="/" element={<Home />} />
+
+                        {/* admin paths */}
+
+                        <Route path="/admin/login" element={<Login />} />
+                        <Route path="/admin" element={<AdminHome />} />
+                        <Route
+                            path="/admin/createlisting"
+                            element={<CreateListing />}
+                        />
+
+                        <Route path="*" element={<PageNotFound />} />
                     </Routes>
                 </Router>
             </MantineProvider>

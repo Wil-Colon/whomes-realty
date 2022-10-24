@@ -76,7 +76,7 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export function HeroTextOverlay() {
+export default function HeroTextOverlay() {
     const { classes } = useStyles();
     const isMobile = useMediaQuery('(min-width: 480px)');
     const element = document.getElementById('listings');
@@ -92,7 +92,7 @@ export function HeroTextOverlay() {
 
                 <div className={classes.inner}>
                     <Title className={classes.title}>
-                        <Text sx={{ lineHeight: 0.6 }}>
+                        <Text sx={{ lineHeight: 1 }}>
                             Welcome to <br />{' '}
                             <Text
                                 component="span"
@@ -102,6 +102,7 @@ export function HeroTextOverlay() {
                                     to: 'cyan',
                                     deg: 45,
                                 }}
+                                style={{ lineHeight: '0' }}
                             >
                                 WHomes Realty{' '}
                             </Text>

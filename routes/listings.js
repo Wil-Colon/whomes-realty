@@ -7,10 +7,16 @@ const verify = require('../verifyToken');
 //accepts 'city' query to find listings based on city
 router.get('/', async (req, res) => {
     const cityQuery = req.query.city;
+    const featuredListing = req.query.featuredListing;
     let listings = [];
 
     try {
-        if (cityQuery) {
+        if (featuredListing) {
+            listings = await Listing.find({
+                featuredListing: featuredListing,
+            });
+            return res.status(200).json(listings);
+        } else if (cityQuery) {
             listings = await Listing.find({ city: cityQuery });
         } else {
             listings = await Listing.find({});

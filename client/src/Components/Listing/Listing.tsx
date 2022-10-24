@@ -22,7 +22,7 @@ export default function Listing() {
         const getListings = async () => {
             try {
                 const res = await axios.get(
-                    'http://localhost:5000/api/listing'
+                    'http://localhost:5000/api/listing?featuredListing=true'
                 );
                 setIsLoading(false);
                 setListings(res.data);
@@ -32,7 +32,6 @@ export default function Listing() {
         };
         getListings();
     }, []);
-    console.log(listings);
 
     return (
         <>

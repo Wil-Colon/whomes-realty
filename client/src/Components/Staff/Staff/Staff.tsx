@@ -1,10 +1,13 @@
-import { Center, Text, Grid, Card, Image, Button } from '@mantine/core';
-import { useState } from 'react';
+import { Center, Text, Grid, Card, Button } from '@mantine/core';
+import { useMediaQuery, useIntersection } from '@mantine/hooks';
+import { useState, useRef } from 'react';
 import StaffBio from '../StaffBio/StaffBio';
 import './staff.scss';
 import 'imagehover.css/scss/imagehover.scss';
 
 export default function Staff() {
+    const isMobile = useMediaQuery('(max-width: 480px)');
+
     const [open, setOpened] = useState(false);
     const [staffInfo, setStaffInfo] = useState({
         avatar: '',
@@ -14,8 +17,10 @@ export default function Staff() {
         bio: '',
     });
 
+    //OVERLAY DIV
+
     return (
-        <>
+        <div>
             <StaffBio
                 open={open}
                 onClose={() => setOpened(false)}
@@ -51,7 +56,6 @@ export default function Staff() {
                             component="a"
                             style={{
                                 borderRadius: '20px',
-                                backgroundColor: '#000',
                             }}
                             onClick={() => {
                                 setStaffInfo({
@@ -63,23 +67,38 @@ export default function Staff() {
                                 });
                                 setOpened(true);
                             }}
+                            id="wendy"
                         >
                             <Card.Section>
-                                <figure className="imghvr-blur">
-                                    <img
-                                        src={require('../../../assets/images/wendySolid-min.jpg')}
-                                        style={{
-                                            width: '100%',
-                                            height: '285px',
-                                            objectFit: 'cover',
-                                        }}
-                                        alt="Wendy Garcia"
-                                    />
-                                    <figcaption>
-                                        <p>Wendy Garcia</p>
-                                        <Button>Bio</Button>
-                                    </figcaption>
-                                </figure>
+                                <>
+                                    {isMobile && (
+                                        <div id="overlay" className="overlay">
+                                            <Button
+                                                style={{
+                                                    backgroundColor:
+                                                        '#228be6a1',
+                                                }}
+                                            >
+                                                Bio
+                                            </Button>
+                                        </div>
+                                    )}
+                                    <figure className="imghvr-blur">
+                                        <img
+                                            src={require('../../../assets/images/wendySolid-min.jpg')}
+                                            style={{
+                                                width: '100%',
+                                                height: '285px',
+                                                objectFit: 'cover',
+                                            }}
+                                            alt="Wendy Garcia"
+                                        />
+                                        <figcaption>
+                                            <p>Wendy Garcia</p>
+                                            <Button>Bio</Button>
+                                        </figcaption>
+                                    </figure>
+                                </>
                             </Card.Section>
                         </Card>
                     </Grid.Col>
@@ -107,21 +126,35 @@ export default function Staff() {
                             }}
                         >
                             <Card.Section>
-                                <figure className="imghvr-blur">
-                                    <img
-                                        src="https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg"
-                                        style={{
-                                            width: '100%',
-                                            height: '285px',
-                                            objectFit: 'cover',
-                                        }}
-                                        alt="Glendy Colon"
-                                    />
-                                    <figcaption>
-                                        <p>Glendy Colon</p>
-                                        <Button>Bio</Button>
-                                    </figcaption>
-                                </figure>
+                                <>
+                                    {isMobile && (
+                                        <div id="overlay" className="overlay">
+                                            <Button
+                                                style={{
+                                                    backgroundColor:
+                                                        '#228be6a1',
+                                                }}
+                                            >
+                                                Bio
+                                            </Button>
+                                        </div>
+                                    )}
+                                    <figure className="imghvr-blur">
+                                        <img
+                                            src="https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg"
+                                            style={{
+                                                width: '100%',
+                                                height: '285px',
+                                                objectFit: 'cover',
+                                            }}
+                                            alt="Glendy Colon"
+                                        />
+                                        <figcaption>
+                                            <p>Glendy Colon</p>
+                                            <Button>Bio</Button>
+                                        </figcaption>
+                                    </figure>
+                                </>
                             </Card.Section>
                         </Card>
                     </Grid.Col>
@@ -149,26 +182,40 @@ export default function Staff() {
                             }}
                         >
                             <Card.Section>
-                                <figure className="imghvr-blur">
-                                    <img
-                                        src="https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg"
-                                        style={{
-                                            width: '100%',
-                                            height: '285px',
-                                            objectFit: 'cover',
-                                        }}
-                                        alt="Michael Carrasco"
-                                    />
-                                    <figcaption>
-                                        <p>Michael Carrasco</p>
-                                        <Button>Bio</Button>
-                                    </figcaption>
-                                </figure>
+                                <>
+                                    {isMobile && (
+                                        <div id="overlay" className="overlay">
+                                            <Button
+                                                style={{
+                                                    backgroundColor:
+                                                        '#228be6a1',
+                                                }}
+                                            >
+                                                Bio
+                                            </Button>
+                                        </div>
+                                    )}
+                                    <figure className="imghvr-blur">
+                                        <img
+                                            src="https://t3.ftcdn.net/jpg/02/08/78/06/360_F_208780674_YfDPw1EjVok0o3eCJcYb0o6s6VwKUzTt.jpg"
+                                            style={{
+                                                width: '100%',
+                                                height: '285px',
+                                                objectFit: 'cover',
+                                            }}
+                                            alt="Michael Carrasco"
+                                        />
+                                        <figcaption>
+                                            <p>Michael Carrasco</p>
+                                            <Button>Bio</Button>
+                                        </figcaption>
+                                    </figure>
+                                </>
                             </Card.Section>
                         </Card>
                     </Grid.Col>
                 </Grid>
             </div>
-        </>
+        </div>
     );
 }

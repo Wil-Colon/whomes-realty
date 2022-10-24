@@ -40,7 +40,7 @@ interface FooterCenteredProps {
     links: { link: string; label: string }[];
 }
 
-export function Footer({ links }: FooterCenteredProps) {
+export default function Footer({ links }: FooterCenteredProps) {
     let element;
     const { classes } = useStyles();
     const items = links.map((link) => (

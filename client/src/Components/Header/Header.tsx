@@ -41,32 +41,29 @@ const useStyles = createStyles((theme) => ({
         lineHeight: 1,
         padding: '8px 12px',
         borderRadius: theme.radius.sm,
-        textDecoration: 'none',
         color:
             theme.colorScheme === 'light'
                 ? theme.colors.dark[0]
                 : theme.colors.gray[7],
         fontSize: theme.fontSizes.lg,
         fontWeight: 700,
+        textDecoration: 'underline 0.13em rgba(0, 0, 0, 0)',
+        transition: 'text-decoration-color 500ms',
 
         '&:hover': {
-            backgroundColor:
-                theme.colorScheme === 'dark'
-                    ? theme.colors.dark[6]
-                    : theme.colors.gray[0],
+            backgroundColor: '#454559',
+            textDecoration: 'underline 0.13em rgba(120, 112, 145, 0.95)',
         },
     },
 
     linkActive: {
         '&, &:hover': {
+            textDecoration: 'underline 0.13em',
             backgroundColor: theme.fn.variant({
                 variant: 'light',
                 color: theme.primaryColor,
             }).background,
-            color: theme.fn.variant({
-                variant: 'light',
-                color: theme.primaryColor,
-            }).color,
+            color: '#084275',
         },
     },
 }));
@@ -75,7 +72,7 @@ interface HeaderSimpleProps {
     links: { link: string; label: string }[];
 }
 
-export function HeaderSimple({ links }: HeaderSimpleProps) {
+export default function HeaderSimple({ links }: HeaderSimpleProps) {
     const [isScrolled, setIsScrolled] = useState(false);
     const [opened, { toggle }] = useDisclosure(false);
     const [active, setActive] = useState(links[0].link);
@@ -153,6 +150,9 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
                 overlayOpacity={0.2}
             >
                 {items}
+                <Link className="admin-link" to="/admin/login">
+                    login
+                </Link>
             </Drawer>
         </Header>
     );

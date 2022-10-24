@@ -26,6 +26,7 @@ export default function HeroVideoSlider() {
                 controls={false}
                 src={require('../../assets/videos/Kitchen in a house.mp4')}
                 loop
+                muted
                 className={!isMobile ? 'video' : ''}
             />
 
@@ -35,6 +36,7 @@ export default function HeroVideoSlider() {
                 src={require('../../assets/videos/Ground floor of a house.mp4')}
                 loop
                 className={!isMobile ? 'video' : ''}
+                muted
             />
 
             <video
@@ -43,6 +45,7 @@ export default function HeroVideoSlider() {
                 src={require('../../assets/videos/House by a lake.mp4')}
                 loop
                 className={!isMobile ? 'video' : ''}
+                muted
             />
 
             <video
@@ -51,6 +54,7 @@ export default function HeroVideoSlider() {
                 src={require('../../assets/videos/A view of the coast.mp4')}
                 loop
                 className={!isMobile ? 'video' : ''}
+                muted
             />
         </Slider>
     );

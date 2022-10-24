@@ -51,6 +51,10 @@ const ListingSchema = new mongoose.Schema({
     description: {
         type: String,
     },
+    featuredListing: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 module.exports = mongoose.model('Listing', ListingSchema);
