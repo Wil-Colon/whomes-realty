@@ -1,4 +1,4 @@
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../../../../Components/AdminNavBar/AdminNavBar';
 
 export default function CreateListing() {
     return (

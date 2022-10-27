@@ -1,15 +1,15 @@
-import './NavBar.scss';
+import './AdminNavBar.scss';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useContext, useState } from 'react';
-import { AuthContext } from '../../../context/AuthContext/AuthContext';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
 import { AppShell, Loader, MediaQuery, Burger } from '@mantine/core';
-import NavbarContent from '../NavBarContent/NavBarContent';
+import AdminNavbarContent from '../AdminNavBarContent/AdminNavBarContent';
 
 interface navBarProps {
     children: React.ReactNode;
 }
 
-export default function NavBar({ children }: navBarProps) {
+export default function AdminNavBar({ children }: navBarProps) {
     const navigate = useNavigate();
     const { user, isFetching } = useContext(AuthContext);
     const [navBarSelection, setNavBarSelection] = useState('');
@@ -34,7 +34,7 @@ export default function NavBar({ children }: navBarProps) {
         <AppShell
             padding="md"
             navbar={
-                <NavbarContent
+                <AdminNavbarContent
                     navBarOpened={navBarOpened}
                     hidden={opened}
                     selection={navSelection}

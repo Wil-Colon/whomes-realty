@@ -1,12 +1,22 @@
-import { useState } from 'react';
-import { createStyles, Navbar, Group, MediaQuery, Burger } from '@mantine/core';
+import { useEffect, useState, useContext } from 'react';
 import {
-    IconSwitchHorizontal,
+    createStyles,
+    Navbar,
+    Group,
+    MediaQuery,
+    Burger,
+    Image,
+} from '@mantine/core';
+import {
     IconLogout,
     IconHomePlus,
     IconHomeStar,
+    IconMail,
 } from '@tabler/icons';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUnReadMessages } from '../../context/MessagesContext/apiCalls';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
+import { logout } from '../../context/AuthContext/AuthAction';
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const icon = getRef('icon');
@@ -113,6 +123,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 const data = [
     { link: '', label: 'Home', icon: IconHomeStar },
     { link: 'createlisting', label: 'Create Listing', icon: IconHomePlus },
+    { link: 'messages', label: 'Mail', icon: IconMail },
 ];
 
 interface navBarProps {
@@ -121,15 +132,29 @@ interface navBarProps {
     hidden: boolean;
 }
 
-export default function NavbarContent({
+export default function AdminNavbarContent({
     selection,
     hidden,
     navBarOpened,
 }: navBarProps) {
     const { classes, cx } = useStyles();
     const [active, setActive] = useState('Billing');
-
+    const [mail, setMail] = useState([]);
+    const { user, dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        async function getUnReadMail() {
+            try {
+                const res = await getUnReadMessages();
+                setMail(res);
+                return await res;
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        getUnReadMail();
+    }, [user.accessToken]);
 
     const links = data.map((item) => (
         <button
@@ -144,7 +169,29 @@ export default function NavbarContent({
                 navigate(`/admin/${item.link}`);
             }}
         >
-            <item.icon className={classes.linkIcon} stroke={1.5} />
+            {item.label === 'Mail' && mail?.length > 0 ? (
+                <div style={{ position: 'relative' }}>
+                    <item.icon className={classes.linkIcon} stroke={1.5} />
+                    <span
+                        style={{
+                            fontSize: '12px',
+                            position: 'absolute',
+                            bottom: 0,
+                            right: 10,
+                            border: '2px solid red',
+                            borderRadius: '10px',
+                            width: '15px',
+                            backgroundColor: 'red',
+                            height: '15px',
+                        }}
+                    >
+                        {mail?.length}
+                    </span>
+                </div>
+            ) : (
+                <item.icon className={classes.linkIcon} stroke={1.5} />
+            )}
+
             <span>{item.label}</span>
         </button>
     ));
@@ -158,6 +205,14 @@ export default function NavbarContent({
             hiddenBreakpoint="sm"
         >
             <Navbar.Section grow>
+                <Link to="/">
+                    <Image
+                        src={require('../../assets/images/logo2.png')}
+                        alt="company logo"
+                        width={60}
+                        height={60}
+                    />
+                </Link>
                 <Group className={classes.header} position="apart">
                     <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
                         <Burger
@@ -175,18 +230,10 @@ export default function NavbarContent({
             <Navbar.Section className={classes.footer}>
                 <button
                     className={classes.buttonStyles}
-                    onClick={(event) => event.preventDefault()}
-                >
-                    <IconSwitchHorizontal
-                        className={classes.linkIcon}
-                        stroke={1.5}
-                    />
-                    <span>Change account</span>
-                </button>
-
-                <button
-                    className={classes.buttonStyles}
-                    onClick={(event) => event.preventDefault()}
+                    onClick={() => {
+                        dispatch(logout());
+                        navigate(`/admin/login`);
+                    }}
                 >
                     <IconLogout className={classes.linkIcon} stroke={1.5} />
                     <span>Logout</span>

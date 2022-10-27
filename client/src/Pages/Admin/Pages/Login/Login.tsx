@@ -1,3 +1,4 @@
+import './login.scss';
 import {
     Paper,
     createStyles,
@@ -8,13 +9,13 @@ import {
     Title,
     Text,
     Alert,
-    Transition,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { IconAlertCircle } from '@tabler/icons';
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../../context/AuthContext/apiCalls';
-import { AuthContext } from '../../../context/AuthContext/AuthContext';
+import { login } from '../../../../context/AuthContext/apiCalls';
+import { AuthContext } from '../../../../context/AuthContext/AuthContext';
 
 const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -54,6 +55,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function Login() {
+    const matches = useMediaQuery('(max-width: 480px)');
     const navigate = useNavigate();
     const { classes } = useStyles();
     const { dispatch, user, error } = useContext(AuthContext);
@@ -62,6 +64,8 @@ export default function Login() {
         password: '',
     });
 
+    console.log(matches);
+
     const onSubmit = (e) => {
         e.preventDefault();
         login(userInput, dispatch);
@@ -69,13 +73,21 @@ export default function Login() {
 
     useEffect(() => {
         if (user) {
-            navigate('/admin/home');
+            navigate('/admin');
         }
     }, [user, navigate]);
 
     return (
         <div className={classes.wrapper}>
-            <Paper className={classes.form} radius={0} p={30}>
+            <Paper
+                className={classes.form}
+                style={{
+                    margin: matches ? '0 30px 0 30px' : 0,
+                    backgroundColor: matches ? '#ffffffe6' : '#fff',
+                }}
+                radius={0}
+                p={30}
+            >
                 <Title
                     order={2}
                     className={classes.title}

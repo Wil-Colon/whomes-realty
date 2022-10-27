@@ -12,6 +12,7 @@ db();
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/listing', require('./routes/listings'));
+app.use('/api/messages', require('./routes/messages'));
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
