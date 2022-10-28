@@ -17,6 +17,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getUnReadMessages } from '../../context/MessagesContext/apiCalls';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 import { logout } from '../../context/AuthContext/AuthAction';
+import { MessagesContext } from '../../context/MessagesContext/MessageContext';
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const icon = getRef('icon');
@@ -139,22 +140,23 @@ export default function AdminNavbarContent({
 }: navBarProps) {
     const { classes, cx } = useStyles();
     const [active, setActive] = useState('Billing');
-    const [mail, setMail] = useState([]);
+    const [unReadMail, setUnReadMail] = useState([]);
     const { user, dispatch } = useContext(AuthContext);
+    const { messages } = useContext(MessagesContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         async function getUnReadMail() {
             try {
                 const res = await getUnReadMessages();
-                setMail(res);
+                setUnReadMail(res);
                 return await res;
             } catch (err) {
                 console.log(err);
             }
         }
         getUnReadMail();
-    }, [user.accessToken]);
+    }, [user.accessToken, messages]);
 
     const links = data.map((item) => (
         <button
@@ -169,7 +171,7 @@ export default function AdminNavbarContent({
                 navigate(`/admin/${item.link}`);
             }}
         >
-            {item.label === 'Mail' && mail?.length > 0 ? (
+            {item.label === 'Mail' && unReadMail?.length > 0 ? (
                 <div style={{ position: 'relative' }}>
                     <item.icon className={classes.linkIcon} stroke={1.5} />
                     <span
@@ -185,7 +187,7 @@ export default function AdminNavbarContent({
                             height: '15px',
                         }}
                     >
-                        {mail?.length}
+                        {unReadMail?.length}
                     </span>
                 </div>
             ) : (

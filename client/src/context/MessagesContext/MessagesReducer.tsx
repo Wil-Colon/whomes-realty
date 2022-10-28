@@ -18,6 +18,26 @@ const MessagesReducer = (state, action) => {
                 isFetching: false,
                 error: action.payload,
             };
+        case 'DELETE_MESSAGE_START':
+            return {
+                messages: state.messages,
+                isFetching: true,
+                error: false,
+            };
+        case 'DELETE_MESSAGE_SUCCESS':
+            return {
+                messages: state.messages?.filter(
+                    (message) => message._id !== action.payload
+                ),
+                isFetching: true,
+                error: false,
+            };
+        case 'DELETE_MESSAGE_FAIL':
+            return {
+                messages: state.messages,
+                isFetching: false,
+                error: true,
+            };
         default:
             return { ...state };
     }

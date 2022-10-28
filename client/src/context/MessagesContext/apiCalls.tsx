@@ -3,6 +3,9 @@ import {
     getMessagesStart,
     getMessagesSuccess,
     getMessagesFailure,
+    deleteMessageStart,
+    deleteMessageSuccess,
+    deleteMessageFailure,
 } from './MessagesAction';
 
 export const getUnReadMessages = async () => {
@@ -33,9 +36,27 @@ export const getAllMessages = async (dispatch) => {
                     JSON.parse(localStorage.getItem('user')!).accessToken,
             },
         });
-        dispatch(getMessagesSuccess(res.data));
+        //messages will be retrieved by newest first
+        dispatch(getMessagesSuccess(res.data.reverse()));
     } catch (err) {
         dispatch(getMessagesFailure());
+        return err;
+    }
+};
+
+export const deleteMessageById = async (dispatch, id) => {
+    dispatch(deleteMessageStart());
+    try {
+        await axios.delete(`http://localhost:5000/api/messages/delete/${id}`, {
+            headers: {
+                token:
+                    'Bearer ' +
+                    JSON.parse(localStorage.getItem('user')!).accessToken,
+            },
+        });
+        dispatch(deleteMessageSuccess(id));
+    } catch (err) {
+        dispatch(deleteMessageFailure());
         return err;
     }
 };
