@@ -1,40 +1,40 @@
-const MessagesReducer = (state, action) => {
+const ListingReducer = (state, action) => {
     switch (action.type) {
-        case 'GET_MESSAGES_START':
+        case 'GET_LISTING_START':
             return {
-                messages: null,
+                listings: null,
                 isFetching: true,
                 error: false,
             };
-        case 'GET_MESSAGES_SUCCESS':
+        case 'GET_LISTING_SUCCESS':
             return {
-                messages: action.payload,
+                listings: action.payload,
                 isFetching: false,
                 error: false,
             };
-        case 'GET_MESSAGES_FAILURE':
+        case 'GET_LISTING_FAILURE':
             return {
-                messages: null,
+                listings: null,
                 isFetching: false,
-                error: action.payload,
+                error: true,
             };
-        case 'DELETE_MESSAGE_START':
+        case 'DELETE_LISTING_START':
             return {
-                messages: state.messages,
+                listings: state.listings,
                 isFetching: true,
                 error: false,
             };
-        case 'DELETE_MESSAGE_SUCCESS':
+        case 'DELETE_LISTING_SUCCESS':
             return {
-                messages: state.messages?.filter(
-                    (message) => message._id !== action.payload
+                listings: state.listings?.filter(
+                    (listing) => listing._id !== action.payload
                 ),
                 isFetching: false,
                 error: false,
             };
-        case 'DELETE_MESSAGE_FAIL':
+        case 'DELETE_LISTING_FAIL':
             return {
-                messages: state.messages,
+                listings: state.listings,
                 isFetching: false,
                 error: true,
             };
@@ -43,4 +43,4 @@ const MessagesReducer = (state, action) => {
     }
 };
 
-export default MessagesReducer;
+export default ListingReducer;

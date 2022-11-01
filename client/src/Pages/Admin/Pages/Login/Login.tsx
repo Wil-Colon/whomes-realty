@@ -1,4 +1,3 @@
-import './login.scss';
 import {
     Paper,
     createStyles,
@@ -63,8 +62,6 @@ export default function Login() {
         email: '',
         password: '',
     });
-
-    console.log(matches);
 
     const onSubmit = (e) => {
         e.preventDefault();

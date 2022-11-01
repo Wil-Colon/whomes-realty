@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthContextProvider } from './context/AuthContext/AuthContext';
 import { MessagesContextProvider } from './context/MessagesContext/MessageContext';
+import { ListingContextProvider } from './context/ListingContext/ListingContext';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -13,7 +14,9 @@ root.render(
     <React.StrictMode>
         <AuthContextProvider>
             <MessagesContextProvider>
-                <App />
+                <ListingContextProvider>
+                    <App />
+                </ListingContextProvider>
             </MessagesContextProvider>
         </AuthContextProvider>
     </React.StrictMode>

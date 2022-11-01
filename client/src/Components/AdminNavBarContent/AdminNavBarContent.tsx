@@ -123,7 +123,11 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const data = [
     { link: '', label: 'Home', icon: IconHomeStar },
-    { link: 'createlisting', label: 'Create Listing', icon: IconHomePlus },
+    {
+        link: 'createlisting',
+        label: 'Create/Edit Listings',
+        icon: IconHomePlus,
+    },
     { link: 'messages', label: 'Mail', icon: IconMail },
 ];
 
@@ -138,9 +142,9 @@ export default function AdminNavbarContent({
     hidden,
     navBarOpened,
 }: navBarProps) {
-    const { classes, cx } = useStyles();
     const [active, setActive] = useState('Billing');
     const [unReadMail, setUnReadMail] = useState([]);
+    const { classes, cx } = useStyles();
     const { user, dispatch } = useContext(AuthContext);
     const { messages } = useContext(MessagesContext);
     const navigate = useNavigate();
