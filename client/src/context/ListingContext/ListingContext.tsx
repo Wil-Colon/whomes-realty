@@ -4,7 +4,7 @@ import { createContext, useReducer } from 'react';
 
 const INITIAL_STATE = {
     listings: [] as any,
-    isFetching: false,
+    isFetching: true,
     error: false,
     dispatch: (() => undefined) as Dispatch<any>,
 };

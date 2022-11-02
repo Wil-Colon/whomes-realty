@@ -160,7 +160,7 @@ export default function AdminNavbarContent({
             }
         }
         getUnReadMail();
-    }, [user.accessToken, messages]);
+    }, [user?.accessToken, messages]);
 
     const links = data.map((item) => (
         <button

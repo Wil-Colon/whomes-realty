@@ -10,8 +10,7 @@ interface navBarProps {
 }
 
 export default function AdminNavBar({ children }: navBarProps) {
-    const navigate = useNavigate();
-    const { user, isFetching } = useContext(AuthContext);
+    const { isFetching } = useContext(AuthContext);
     const [navBarSelection, setNavBarSelection] = useState('');
     const [opened, setOpened] = useState(false);
 
@@ -21,12 +20,6 @@ export default function AdminNavBar({ children }: navBarProps) {
     const navBarOpened = (selection) => {
         setOpened(selection);
     };
-
-    useEffect(() => {
-        if (!user?.accessToken) {
-            navigate('/admin/login');
-        }
-    }, [user, navigate, navBarSelection]);
 
     return isFetching ? (
         <Loader />

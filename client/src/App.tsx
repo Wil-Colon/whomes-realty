@@ -11,6 +11,7 @@ import PageNotFound from './Pages/PageNotFound/PageNotFound';
 import CreateListing from './Pages/Admin/Pages/CreateListing/CreateListing';
 import AdminHome from './Pages/Admin/Pages/AdminHome/AdminHome';
 import Messages from './Pages/Admin/Pages/Messages/Messages';
+import PrivateRoute from './Components/routing/PrivateRoute';
 
 function App() {
     const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
@@ -34,12 +35,17 @@ function App() {
 
                         {/* admin paths */}
                         <Route path="/admin/login" element={<Login />} />
-                        <Route path="/admin" element={<AdminHome />} />
-                        <Route
-                            path="/admin/createlisting"
-                            element={<CreateListing />}
-                        />
-                        <Route path="/admin/messages" element={<Messages />} />
+                        <Route path="/admin" element={<PrivateRoute />}>
+                            <Route path="/admin" element={<AdminHome />} />
+                            <Route
+                                path="/admin/createlisting"
+                                element={<CreateListing />}
+                            />
+                            <Route
+                                path="/admin/messages"
+                                element={<Messages />}
+                            />
+                        </Route>
                     </Routes>
                 </Router>
             </MantineProvider>
