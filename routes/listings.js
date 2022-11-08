@@ -8,6 +8,7 @@ const verify = require('../verifyToken');
 router.get('/', async (req, res) => {
     const cityQuery = req.query.city;
     const featuredListing = req.query.featuredListing;
+    const noimageQuery = req.query.noimage;
     let listings = [];
 
     try {
@@ -16,13 +17,24 @@ router.get('/', async (req, res) => {
                 featuredListing: featuredListing,
             });
             return res.status(200).json(listings);
-        } else if (cityQuery) {
+        }
+
+        if (cityQuery) {
             listings = await Listing.find({ city: cityQuery });
-        } else {
-            listings = await Listing.find({});
-            if (listings.length === 0) {
-                return res.status(500).json({ error: 'No listings found!' });
-            }
+            return res.status(200).json(listings);
+        }
+
+        if (req.query.noimage) {
+            listings = await Listing.find({}).select(
+                '-image -featuredListing -__v'
+            );
+            return res.status(200).json(listings);
+        }
+
+        listings = await Listing.find({});
+
+        if (listings.length === 0) {
+            return res.status(500).json({ error: 'No listings found!' });
         }
 
         res.status(200).json(listings);

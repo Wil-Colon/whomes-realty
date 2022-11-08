@@ -25,10 +25,13 @@ const MessagesReducer = (state, action) => {
                 error: false,
             };
         case 'DELETE_MESSAGE_SUCCESS':
+            let messages = state.messages;
+            let deleteMessages = action.payload;
+            let newMessagePayload = messages.filter(
+                (item) => !deleteMessages.includes(item._id)
+            );
             return {
-                messages: state.messages?.filter(
-                    (message) => message._id !== action.payload
-                ),
+                messages: newMessagePayload,
                 isFetching: false,
                 error: false,
             };

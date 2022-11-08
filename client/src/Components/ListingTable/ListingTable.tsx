@@ -42,10 +42,16 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface RowData {
+    _id: string;
     address: string;
     city: string;
     price: string;
-    yearBuilt: string;
+    zipcode: string;
+    bedRooms: string;
+    baths: string;
+    propertyType: string;
+    squareFootage: string;
+    state: string;
 }
 
 interface TableSortProps {
@@ -137,11 +143,16 @@ export default function ListingTable({ data }: TableSortProps) {
     };
 
     const rows = sortedData.map((row) => (
-        <tr key={row.address}>
+        <tr key={row._id}>
             <td>{row.address}</td>
             <td>{row.city}</td>
             <td>{row.price}</td>
-            <td>{row.yearBuilt}</td>
+            <td>{row.zipcode}</td>
+            <td>{row.bedRooms}</td>
+            <td>{row.baths}</td>
+            <td>{row.propertyType}</td>
+            <td>{row.squareFootage}</td>
+            <td>{row.state}</td>
         </tr>
     ));
 
@@ -182,12 +193,48 @@ export default function ListingTable({ data }: TableSortProps) {
                         >
                             Price
                         </Th>
+
                         <Th
-                            sorted={sortBy === 'yearBuilt'}
+                            sorted={sortBy === 'zipcode'}
                             reversed={reverseSortDirection}
-                            onSort={() => setSorting('yearBuilt')}
+                            onSort={() => setSorting('zipcode')}
                         >
-                            Year Built
+                            zipcode
+                        </Th>
+                        <Th
+                            sorted={sortBy === 'bedRooms'}
+                            reversed={reverseSortDirection}
+                            onSort={() => setSorting('bedRooms')}
+                        >
+                            Beds
+                        </Th>
+                        <Th
+                            sorted={sortBy === 'baths'}
+                            reversed={reverseSortDirection}
+                            onSort={() => setSorting('baths')}
+                        >
+                            Baths
+                        </Th>
+                        <Th
+                            sorted={sortBy === 'propertyType'}
+                            reversed={reverseSortDirection}
+                            onSort={() => setSorting('propertyType')}
+                        >
+                            Type
+                        </Th>
+                        <Th
+                            sorted={sortBy === 'squareFootage'}
+                            reversed={reverseSortDirection}
+                            onSort={() => setSorting('squareFootage')}
+                        >
+                            Sq.ft
+                        </Th>
+                        <Th
+                            sorted={sortBy === 'state'}
+                            reversed={reverseSortDirection}
+                            onSort={() => setSorting('state')}
+                        >
+                            State
                         </Th>
                     </tr>
                 </thead>

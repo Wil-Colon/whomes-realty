@@ -56,9 +56,12 @@ router.post('/newMessage', async (req, res) => {
 
 //Delete message by Id
 //DELETE 'api/messages/delete/:id'
-router.delete('/delete/:id', verify, async (req, res) => {
+router.delete('/delete/', verify, async (req, res) => {
     try {
-        const message = await Messages.findByIdAndDelete(req.params.id);
+        // const message = await Messages.findByIdAndDelete(req.params.id);
+        const message = await Messages.deleteMany({
+            _id: { $in: req.body.id },
+        });
 
         if (!message) {
             return res.status(500).json('No message found!');

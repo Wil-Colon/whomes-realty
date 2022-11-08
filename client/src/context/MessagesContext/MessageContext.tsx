@@ -3,7 +3,7 @@ import { type Dispatch } from 'react';
 import { createContext, useReducer } from 'react';
 
 const INITIAL_STATE = {
-    messages: [],
+    messages: [] as any,
     isFetching: false,
     error: false,
     dispatch: (() => undefined) as Dispatch<any>,

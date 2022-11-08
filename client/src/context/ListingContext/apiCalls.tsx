@@ -7,10 +7,14 @@ import {
     GetListingSuccess,
 } from './ListingAction';
 
-export const getListings = async (dispatch) => {
+export const getListings = async (dispatch, query?) => {
     dispatch(GetListingStart());
     try {
-        const res = await axios.get('http://localhost:5000/api/listing/');
+        const res = await axios.get(
+            `http://localhost:5000/api/listing${
+                query === undefined ? '/' : query
+            }`
+        );
         dispatch(GetListingSuccess(res.data));
     } catch (err) {
         dispatch(getListingFailure());

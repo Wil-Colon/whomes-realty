@@ -4,6 +4,9 @@ import { Carousel } from '@mantine/carousel';
 import { IconBath, IconBed, IconDimensions } from '@tabler/icons';
 
 export default function Listing({ list }) {
+    const truncate = (str, n) => {
+        return str?.length > n ? str.substr(0, n - 1) + '...' : str;
+    };
     return (
         <Grid.Col
             sm={4}
@@ -48,8 +51,12 @@ export default function Listing({ list }) {
                     ${list?.price}
                 </Text>
 
-                <Text size="sm" color="dimmed">
-                    {list?.description}
+                <Text
+                    size="sm"
+                    color="dimmed"
+                    sx={{ width: '280px', height: '60px' }}
+                >
+                    {truncate(list?.description, 100)}
                 </Text>
                 <Group spacing="xs" sx={{ marginTop: '10px' }}>
                     <IconBath size={'20px'} />

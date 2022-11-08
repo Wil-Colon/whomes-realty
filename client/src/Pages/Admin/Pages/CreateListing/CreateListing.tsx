@@ -9,27 +9,8 @@ export default function CreateListing() {
     const { listings, dispatch, isFetching } = useContext(ListingContext);
 
     useEffect(() => {
-        getListings(dispatch);
+        getListings(dispatch, '?noimage=true');
     }, [dispatch]);
-
-    const RowData = [
-        {
-            address: '37 wealth ave.',
-            city: 'Providence',
-            price: '122,000',
-            yearBuilt: '1940',
-            size: 'derp',
-            images: [{ derp: '10' }],
-        },
-        {
-            address: '22 glendbridge ave.',
-            city: 'Pawtucket',
-            price: '500,000',
-            yearBuilt: '1956',
-            size: 'derp',
-            images: [{ derp: '10' }],
-        },
-    ];
 
     return (
         <NavBar>
@@ -39,7 +20,7 @@ export default function CreateListing() {
                 <div id="listings" style={{ padding: '20px 10px 40px 10px' }}>
                     <Text sx={{ fontSize: '30px', textAlign: 'center' }}>
                         Listings
-                        <ListingTable data={RowData} />
+                        <ListingTable data={listings} />
                     </Text>
                 </div>
             )}

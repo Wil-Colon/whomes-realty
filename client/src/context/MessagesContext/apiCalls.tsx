@@ -47,11 +47,14 @@ export const getAllMessages = async (dispatch) => {
 export const deleteMessageById = async (dispatch, id) => {
     dispatch(deleteMessageStart());
     try {
-        await axios.delete(`http://localhost:5000/api/messages/delete/${id}`, {
+        await axios.delete(`http://localhost:5000/api/messages/delete/`, {
             headers: {
                 token:
                     'Bearer ' +
                     JSON.parse(localStorage.getItem('user')!).accessToken,
+            },
+            data: {
+                id,
             },
         });
         dispatch(deleteMessageSuccess(id));

@@ -5,19 +5,15 @@ const ListingSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    image: [
-        {
-            type: String,
-        },
-    ],
+    image: [String],
     bedRooms: {
-        type: Number,
+        type: String,
     },
     baths: {
-        type: Number,
+        type: String,
     },
     squareFootage: {
-        type: Number,
+        type: String,
     },
     address: {
         type: String,
@@ -31,7 +27,7 @@ const ListingSchema = new mongoose.Schema({
         type: String,
     },
     zipcode: {
-        type: Number,
+        type: String,
     },
     propertyType: {
         type: String,
