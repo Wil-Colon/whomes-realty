@@ -2,41 +2,6 @@
     opacity: 1;
 }
 
-html
-    body
-    div
-    div
-    div.mantine-Drawer-root.mantine-bsiqi3
-    div.mantine-Paper-root.mantine-Drawer-drawer.mantine-1dndi01 {
-    position: relative;
-    margin: auto auto auto auto;
-    max-width: 800px;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    overflow: scroll;
-    background: #0f2027; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #33404c, #203a43, #0f2027);
-    background: linear-gradient(to bottom, #2c5364, #203a43, #0f2027);
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
-
-    @media only screen and (max-width: 600px) {
-        width: 87%;
-    }
-}
-html
-    body
-    div#root
-    div
-    div.mantine-Grid-root.mantine-1ak6u27
-    div.mantine-Col-root.mantine-1hozl0w
-    a.mantine-Paper-root.mantine-Card-root.mantine-d8kqtl
-    div.mantine-Card-cardSection.mantine-1bcerx7 {
-    margin-bottom: -32px;
-}
-
 .center-text {
     font-size: 30px;
     color: white;
@@ -47,6 +12,25 @@ html
         text-align: center;
     }
 }
+
+@keyframes example {
+    from {
+        scale: (0);
+    }
+    to {
+        scale: (1);
+    }
+}
+
+a.admin-link {
+    position: absolute;
+    right: 25px;
+    bottom: 25px;
+    text-decoration: underline;
+    font-weight: 100;
+    color: white;
+}
+
 html
     body
     div#root
@@ -64,14 +48,17 @@ html
     cursor: pointer;
 }
 
-@keyframes example {
-    from {
-        scale: (0);
-    }
-    to {
-        scale: (1);
-    }
+html
+    body
+    div#root
+    div
+    div.mantine-Grid-root.mantine-1ak6u27
+    div.mantine-Col-root.mantine-1hozl0w
+    a.mantine-Paper-root.mantine-Card-root.mantine-d8kqtl
+    div.mantine-Card-cardSection.mantine-1bcerx7 {
+    margin-bottom: -32px;
 }
+
 .overlay {
     position: absolute;
     top: 215px;
@@ -82,13 +69,4 @@ html
     z-index: 1;
     background: linear-gradient(to bottom, #2c53640e, #203a43a9, #0f2027);
     text-align: center;
-}
-
-a.admin-link {
-    position: absolute;
-    right: 25px;
-    bottom: 25px;
-    text-decoration: underline;
-    font-weight: 100;
-    color: white;
 }

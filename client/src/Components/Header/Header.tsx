@@ -1,4 +1,3 @@
-import './header.scss';
 import {
     createStyles,
     Header,
@@ -148,6 +147,14 @@ export default function HeaderSimple({ links }: HeaderSimpleProps) {
                 overlayBlur={1}
                 position="right"
                 overlayOpacity={0.2}
+                styles={(theme) => ({
+                    drawer: {
+                        backgroundColor: '#1a1919f2',
+                    },
+                    header: {
+                        color: 'white',
+                    },
+                })}
             >
                 {items}
                 <Link className="admin-link" to="/admin/login">

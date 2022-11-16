@@ -14,6 +14,7 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { MessagesContext } from '../../context/MessagesContext/MessageContext';
 import moment from 'moment';
+import MessageDetails from '../MessageDetails/MessageDetails';
 
 const useStyles = createStyles((theme) => ({
     rowSelected: {
@@ -40,6 +41,8 @@ export default function MessagesTable() {
     const { messages, dispatch, isFetching } = useContext(MessagesContext);
     const { classes, cx } = useStyles();
     const [selection, setSelection] = useState<string[]>([]);
+    const [open, setOpened] = useState(false);
+    const [openedMessage, setOpenedMessage] = useState<string[]>([]);
 
     const truncate = (str, n) => {
         return str?.length > n ? str.substr(0, n - 1) + '...' : str;
@@ -78,16 +81,53 @@ export default function MessagesTable() {
                         transitionDuration={0}
                     />
                 </td>
+
+                <MessageDetails
+                    open={open}
+                    onClose={() => setOpened(false)}
+                    message={openedMessage}
+                />
+
                 <td>
                     <Group spacing="sm">
-                        <Text size="sm" weight={500}>
+                        <Text
+                            size="sm"
+                            weight={message.unRead ? 700 : 500}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                setOpenedMessage(message);
+                                setOpened(true);
+                            }}
+                        >
                             {`${message?.firstName} ${message?.lastName}`}
                         </Text>
                     </Group>
                 </td>
-                <td>{message?.email}</td>
-                <td>{truncate(message?.message, 50)}</td>
-                <td>{date}</td>
+
+                <td
+                    style={{
+                        fontWeight: message.unRead ? 700 : 500,
+                        cursor: 'pointer',
+                    }}
+                >
+                    {message?.email}
+                </td>
+                <td
+                    style={{
+                        fontWeight: message.unRead ? 700 : 500,
+                        cursor: 'pointer',
+                    }}
+                >
+                    {truncate(message?.message, 80)}
+                </td>
+                <td
+                    style={{
+                        fontWeight: message.unRead ? 700 : 500,
+                        cursor: 'pointer',
+                    }}
+                >
+                    {date}
+                </td>
             </tr>
         );
     });
@@ -121,13 +161,12 @@ export default function MessagesTable() {
                                     transitionDuration={0}
                                 />
                             </th>
-                            <th style={{ width: '20ch' }}>Name</th>
-                            <th style={{ width: '20ch' }}>Email</th>
+                            <th style={{ width: '16ch' }}>Name</th>
+                            <th style={{ width: '25ch' }}>Email</th>
                             <th>Message</th>
                             <th>Date</th>
                         </tr>
                     </thead>
-
                     <tbody>{rows}</tbody>
                 </Table>
             </ScrollArea>

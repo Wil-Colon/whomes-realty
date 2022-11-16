@@ -1,6 +1,6 @@
 import { Center, Text, Grid, Card, Button } from '@mantine/core';
-import { useMediaQuery, useIntersection } from '@mantine/hooks';
-import { useState, useRef } from 'react';
+import { useMediaQuery } from '@mantine/hooks';
+import { useState } from 'react';
 import StaffBio from '../StaffBio/StaffBio';
 import './staff.scss';
 import 'imagehover.css/scss/imagehover.scss';

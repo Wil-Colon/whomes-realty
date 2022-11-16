@@ -1,5 +1,5 @@
 import './biolayout.scss';
-import { Avatar, Text, Paper, ScrollArea } from '@mantine/core';
+import { Avatar, Text, Paper } from '@mantine/core';
 
 interface UserInfoActionProps {
     avatar: string;
