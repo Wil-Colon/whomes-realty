@@ -27,3 +27,16 @@ export const deleteMessageSuccess = (id) => ({
 export const deleteMessageFailure = () => ({
     type: 'DELETE_MESSAGE_FAILURE',
 });
+
+export const markAsReadStart = () => ({
+    type: 'MARK_AS_READ_START',
+});
+
+export const markAsReadSuccess = (message) => ({
+    type: 'MARK_AS_READ_SUCCESS',
+    payload: message,
+});
+
+export const markAsReadFailure = () => ({
+    type: 'MARK_AS_READ_FAILURE',
+});

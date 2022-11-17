@@ -6,6 +6,9 @@ import {
     deleteMessageStart,
     deleteMessageSuccess,
     deleteMessageFailure,
+    markAsReadStart,
+    markAsReadSuccess,
+    markAsReadFailure,
 } from './MessagesAction';
 
 export const getUnReadMessages = async () => {
@@ -60,6 +63,22 @@ export const deleteMessageById = async (dispatch, id) => {
         dispatch(deleteMessageSuccess(id));
     } catch (err) {
         dispatch(deleteMessageFailure());
+        return err;
+    }
+};
+
+export const markAsRead = async (dispatch, id, read) => {
+    dispatch(markAsReadStart());
+    try {
+        const message = await axios.put(
+            `http://localhost:5000/api/messages/${id}`,
+            {
+                read,
+            }
+        );
+        dispatch(markAsReadSuccess(message.data));
+    } catch (err) {
+        dispatch(markAsReadFailure());
         return err;
     }
 };

@@ -73,4 +73,26 @@ router.delete('/delete/', verify, async (req, res) => {
     }
 });
 
+//PUT Mark Message Read/UnRead by ID
+//PUT '/api/messages/:id'
+router.put('/:id', async (req, res) => {
+    try {
+        const message = await Messages.findOneAndUpdate(
+            { _id: req.params.id },
+            { $set: { unRead: req.body.read } },
+            { new: true }
+        );
+
+        if (!message) {
+            return res.status(500).json('No message found!');
+        }
+
+        const allMessages = await Messages.find({});
+
+        res.status(200).json(allMessages);
+    } catch (err) {
+        res.status(200).json(err);
+    }
+});
+
 module.exports = router;

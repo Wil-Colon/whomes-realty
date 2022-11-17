@@ -2,7 +2,7 @@ const MessagesReducer = (state, action) => {
     switch (action.type) {
         case 'GET_MESSAGES_START':
             return {
-                messages: null,
+                messages: state.messages,
                 isFetching: true,
                 error: false,
             };
@@ -40,6 +40,24 @@ const MessagesReducer = (state, action) => {
                 messages: state.messages,
                 isFetching: false,
                 error: true,
+            };
+        case 'MARK_AS_READ_START':
+            return {
+                messages: state.messages,
+                isFetching: true,
+                error: false,
+            };
+        case 'MARK_AS_READ_SUCCESS':
+            return {
+                messages: action.payload,
+                isFetching: false,
+                error: false,
+            };
+        case 'MARK_AS_READ_FAILURE':
+            return {
+                messages: null,
+                isFetching: false,
+                error: action.payload,
             };
         default:
             return { ...state };

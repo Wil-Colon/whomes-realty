@@ -3,26 +3,26 @@ import {
     Drawer,
     createStyles,
     Text,
-    Avatar,
     Group,
     TypographyStylesProvider,
     Paper,
+    Button,
 } from '@mantine/core';
 import moment from 'moment';
+import { IconMail, IconMailOpened, IconTrash } from '@tabler/icons';
+import { useContext, useEffect, useState } from 'react';
+import { MessagesContext } from '../../context/MessagesContext/MessageContext';
+import {
+    deleteMessageById,
+    getAllMessages,
+    markAsRead,
+} from '../../context/MessagesContext/apiCalls';
 
 interface MessageDetailsProps {
     open: boolean;
     onClose: any;
     message: any;
-}
-
-interface CommentHtmlProps {
-    postedAt: string;
-    body: string;
-    author: {
-        name: string;
-        image: string;
-    };
+    setOpened: any;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -46,9 +46,17 @@ export default function MessageDetails({
     open,
     onClose,
     message,
+    setOpened,
 }: MessageDetailsProps) {
+    const { messages, dispatch, isFetching } = useContext(MessagesContext);
+    const [currentMessage, setCurrentMessage] = useState({ message }) as any;
+
     const { classes } = useStyles();
     let date = moment(`${message?.date}`).format('MMM D');
+
+    useEffect(() => {
+        setCurrentMessage(message);
+    }, [message, dispatch]);
 
     return (
         <Drawer
@@ -84,7 +92,46 @@ export default function MessageDetails({
             })}
         >
             <>
-                <p>delete, mark as read buttons</p>
+                <Group position="center" style={{ marginBottom: '7px' }}>
+                    <Button
+                        title="Delete"
+                        variant="outline"
+                        size="xs"
+                        aria-label="delete"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            deleteMessageById(dispatch, message._id);
+                            setOpened(false);
+                        }}
+                    >
+                        <IconTrash />
+                    </Button>
+
+                    <Button
+                        title="Mark as Read"
+                        variant="outline"
+                        size="xs"
+                        aria-label="mark as read"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentMessage({
+                                ...currentMessage,
+                                unRead: !currentMessage.unRead,
+                            });
+                            markAsRead(
+                                dispatch,
+                                message._id,
+                                !currentMessage.unRead
+                            );
+                        }}
+                    >
+                        {currentMessage.unRead === true ? (
+                            <IconMail />
+                        ) : (
+                            <IconMailOpened />
+                        )}
+                    </Button>
+                </Group>
                 <Paper withBorder radius="md" className={classes.comment}>
                     <Group>
                         <div>
@@ -113,3 +160,37 @@ export default function MessageDetails({
         </Drawer>
     );
 }
+
+// {message.unRead ? (
+//     <Button
+//         variant="outline"
+//         size="xs"
+//         aria-label="mark as read/unread"
+//         onClick={(e) => {
+//             e.preventDefault();
+//             markAsRead(
+//                 dispatch,
+//                 message._id,
+//                 !message.unRead
+//             );
+//         }}
+//     >
+//         <IconMail />
+//     </Button>
+// ) : (
+//     <Button
+//         variant="outline"
+//         size="xs"
+//         aria-label="mark as read/unread"
+//         onClick={(e) => {
+//             e.preventDefault();
+//             markAsRead(
+//                 dispatch,
+//                 message._id,
+//                 !message.unRead
+//             );
+//         }}
+//     >
+//         <IconMailOpened />
+//     </Button>
+// )}

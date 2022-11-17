@@ -1,6 +1,7 @@
 import {
     deleteMessageById,
     getAllMessages,
+    markAsRead,
 } from '../../context/MessagesContext/apiCalls';
 import {
     createStyles,
@@ -9,7 +10,6 @@ import {
     Checkbox,
     Group,
     Text,
-    Loader,
 } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import { MessagesContext } from '../../context/MessagesContext/MessageContext';
@@ -50,7 +50,7 @@ export default function MessagesTable() {
 
     useEffect(() => {
         getAllMessages(dispatch);
-    }, [dispatch]);
+    }, [open, dispatch]);
 
     const toggleRow = (_id: string) =>
         setSelection((current) =>
@@ -64,6 +64,12 @@ export default function MessagesTable() {
                 ? []
                 : messages?.map((item) => item._id)
         );
+
+    const openMessageDetails = (message, open) => {
+        markAsRead(dispatch, message._id, false);
+        setOpenedMessage(message);
+        setOpened(open);
+    };
 
     const rows = messages?.map((message) => {
         date = moment(`${message?.date}`).format('MMM D');
@@ -86,6 +92,7 @@ export default function MessagesTable() {
                     open={open}
                     onClose={() => setOpened(false)}
                     message={openedMessage}
+                    setOpened={setOpened}
                 />
 
                 <td>
@@ -95,8 +102,7 @@ export default function MessagesTable() {
                             weight={message.unRead ? 700 : 500}
                             style={{ cursor: 'pointer' }}
                             onClick={() => {
-                                setOpenedMessage(message);
-                                setOpened(true);
+                                openMessageDetails(message, true);
                             }}
                         >
                             {`${message?.firstName} ${message?.lastName}`}
@@ -106,24 +112,33 @@ export default function MessagesTable() {
 
                 <td
                     style={{
-                        fontWeight: message.unRead ? 700 : 500,
+                        fontWeight: message?.unRead ? 700 : 500,
                         cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                        openMessageDetails(message, true);
                     }}
                 >
                     {message?.email}
                 </td>
                 <td
                     style={{
-                        fontWeight: message.unRead ? 700 : 500,
+                        fontWeight: message?.unRead ? 700 : 500,
                         cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                        openMessageDetails(message, true);
                     }}
                 >
                     {truncate(message?.message, 80)}
                 </td>
                 <td
                     style={{
-                        fontWeight: message.unRead ? 700 : 500,
+                        fontWeight: message?.unRead ? 700 : 500,
                         cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                        openMessageDetails(message, true);
                     }}
                 >
                     {date}
@@ -137,9 +152,7 @@ export default function MessagesTable() {
         deleteMessageById(dispatch, selection);
     };
 
-    return isFetching ? (
-        <Loader />
-    ) : (
+    return (
         <>
             <ScrollArea>
                 <Table
