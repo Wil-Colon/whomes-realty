@@ -67,7 +67,7 @@ export default function MessagesTable() {
 
     const openMessageDetails = (message, open) => {
         markAsRead(dispatch, message._id, false);
-        setOpenedMessage(message);
+        setOpenedMessage({...message, unRead: false});
         setOpened(open);
     };
 
@@ -180,7 +180,7 @@ export default function MessagesTable() {
                             <th>Date</th>
                         </tr>
                     </thead>
-                    <tbody>{rows}</tbody>
+                    <tbody>{messages.length === 0 ? "No messages" :  rows}</tbody>
                 </Table>
             </ScrollArea>
 

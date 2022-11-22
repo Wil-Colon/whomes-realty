@@ -21,7 +21,10 @@ const useStyles = createStyles((theme) => ({
         minHeight: 900,
         backgroundSize: 'cover',
         backgroundImage:
-            'url(https://images.unsplash.com/photo-1585694813849-abaabaa01ac6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1395&q=80)',
+            'url(https://livability.com/wp-content/uploads/2021/10/65ProvidenceRI21-1.jpg)',
+            [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+               minHeight: 600
+            },
     },
 
     form: {
@@ -30,12 +33,14 @@ const useStyles = createStyles((theme) => ({
                 ? theme.colors.dark[7]
                 : theme.colors.gray[3]
         }`,
-        minHeight: 900,
+        // minHeight: 900,
         maxWidth: 450,
         paddingTop: 80,
+        height: 900,
 
         [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
             maxWidth: '100%',
+            height: 600,
         },
     },
 

@@ -92,7 +92,7 @@ export default function MessageDetails({
             })}
         >
             <>
-                <Group position="center" style={{ marginBottom: '7px' }}>
+                <Group position="left" style={{ marginBottom: '7px' }}>
                     <Button
                         title="Delete"
                         variant="outline"
@@ -108,10 +108,9 @@ export default function MessageDetails({
                     </Button>
 
                     <Button
-                        title="Mark as Read"
+                        title={currentMessage.unRead === true ? "Mark as Read" : "Mark as Unread"}
                         variant="outline"
                         size="xs"
-                        aria-label="mark as read"
                         onClick={(e) => {
                             e.preventDefault();
                             setCurrentMessage({
@@ -131,6 +130,45 @@ export default function MessageDetails({
                             <IconMailOpened />
                         )}
                     </Button>
+
+                    {/* {currentMessage.unRead === true ? (<Button
+                        title="Mark as Read"
+                        variant="outline"
+                        size="xs"
+                        aria-label="mark as read"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentMessage({
+                                ...currentMessage,
+                                unRead: !currentMessage.unRead,
+                            });
+                            markAsRead(
+                                dispatch,
+                                message._id,
+                                !currentMessage.unRead
+                            );
+                        }}
+                    ><IconMail /></Button>) : (<Button
+                        title="Mark as Unread"
+                        variant="outline"
+                        size="xs"
+                        aria-label="mark as read"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentMessage({
+                                ...currentMessage,
+                                unRead: !currentMessage.unRead,
+                            });
+                            markAsRead(
+                                dispatch,
+                                message._id,
+                                !currentMessage.unRead
+                            );
+                        }}
+                    ><IconMailOpened /></Button>)} */}
+
+
+
                 </Group>
                 <Paper withBorder radius="md" className={classes.comment}>
                     <Group>
