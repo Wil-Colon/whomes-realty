@@ -14,7 +14,6 @@ import { useContext, useEffect, useState } from 'react';
 import { MessagesContext } from '../../context/MessagesContext/MessageContext';
 import {
     deleteMessageById,
-    getAllMessages,
     markAsRead,
 } from '../../context/MessagesContext/apiCalls';
 
@@ -48,7 +47,7 @@ export default function MessageDetails({
     message,
     setOpened,
 }: MessageDetailsProps) {
-    const { messages, dispatch, isFetching } = useContext(MessagesContext);
+    const { dispatch } = useContext(MessagesContext);
     const [currentMessage, setCurrentMessage] = useState({ message }) as any;
 
     const { classes } = useStyles();
@@ -108,7 +107,11 @@ export default function MessageDetails({
                     </Button>
 
                     <Button
-                        title={currentMessage.unRead === true ? "Mark as Read" : "Mark as Unread"}
+                        title={
+                            currentMessage.unRead === true
+                                ? 'Mark as Read'
+                                : 'Mark as Unread'
+                        }
                         variant="outline"
                         size="xs"
                         onClick={(e) => {
@@ -130,45 +133,6 @@ export default function MessageDetails({
                             <IconMailOpened />
                         )}
                     </Button>
-
-                    {/* {currentMessage.unRead === true ? (<Button
-                        title="Mark as Read"
-                        variant="outline"
-                        size="xs"
-                        aria-label="mark as read"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentMessage({
-                                ...currentMessage,
-                                unRead: !currentMessage.unRead,
-                            });
-                            markAsRead(
-                                dispatch,
-                                message._id,
-                                !currentMessage.unRead
-                            );
-                        }}
-                    ><IconMail /></Button>) : (<Button
-                        title="Mark as Unread"
-                        variant="outline"
-                        size="xs"
-                        aria-label="mark as read"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentMessage({
-                                ...currentMessage,
-                                unRead: !currentMessage.unRead,
-                            });
-                            markAsRead(
-                                dispatch,
-                                message._id,
-                                !currentMessage.unRead
-                            );
-                        }}
-                    ><IconMailOpened /></Button>)} */}
-
-
-
                 </Group>
                 <Paper withBorder radius="md" className={classes.comment}>
                     <Group>
@@ -198,37 +162,3 @@ export default function MessageDetails({
         </Drawer>
     );
 }
-
-// {message.unRead ? (
-//     <Button
-//         variant="outline"
-//         size="xs"
-//         aria-label="mark as read/unread"
-//         onClick={(e) => {
-//             e.preventDefault();
-//             markAsRead(
-//                 dispatch,
-//                 message._id,
-//                 !message.unRead
-//             );
-//         }}
-//     >
-//         <IconMail />
-//     </Button>
-// ) : (
-//     <Button
-//         variant="outline"
-//         size="xs"
-//         aria-label="mark as read/unread"
-//         onClick={(e) => {
-//             e.preventDefault();
-//             markAsRead(
-//                 dispatch,
-//                 message._id,
-//                 !message.unRead
-//             );
-//         }}
-//     >
-//         <IconMailOpened />
-//     </Button>
-// )}

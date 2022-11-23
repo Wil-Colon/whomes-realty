@@ -168,7 +168,7 @@ export default function ListingTable({ data }: TableSortProps) {
             <Table
                 horizontalSpacing="md"
                 verticalSpacing="xs"
-                sx={{ tableLayout: 'fixed', minWidth: 700 }}
+                sx={{ tableLayout: 'fixed', minWidth: 700, textAlign: 'left' }}
             >
                 <thead>
                     <tr>

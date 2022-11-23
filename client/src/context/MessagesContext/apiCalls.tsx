@@ -82,3 +82,22 @@ export const markAsRead = async (dispatch, id, read) => {
         return err;
     }
 };
+
+export const markMultipleRead = async (dispatch, id, read) => {
+    dispatch(markAsReadStart());
+
+    try {
+        const message = await axios.patch(
+            `http://localhost:5000/api/messages/markmultipleread`,
+            {
+                read,
+                id,
+            }
+        );
+
+        dispatch(markAsReadSuccess(message.data));
+    } catch (err) {
+        dispatch(markAsReadFailure());
+        return err;
+    }
+};

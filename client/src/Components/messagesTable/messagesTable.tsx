@@ -2,6 +2,7 @@ import {
     deleteMessageById,
     getAllMessages,
     markAsRead,
+    markMultipleRead,
 } from '../../context/MessagesContext/apiCalls';
 import {
     createStyles,
@@ -10,18 +11,20 @@ import {
     Checkbox,
     Group,
     Text,
+    Loader,
 } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import { MessagesContext } from '../../context/MessagesContext/MessageContext';
 import moment from 'moment';
 import MessageDetails from '../MessageDetails/MessageDetails';
+import { IconMail, IconMailOpened, IconTrash } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
     rowSelected: {
         backgroundColor:
             theme.colorScheme === 'dark'
                 ? theme.fn.rgba(theme.colors[theme.primaryColor][7], 0.2)
-                : theme.colors[theme.primaryColor][0],
+                : 'lightblue',
     },
 }));
 
@@ -29,20 +32,23 @@ const button = {
     active: {
         backGroundColor: 'green',
         cursor: 'pointer',
+        margin: '5px 5px',
     },
     inActive: {
         backgroundColor: 'transparent',
         color: 'grey',
+        margin: '5px 5px',
     },
 };
 
 export default function MessagesTable() {
     let date;
-    const { messages, dispatch, isFetching } = useContext(MessagesContext);
+    const { messages, dispatch } = useContext(MessagesContext);
     const { classes, cx } = useStyles();
     const [selection, setSelection] = useState<string[]>([]);
     const [open, setOpened] = useState(false);
     const [openedMessage, setOpenedMessage] = useState<string[]>([]);
+    const [markAsReadStatus, setMarkAsReadStatus] = useState(true) as any;
 
     const truncate = (str, n) => {
         return str?.length > n ? str.substr(0, n - 1) + '...' : str;
@@ -58,16 +64,18 @@ export default function MessagesTable() {
                 ? current?.filter((item) => item !== _id)
                 : [...current, _id]
         );
-    const toggleAll = () =>
+    const toggleAll = () => {
+        setMarkAsReadStatus(markAsReadStatus ? false : true);
         setSelection((current) =>
             current.length === messages.length
                 ? []
                 : messages?.map((item) => item._id)
         );
+    };
 
     const openMessageDetails = (message, open) => {
         markAsRead(dispatch, message._id, false);
-        setOpenedMessage({...message, unRead: false});
+        setOpenedMessage({ ...message, unRead: false });
         setOpened(open);
     };
 
@@ -83,7 +91,10 @@ export default function MessagesTable() {
                 <td>
                     <Checkbox
                         checked={selection.includes(message?._id)}
-                        onChange={() => toggleRow(message?._id)}
+                        onChange={() => {
+                            toggleRow(message?._id);
+                            setMarkAsReadStatus(message.unRead);
+                        }}
                         transitionDuration={0}
                     />
                 </td>
@@ -99,7 +110,7 @@ export default function MessagesTable() {
                     <Group spacing="sm">
                         <Text
                             size="sm"
-                            weight={message.unRead ? 700 : 500}
+                            weight={message?.unRead ? 700 : 500}
                             style={{ cursor: 'pointer' }}
                             onClick={() => {
                                 openMessageDetails(message, true);
@@ -147,13 +158,40 @@ export default function MessagesTable() {
         );
     });
 
-    const deleteItem = (e) => {
+    const handleDeleteItem = (e) => {
         e.preventDefault();
         deleteMessageById(dispatch, selection);
     };
 
+    const handleMarkAsRead = (e) => {
+        e.preventDefault();
+        markMultipleRead(dispatch, selection, !markAsReadStatus);
+        setSelection([]);
+    };
+
     return (
         <>
+            <button
+                title="Delete Item"
+                disabled={selection.length === 0}
+                style={selection.length > 0 ? button.active : button.inActive}
+                onClick={(e) => handleDeleteItem(e)}
+            >
+                <IconTrash />
+            </button>
+
+            <button
+                title={
+                    markAsReadStatus === true
+                        ? 'Mark as Read'
+                        : 'Mark as Unread'
+                }
+                disabled={selection.length === 0}
+                onClick={(e) => handleMarkAsRead(e)}
+            >
+                {markAsReadStatus === true ? <IconMail /> : <IconMailOpened />}
+            </button>
+
             <ScrollArea>
                 <Table
                     sx={{ minWidth: 800, marginBottom: ' 20px' }}
@@ -180,17 +218,11 @@ export default function MessagesTable() {
                             <th>Date</th>
                         </tr>
                     </thead>
-                    <tbody>{messages.length === 0 ? "No messages" :  rows}</tbody>
+                    <tbody>
+                        {messages.length === 0 ? 'No messages' : rows}
+                    </tbody>
                 </Table>
             </ScrollArea>
-
-            <button
-                disabled={selection.length === 0}
-                style={selection.length > 0 ? button.active : button.inActive}
-                onClick={(e) => deleteItem(e)}
-            >
-                delete
-            </button>
         </>
     );
 }
