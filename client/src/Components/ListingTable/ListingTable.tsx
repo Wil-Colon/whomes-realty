@@ -8,6 +8,7 @@ import {
     Text,
     Center,
     TextInput,
+    Highlight,
 } from '@mantine/core';
 import { keys } from '@mantine/utils';
 import {
@@ -52,6 +53,7 @@ interface RowData {
     propertyType: string;
     squareFootage: string;
     state: string;
+    featuredListing: string;
 }
 
 interface TableSortProps {
@@ -143,7 +145,16 @@ export default function ListingTable({ data }: TableSortProps) {
     };
 
     const rows = sortedData.map((row) => (
-        <tr key={row._id}>
+        <tr
+            key={row._id}
+            style={{
+                backgroundColor:
+                    row.featuredListing === 'true'
+                        ? 'rgba(34, 139, 230, 0.57)'
+                        : '',
+            }}
+        >
+            <td>{row.featuredListing}</td>
             <td>{row.address}</td>
             <td>{row.city}</td>
             <td>{row.price}</td>
@@ -158,6 +169,13 @@ export default function ListingTable({ data }: TableSortProps) {
 
     return (
         <ScrollArea>
+            <Highlight
+                highlight={'featured'}
+                highlightColor="rgba(34, 139, 230, 0.57)"
+                style={{ fontSize: '15px' }}
+            >
+                Featured Items are shown on home page.
+            </Highlight>
             <TextInput
                 placeholder="Search by any field"
                 mb="md"
@@ -172,6 +190,13 @@ export default function ListingTable({ data }: TableSortProps) {
             >
                 <thead>
                     <tr>
+                        <Th
+                            sorted={sortBy === 'featuredListing'}
+                            reversed={reverseSortDirection}
+                            onSort={() => setSorting('featuredListing')}
+                        >
+                            Featured
+                        </Th>
                         <Th
                             sorted={sortBy === 'address'}
                             reversed={reverseSortDirection}
@@ -245,7 +270,7 @@ export default function ListingTable({ data }: TableSortProps) {
                         <tr>
                             <td colSpan={Object.keys(data[0]).length}>
                                 <Text weight={500} align="center">
-                                    Nothing found
+                                    Nothing Listings Found
                                 </Text>
                             </td>
                         </tr>

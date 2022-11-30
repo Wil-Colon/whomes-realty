@@ -11,7 +11,6 @@ import {
     Checkbox,
     Group,
     Text,
-    Loader,
 } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import { MessagesContext } from '../../context/MessagesContext/MessageContext';
@@ -48,8 +47,7 @@ export default function MessagesTable() {
     const [selection, setSelection] = useState<string[]>([]);
     const [open, setOpened] = useState(false);
     const [openedMessage, setOpenedMessage] = useState<string[]>([]);
-    const [markAsReadStatus, setMarkAsReadStatus] = useState(true) as any;
-
+    const [markAsReadStatus, setMarkAsReadStatus] = useState(true);
     const truncate = (str, n) => {
         return str?.length > n ? str.substr(0, n - 1) + '...' : str;
     };
@@ -77,6 +75,17 @@ export default function MessagesTable() {
         markAsRead(dispatch, message._id, false);
         setOpenedMessage({ ...message, unRead: false });
         setOpened(open);
+    };
+
+    const handleDeleteItem = (e) => {
+        e.preventDefault();
+        deleteMessageById(dispatch, selection);
+    };
+
+    const handleMarkAsRead = (e) => {
+        e.preventDefault();
+        markMultipleRead(dispatch, selection, !markAsReadStatus);
+        setSelection([]);
     };
 
     const rows = messages?.map((message) => {
@@ -157,17 +166,6 @@ export default function MessagesTable() {
             </tr>
         );
     });
-
-    const handleDeleteItem = (e) => {
-        e.preventDefault();
-        deleteMessageById(dispatch, selection);
-    };
-
-    const handleMarkAsRead = (e) => {
-        e.preventDefault();
-        markMultipleRead(dispatch, selection, !markAsReadStatus);
-        setSelection([]);
-    };
 
     return (
         <>

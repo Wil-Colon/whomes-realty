@@ -5,10 +5,12 @@ const verify = require('../verifyToken');
 //Get all Listings
 //GET '/api/listings/'
 //accepts 'city' query to find listings based on city
+//accepts 'featuredListing' query to pull only featured listings
 router.get('/', async (req, res) => {
     const cityQuery = req.query.city;
     const featuredListing = req.query.featuredListing;
     const noimageQuery = req.query.noimage;
+
     let listings = [];
 
     try {
@@ -24,13 +26,10 @@ router.get('/', async (req, res) => {
             return res.status(200).json(listings);
         }
 
-        if (req.query.noimage) {
-            listings = await Listing.find({}).select(
-                '-image -featuredListing -__v'
-            );
+        if (noimageQuery) {
+            listings = await Listing.find({}).select('-image  -__v');
             return res.status(200).json(listings);
         }
-
         listings = await Listing.find({});
 
         if (listings.length === 0) {

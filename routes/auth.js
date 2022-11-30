@@ -53,7 +53,7 @@ router.post('/login', async (req, res) => {
                 isAdmin: user.isAdmin,
             },
             process.env.SECRET_KEY,
-            { expiresIn: '5d' }
+            { expiresIn: '1d' }
         );
 
         res.status(200).json({ ...info, accessToken });

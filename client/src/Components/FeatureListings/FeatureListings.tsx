@@ -8,7 +8,7 @@ export default function FeatureListings() {
     const { listings, dispatch, isFetching } = useContext(ListingContext);
 
     useEffect(() => {
-        getListings(dispatch);
+        getListings(dispatch, '?featuredListing=true');
     }, [dispatch]);
 
     return (

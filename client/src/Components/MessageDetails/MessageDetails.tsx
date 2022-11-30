@@ -1,4 +1,3 @@
-import './MessageDetails.scss';
 import {
     Drawer,
     createStyles,
@@ -140,7 +139,9 @@ export default function MessageDetails({
                             <Text size="sm">
                                 {`${message.firstName} ${message.lastName}`}{' '}
                                 <small style={{ color: 'grey' }}>
-                                    {`<${message.email}>`}
+                                    <a href={`mailto:<${message.email}>`}>
+                                        {message.email}
+                                    </a>
                                 </small>
                             </Text>
 
