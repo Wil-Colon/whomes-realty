@@ -2,7 +2,7 @@ const ListingReducer = (state, action) => {
     switch (action.type) {
         case 'GET_LISTING_START':
             return {
-                listings: null,
+                listings: [],
                 isFetching: true,
                 error: false,
             };
@@ -14,7 +14,7 @@ const ListingReducer = (state, action) => {
             };
         case 'GET_LISTING_FAILURE':
             return {
-                listings: null,
+                listings: [],
                 isFetching: false,
                 error: true,
             };

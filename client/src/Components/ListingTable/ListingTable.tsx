@@ -270,7 +270,7 @@ export default function ListingTable({ data }: TableSortProps) {
                         <tr>
                             <td colSpan={Object.keys(data[0]).length}>
                                 <Text weight={500} align="center">
-                                    Nothing Listings Found
+                                    No Listings Found
                                 </Text>
                             </td>
                         </tr>

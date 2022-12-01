@@ -16,6 +16,7 @@ export const getListings = async (dispatch, query?) => {
             }`
         );
         dispatch(GetListingSuccess(res.data));
+        return res;
     } catch (err) {
         dispatch(getListingFailure());
         return err;
