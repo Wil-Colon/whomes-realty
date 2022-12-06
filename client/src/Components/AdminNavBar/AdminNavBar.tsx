@@ -1,16 +1,17 @@
 import './AdminNavBar.scss';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 import { AppShell, Loader, MediaQuery, Burger } from '@mantine/core';
 import AdminNavbarContent from '../AdminNavBarContent/AdminNavBarContent';
+import { checkAuth } from '../../context/AuthContext/apiCalls';
+import { logout } from '../../context/AuthContext/AuthAction';
 
 interface navBarProps {
     children: React.ReactNode;
 }
 
 export default function AdminNavBar({ children }: navBarProps) {
-    const { isFetching } = useContext(AuthContext);
+    const { isFetching, user, dispatch } = useContext(AuthContext);
     const [navBarSelection, setNavBarSelection] = useState('');
     const [opened, setOpened] = useState(false);
 
@@ -20,6 +21,17 @@ export default function AdminNavBar({ children }: navBarProps) {
     const navBarOpened = (selection) => {
         setOpened(selection);
     };
+
+    useEffect(() => {
+        const authCheck = async () => {
+            const res = await checkAuth(user.accessToken);
+
+            if (res.tokenPass === 'Invalid') {
+                dispatch(logout());
+            }
+        };
+        authCheck();
+    }, [dispatch]);
 
     return isFetching ? (
         <Loader />

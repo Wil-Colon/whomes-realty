@@ -2,6 +2,18 @@ const router = require('express').Router();
 const User = require('../models/User');
 const CryptoJS = require('crypto-js');
 const jwt = require('jsonwebtoken');
+const verify = require('../verifyToken');
+
+//api/auth
+//Check validity of access token
+router.get('/', verify, async (req, res) => {
+    try {
+        res.status(200).json({ tokenPass: 'valid' });
+    } catch (err) {
+        // console.error(err.message);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
+});
 
 //REGISTER
 //'api/auth/register'
@@ -58,7 +70,6 @@ router.post('/login', async (req, res) => {
 
         res.status(200).json({ ...info, accessToken });
     } catch (err) {
-        console.error(err.message);
         res.status(500).send('Server error');
     }
 });

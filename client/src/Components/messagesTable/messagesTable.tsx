@@ -217,7 +217,7 @@ export default function MessagesTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {messages.length === 0 ? 'No messages' : rows}
+                        {messages?.length === 0 ? 'No messages' : rows}
                     </tbody>
                 </Table>
             </ScrollArea>

@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { updateMany } = require('../models/Messages');
 const Messages = require('../models/Messages');
 const verify = require('../verifyToken');
 
@@ -97,20 +96,6 @@ router.put('/:id', async (req, res) => {
 
 router.patch('/markmultipleread', async (req, res) => {
     try {
-        // const message = await Messages.findOneAndUpdate(
-        //     { _id: req.params.id },
-        //     { $set: { unRead: req.body.read } },
-        //     { new: true }
-        // );
-
-        // if (!message) {
-        //     return res.status(500).json('No message found!');
-        // }
-
-        // const allMessages = await Messages.find({});
-
-        // res.status(200).json(allMessages.reverse());
-
         const messages = await Messages.updateMany(
             { _id: req.body.id },
             { $set: { unRead: req.body.read } },
