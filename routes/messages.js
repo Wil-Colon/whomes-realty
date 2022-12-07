@@ -94,6 +94,10 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+//Mark Message Read/UnRead by ID. Holds.
+//PATCH '/api/messages/markmultipleread
+//Notes: req.body.id = array of message ID's to mark as read.
+
 router.patch('/markmultipleread', async (req, res) => {
     try {
         const messages = await Messages.updateMany(

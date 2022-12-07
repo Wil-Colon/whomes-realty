@@ -89,7 +89,8 @@ export default function MessagesTable() {
     };
 
     const rows = messages?.map((message) => {
-        date = moment(`${message?.date}`).format('MMM D');
+        date = moment(message.date, moment.ISO_8601).format('YYYY-MM-DD');
+
         const selected = selection.includes(message?._id);
 
         return (
@@ -167,6 +168,12 @@ export default function MessagesTable() {
         );
     });
 
+    const noMessages = (
+        <tr>
+            <td>No Messages Available</td>
+        </tr>
+    );
+
     return (
         <>
             <button
@@ -216,9 +223,7 @@ export default function MessagesTable() {
                             <th>Date</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {messages?.length === 0 ? 'No messages' : rows}
-                    </tbody>
+                    <tbody>{messages?.length === 0 ? noMessages : rows}</tbody>
                 </Table>
             </ScrollArea>
         </>

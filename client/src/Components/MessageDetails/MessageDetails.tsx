@@ -50,7 +50,8 @@ export default function MessageDetails({
     const [currentMessage, setCurrentMessage] = useState({ message }) as any;
 
     const { classes } = useStyles();
-    let date = moment(`${message?.date}`).format('MMM D');
+    // let date = moment(`${message?.date}`).format('MMM D');
+    let date = moment(message.date, moment.ISO_8601).format('MM/DD/YY');
 
     useEffect(() => {
         setCurrentMessage(message);

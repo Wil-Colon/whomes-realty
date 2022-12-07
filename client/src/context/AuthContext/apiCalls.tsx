@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { loginFailure, loginStart, loginSuccess } from './AuthAction';
 
-export const checkAuth = async (accessToken) => {
+export const validateAuth = async (accessToken) => {
     try {
         const res = await axios.get('http://localhost:5000/api/auth/', {
             headers: {

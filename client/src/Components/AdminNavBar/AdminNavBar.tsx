@@ -3,8 +3,8 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 import { AppShell, Loader, MediaQuery, Burger } from '@mantine/core';
 import AdminNavbarContent from '../AdminNavBarContent/AdminNavBarContent';
-import { checkAuth } from '../../context/AuthContext/apiCalls';
 import { logout } from '../../context/AuthContext/AuthAction';
+import { validateAuth } from '../../context/AuthContext/apiCalls';
 
 interface navBarProps {
     children: React.ReactNode;
@@ -24,7 +24,7 @@ export default function AdminNavBar({ children }: navBarProps) {
 
     useEffect(() => {
         const authCheck = async () => {
-            const res = await checkAuth(user.accessToken);
+            const res = await validateAuth(user.accessToken);
 
             if (res.tokenPass === 'Invalid') {
                 dispatch(logout());
