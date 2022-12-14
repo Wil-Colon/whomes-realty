@@ -30,7 +30,7 @@ const ListingSchema = new mongoose.Schema({
         type: String,
     },
     propertyType: {
-        type: String,
+        type: [String],
     },
     yearBuilt: {
         type: String,

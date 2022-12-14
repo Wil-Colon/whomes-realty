@@ -1,7 +1,7 @@
 import { Center, Text, Grid, Card, Button } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
-import StaffBio from '../StaffBio/StaffBio';
+import StaffBioModal from '../StaffBioModal/StaffBioModal';
 import './staff.scss';
 import 'imagehover.css/scss/imagehover.scss';
 
@@ -21,7 +21,7 @@ export default function Staff() {
 
     return (
         <div>
-            <StaffBio
+            <StaffBioModal
                 open={open}
                 onClose={() => setOpened(false)}
                 avatar={staffInfo.avatar}

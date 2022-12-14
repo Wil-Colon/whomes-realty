@@ -1,5 +1,5 @@
 import './footer.scss';
-import { createStyles, Anchor, Group, ActionIcon, Image } from '@mantine/core';
+import { createStyles, Group, ActionIcon, Image } from '@mantine/core';
 import {
     IconBrandTwitter,
     IconBrandYoutube,

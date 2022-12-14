@@ -16,7 +16,7 @@ import {
     markAsRead,
 } from '../../context/MessagesContext/apiCalls';
 
-interface MessageDetailsProps {
+interface MessageDetailsModalProps {
     open: boolean;
     onClose: any;
     message: any;
@@ -40,17 +40,15 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export default function MessageDetails({
+export default function MessageDetailsModal({
     open,
     onClose,
     message,
     setOpened,
-}: MessageDetailsProps) {
-    const { dispatch } = useContext(MessagesContext);
+}: MessageDetailsModalProps) {
     const [currentMessage, setCurrentMessage] = useState({ message }) as any;
-
+    const { dispatch } = useContext(MessagesContext);
     const { classes } = useStyles();
-    // let date = moment(`${message?.date}`).format('MMM D');
     let date = moment(message.date, moment.ISO_8601).format('MM/DD/YY');
 
     useEffect(() => {
@@ -72,7 +70,7 @@ export default function MessageDetails({
                     fontWeight: 600,
                 },
                 closeButton: {
-                    color: 'black',
+                    color: 'red',
                     '&:hover': {
                         backgroundColor: 'grey',
                     },
@@ -85,7 +83,7 @@ export default function MessageDetails({
                     scrollbarwidth: 'none',
                     overflow: 'scroll',
                     scrollbarWidth: 'none',
-                    bottom: '155px',
+                    top: '50px',
                     borderTop: '6px solid rgba(17,65,97,0.81)',
                 },
             })}

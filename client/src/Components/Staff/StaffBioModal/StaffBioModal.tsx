@@ -1,4 +1,4 @@
-import './staffBio.scss';
+import './staffBioModal.scss';
 import { Drawer } from '@mantine/core';
 import BioLayout from '../BioLayout/BioLayout';
 
@@ -11,7 +11,7 @@ interface BioProps {
     job: string;
     bio: string;
 }
-export default function StaffBio({
+export default function StaffBioModal({
     open,
     onClose,
     avatar,
@@ -51,6 +51,10 @@ export default function StaffBio({
                     background:
                         'linear-gradient(to bottom, #2c5364, #203a43, #0f2027)',
                     scrollbarWidth: 'none',
+
+                    '@media (max-width: 520px)': {
+                        width: '87%',
+                    },
                 },
             })}
         >

@@ -132,17 +132,15 @@ const data = [
 ];
 
 interface navBarProps {
-    selection: (params: any) => any;
     navBarOpened: (params: any) => any;
     hidden: boolean;
 }
 
 export default function AdminNavbarContent({
-    selection,
     hidden,
     navBarOpened,
 }: navBarProps) {
-    const [active, setActive] = useState('Billing');
+    const [active, setActive] = useState('Home');
     const [unReadMail, setUnReadMail] = useState([]);
     const { classes, cx } = useStyles();
     const { user, dispatch } = useContext(AuthContext);
@@ -168,10 +166,9 @@ export default function AdminNavbarContent({
             className={cx(classes.buttonStyles, {
                 [classes.linkActive]: item.label === active,
             })}
+            onMouseOver={() => setActive(item.label)}
             onClick={(event) => {
                 event.preventDefault();
-                setActive(item.label);
-                selection(item.link);
                 navigate(`/admin/${item.link}`);
             }}
         >

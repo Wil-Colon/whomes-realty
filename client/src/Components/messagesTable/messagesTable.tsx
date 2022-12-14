@@ -15,7 +15,7 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { MessagesContext } from '../../context/MessagesContext/MessageContext';
 import moment from 'moment';
-import MessageDetails from '../MessageDetails/MessageDetails';
+import MessageDetailsModal from '../MessageDetailsModal/MessageDetailsModal';
 import { IconMail, IconMailOpened, IconTrash } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
@@ -41,13 +41,13 @@ const button = {
 };
 
 export default function MessagesTable() {
-    let date;
     const { messages, dispatch } = useContext(MessagesContext);
     const { classes, cx } = useStyles();
     const [selection, setSelection] = useState<string[]>([]);
     const [open, setOpened] = useState(false);
     const [openedMessage, setOpenedMessage] = useState<string[]>([]);
     const [markAsReadStatus, setMarkAsReadStatus] = useState(true);
+    let date;
     const truncate = (str, n) => {
         return str?.length > n ? str.substr(0, n - 1) + '...' : str;
     };
@@ -109,7 +109,7 @@ export default function MessagesTable() {
                     />
                 </td>
 
-                <MessageDetails
+                <MessageDetailsModal
                     open={open}
                     onClose={() => setOpened(false)}
                     message={openedMessage}

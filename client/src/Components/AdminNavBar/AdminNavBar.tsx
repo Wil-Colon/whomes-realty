@@ -12,12 +12,8 @@ interface navBarProps {
 
 export default function AdminNavBar({ children }: navBarProps) {
     const { isFetching, user, dispatch } = useContext(AuthContext);
-    const [navBarSelection, setNavBarSelection] = useState('');
     const [opened, setOpened] = useState(false);
 
-    const navSelection = (selection) => {
-        setNavBarSelection(selection);
-    };
     const navBarOpened = (selection) => {
         setOpened(selection);
     };
@@ -31,7 +27,7 @@ export default function AdminNavBar({ children }: navBarProps) {
             }
         };
         authCheck();
-    }, [dispatch]);
+    }, [dispatch, user.accessToken]);
 
     return isFetching ? (
         <Loader />
@@ -42,7 +38,6 @@ export default function AdminNavBar({ children }: navBarProps) {
                 <AdminNavbarContent
                     navBarOpened={navBarOpened}
                     hidden={opened}
-                    selection={navSelection}
                 />
             }
             header={
