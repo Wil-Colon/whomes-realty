@@ -7,6 +7,8 @@ import {
     MultiSelect,
     Textarea,
     Switch,
+    Group,
+    Button,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMediaQuery } from '@mantine/hooks';
@@ -52,43 +54,80 @@ export default function CreateListingModal({
 }: CreateListingModalProps) {
     const isMobile = useMediaQuery('(max-width: 600px)');
     const { classes } = useStyles();
-    const [featuredChecked, setFeaturedChecked] = useState(false);
-    const [formData, setFormData] = useState({
-        price: '',
-        neighborhood: '',
-        address: '',
-        city: '',
-        state: '',
-        zipcode: '',
-        county: '',
-        bedrooms: '',
-        baths: '',
-        squareFootage: '',
-        yearBuilt: '',
-        cooling: '',
-        propertyType: '',
-        description: '',
-        featuredListing: false,
-    }) as any;
+    const [formData, setFormData] = useState({ featuredListing: false }) as any;
 
     const form = useForm({
         initialValues: {
-            email: '',
-            termsOfService: false,
+            price: '',
+            neighborhood: '',
+            address: '',
+            city: '',
+            state: '',
+            zipcode: '',
+            county: '',
+            bedRooms: '',
+            baths: '',
+            squareFootage: '',
+            yearBuilt: '',
+            cooling: '',
+            propertyType: [],
+            description: '',
+            featuredListing: false,
         },
-
         validate: {
-            email: (value) =>
-                /^\S+@\S+$/.test(value) ? null : 'Invalid email',
+            price: (value) =>
+                value.length < 6
+                    ? 'Invalid Price'
+                    : /^[0-9]+$/.test(value) === false
+                    ? 'Price should contain only numbers'
+                    : null,
+            address: (value) =>
+                /\d/.test(value) === false
+                    ? 'Missing Address Number'
+                    : /[a-z]/i.test(value) === false
+                    ? 'Missing Street name'
+                    : null,
+            city: (value) =>
+                /\d/.test(value) === true
+                    ? 'City should contain no numbers'
+                    : value.length < 3
+                    ? 'Please enter valid City'
+                    : null,
+            state: (value) =>
+                /\d/.test(value) === true
+                    ? 'State should contain no numbers'
+                    : value.length < 2 || value.length > 2
+                    ? 'Please enter valid State'
+                    : null,
+            zipcode: (value) =>
+                /[a-z]/i.test(value) === true
+                    ? 'Zipcode should contain no letters'
+                    : value.length < 5
+                    ? 'Please enter a valid Zipcode'
+                    : null,
+            bedRooms: (value) =>
+                /[a-z]/i.test(value) === true
+                    ? 'Bedrooms should contain only numbers'
+                    : value.length < 1
+                    ? 'Please Enter bedrooms amount'
+                    : null,
+            baths: (value) =>
+                /[a-z]/i.test(value) === true
+                    ? 'Baths should contain only numbers'
+                    : value.length < 1
+                    ? 'Please Enter bathroom amount'
+                    : null,
+            squareFootage: (value) =>
+                /[a-z]/i.test(value) === true
+                    ? 'State should contain no letters'
+                    : null,
         },
     });
 
     const handleChange = (e) => {
         let target = e.target.name;
         let value = e.target.value;
-
         setFormData({ ...formData, [target]: value });
-        console.log(formData);
     };
 
     return (
@@ -117,7 +156,7 @@ export default function CreateListingModal({
                 drawer: {
                     borderRadius: '5px',
                     margin: 'auto',
-                    height: '800px',
+                    height: 'auto',
                     marginBottom: '10px',
                     width: isMobile ? '100%' : '75%',
                     msOverflowStyle: 'none',
@@ -138,14 +177,14 @@ export default function CreateListingModal({
                             size="lg"
                             label="Feature listing on home page?"
                             color="indigo"
-                            checked={featuredChecked}
-                            onChange={(e) => {
-                                setFeaturedChecked(e.currentTarget.checked);
+                            checked={formData.featuredListing}
+                            onClick={() =>
                                 setFormData({
                                     ...formData,
-                                    featuredListing: !featuredChecked,
-                                });
-                            }}
+                                    featuredListing: !formData.featuredListing,
+                                })
+                            }
+                            {...form.getInputProps('featuredListing')}
                         />
                     </SimpleGrid>
                     <SimpleGrid
@@ -157,20 +196,15 @@ export default function CreateListingModal({
                     >
                         <TextInput
                             name="price"
-                            placeholder="Price"
+                            placeholder="$"
                             label="Price"
                             withAsterisk
                             size="md"
+                            min={7}
+                            max={12}
                             value={formData.price}
                             onChange={(e) => handleChange(e)}
-                        />
-                        <TextInput
-                            name="neighborhood"
-                            placeholder="Neighborhood"
-                            label="Neighborhood"
-                            size="md"
-                            value={formData.neighborhood}
-                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('price')}
                         />
 
                         <TextInput
@@ -181,6 +215,7 @@ export default function CreateListingModal({
                             size="md"
                             value={formData.address}
                             onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('address')}
                         />
                         <TextInput
                             name="city"
@@ -190,15 +225,17 @@ export default function CreateListingModal({
                             value={formData.city}
                             withAsterisk
                             onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('city')}
                         />
                         <TextInput
                             name="state"
                             size="md"
-                            placeholder="State"
+                            placeholder="RI"
                             label="State"
                             value={formData.state}
                             withAsterisk
                             onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('state')}
                         />
                         <TextInput
                             name="zipcode"
@@ -208,14 +245,7 @@ export default function CreateListingModal({
                             value={formData.zipcode}
                             withAsterisk
                             onChange={(e) => handleChange(e)}
-                        />
-                        <TextInput
-                            name="county"
-                            size="md"
-                            placeholder="County"
-                            label="County"
-                            value={formData.county}
-                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('zipcode')}
                         />
 
                         <TextInput
@@ -226,6 +256,7 @@ export default function CreateListingModal({
                             withAsterisk
                             value={formData.bedRooms}
                             onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('bedRooms')}
                         />
                         <TextInput
                             name="baths"
@@ -235,6 +266,7 @@ export default function CreateListingModal({
                             withAsterisk
                             value={formData.baths}
                             onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('baths')}
                         />
                         <TextInput
                             name="squareFootage"
@@ -243,6 +275,7 @@ export default function CreateListingModal({
                             label="Square Footage"
                             value={formData.squareFootage}
                             onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('squareFootage')}
                         />
                         <TextInput
                             name="yearBuilt"
@@ -251,6 +284,25 @@ export default function CreateListingModal({
                             label="Year Built"
                             value={formData.yearBuilt}
                             onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('yearBuilt')}
+                        />
+                        <TextInput
+                            name="county"
+                            size="md"
+                            placeholder="County"
+                            label="County"
+                            value={formData.county}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('county')}
+                        />
+                        <TextInput
+                            name="neighborhood"
+                            placeholder="Neighborhood"
+                            label="Neighborhood"
+                            size="md"
+                            value={formData.neighborhood}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('neighborhood')}
                         />
                         <TextInput
                             name="cooling"
@@ -259,6 +311,7 @@ export default function CreateListingModal({
                             label="Cooling"
                             value={formData.cooling}
                             onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('cooling')}
                         />
                         <MultiSelect
                             name="propertyType"
@@ -268,13 +321,7 @@ export default function CreateListingModal({
                             transition="scale-y"
                             transitionDuration={150}
                             size="md"
-                            value={formData.propertyType}
-                            onChange={(e) => {
-                                setFormData({
-                                    ...formData,
-                                    propertyType: e,
-                                });
-                            }}
+                            {...form.getInputProps('propertyType')}
                             clearable
                         />
                     </SimpleGrid>
@@ -291,10 +338,16 @@ export default function CreateListingModal({
                             minRows={4}
                             value={formData.description}
                             onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('description')}
                         />
                     </SimpleGrid>
+                    <Group position="right" mt="md">
+                        <Button type="submit">Submit</Button>
+                    </Group>
                 </form>
             </Paper>
         </Drawer>
     );
 }
+
+// Start adding images, firebase start
