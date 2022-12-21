@@ -9,9 +9,14 @@ import {
     Switch,
     Group,
     Button,
+    Text,
+    useMantineTheme,
+    Image,
 } from '@mantine/core';
+import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
 import { useMediaQuery } from '@mantine/hooks';
+import { IconPhoto, IconUpload, IconX } from '@tabler/icons';
 import { useState } from 'react';
 
 interface CreateListingModalProps {
@@ -48,13 +53,51 @@ const data = [
     { value: 'Raw land', label: 'Raw land' },
 ];
 
-export default function CreateListingModal({
-    open,
-    onClose,
-}: CreateListingModalProps) {
+export default function CreateListingModal(
+    { open, onClose }: CreateListingModalProps,
+    props: Partial<DropzoneProps>
+) {
     const isMobile = useMediaQuery('(max-width: 600px)');
     const { classes } = useStyles();
     const [formData, setFormData] = useState({ featuredListing: false }) as any;
+    const [files, setFiles] = useState<[]>([]) as any;
+    const theme = useMantineTheme();
+
+    const previews = files.map((file, index) => {
+        const imageUrl = URL.createObjectURL(file);
+
+        return (
+            <div style={{ position: 'relative' }}>
+                <span
+                    style={{
+                        color: 'red',
+                        position: 'absolute',
+                        top: '0',
+                        left: '15px',
+                        zIndex: 1,
+                        fontSize: '35px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                        setFiles(
+                            files.filter(
+                                (item) => files.indexOf(item) !== index
+                            )
+                        );
+                    }}
+                >
+                    x
+                </span>
+                <Image
+                    key={index}
+                    src={imageUrl}
+                    imageProps={{
+                        onLoad: () => URL.revokeObjectURL(imageUrl),
+                    }}
+                />
+            </div>
+        );
+    });
 
     const form = useForm({
         initialValues: {
@@ -156,8 +199,7 @@ export default function CreateListingModal({
                 drawer: {
                     borderRadius: '5px',
                     margin: 'auto',
-                    height: 'auto',
-                    marginBottom: '10px',
+                    height: isMobile ? '100%' : '90vh',
                     width: isMobile ? '100%' : '75%',
                     msOverflowStyle: 'none',
                     scrollbarwidth: 'none',
@@ -341,6 +383,69 @@ export default function CreateListingModal({
                             {...form.getInputProps('description')}
                         />
                     </SimpleGrid>
+
+                    <Dropzone
+                        onDrop={(item) => {
+                            console.log(item);
+                            setFiles([...files, ...item]);
+                        }}
+                        onReject={(files) =>
+                            console.log('rejected files', files)
+                        }
+                        maxSize={3 * 1024 ** 2}
+                        accept={IMAGE_MIME_TYPE}
+                        {...props}
+                    >
+                        <Group
+                            position="center"
+                            spacing="xl"
+                            style={{ minHeight: 220, pointerEvents: 'none' }}
+                        >
+                            <Dropzone.Accept>
+                                <IconUpload
+                                    size={50}
+                                    stroke={1.5}
+                                    color={
+                                        theme.colors[theme.primaryColor][
+                                            theme.colorScheme === 'dark' ? 4 : 6
+                                        ]
+                                    }
+                                />
+                            </Dropzone.Accept>
+                            <Dropzone.Reject>
+                                <IconX
+                                    size={50}
+                                    stroke={1.5}
+                                    color={
+                                        theme.colors.red[
+                                            theme.colorScheme === 'dark' ? 4 : 6
+                                        ]
+                                    }
+                                />
+                            </Dropzone.Reject>
+                            <Dropzone.Idle>
+                                <IconPhoto size={50} stroke={1.5} />
+                            </Dropzone.Idle>
+
+                            <div>
+                                <Text size="xl" inline>
+                                    Drag images here or click to select files
+                                </Text>
+                                <Text size="sm" color="dimmed" inline mt={7}>
+                                    Attach as many files as you like, each file
+                                    should not exceed 5mb
+                                </Text>
+                            </div>
+                        </Group>
+                    </Dropzone>
+                    <SimpleGrid
+                        cols={4}
+                        breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+                        mt={previews.length > 0 ? 'xl' : 0}
+                    >
+                        {previews}
+                    </SimpleGrid>
+
                     <Group position="right" mt="md">
                         <Button type="submit">Submit</Button>
                     </Group>
@@ -349,5 +454,3 @@ export default function CreateListingModal({
         </Drawer>
     );
 }
-
-// Start adding images, firebase start
