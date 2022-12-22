@@ -12,12 +12,21 @@ import {
     Text,
     useMantineTheme,
     Image,
+    LoadingOverlay,
 } from '@mantine/core';
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import {
+    Dropzone,
+    DropzoneProps,
+    IMAGE_MIME_TYPE,
+    FileWithPath,
+} from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons';
 import { useState } from 'react';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import storage from '../../firebase';
+import { showNotification } from '@mantine/notifications';
 
 interface CreateListingModalProps {
     open: boolean;
@@ -28,6 +37,7 @@ interface CreateListingModalProps {
 const useStyles = createStyles((theme) => ({
     comment: {
         padding: `${theme.spacing.lg}px ${theme.spacing.xl}px`,
+        position: 'relative',
     },
 
     body: {
@@ -54,20 +64,21 @@ const data = [
 ];
 
 export default function CreateListingModal(
-    { open, onClose }: CreateListingModalProps,
+    { open, onClose, setOpened }: CreateListingModalProps,
     props: Partial<DropzoneProps>
 ) {
     const isMobile = useMediaQuery('(max-width: 600px)');
-    const { classes } = useStyles();
-    const [formData, setFormData] = useState({ featuredListing: false }) as any;
-    const [files, setFiles] = useState<[]>([]) as any;
     const theme = useMantineTheme();
+    const { classes } = useStyles();
+    const [overlayVisible, setOverlayVisible] = useState(false);
+    const [formData, setFormData] = useState({ featuredListing: false }) as any;
+    const [files, setFiles] = useState<FileWithPath[]>([]) as any;
 
     const previews = files.map((file, index) => {
         const imageUrl = URL.createObjectURL(file);
 
         return (
-            <div style={{ position: 'relative' }}>
+            <div key={index} style={{ position: 'relative' }}>
                 <span
                     style={{
                         color: 'red',
@@ -89,7 +100,6 @@ export default function CreateListingModal(
                     x
                 </span>
                 <Image
-                    key={index}
                     src={imageUrl}
                     imageProps={{
                         onLoad: () => URL.revokeObjectURL(imageUrl),
@@ -173,6 +183,62 @@ export default function CreateListingModal(
         setFormData({ ...formData, [target]: value });
     };
 
+    const closeWindow = () => {
+        setTimeout(() => {
+            setOverlayVisible(false);
+            showNotification({
+                title: 'Success!',
+                message: 'New Listing has been Created!',
+            });
+            form.reset();
+            setFiles([]);
+            setOpened(false);
+        }, 300);
+    };
+
+    const upload = (values) => {
+        let imageUrl = [] as any;
+        setOverlayVisible(true);
+
+        files.forEach((file, i) => {
+            const fileName = file.name;
+            const itemsRef = ref(
+                storage,
+                `images/${values.address}/${fileName}`
+            );
+            const uploadTask = uploadBytesResumable(itemsRef, file);
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    // const progress =
+                    //     (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    // console.log(
+                    //     'upload is ' + Math.floor(progress) + '% done.'
+                    // );
+                    // setProgress(Math.floor(progress));
+                },
+                (err) => {
+                    setOverlayVisible(false);
+                    showNotification({
+                        color: 'red',
+                        title: 'Error!',
+                        message: 'There appears to be an error somewhere.',
+                    });
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                        imageUrl.push(url);
+                        setFormData({
+                            ...values,
+                            image: imageUrl,
+                        });
+                    });
+                    i === files.length - 1 && closeWindow();
+                }
+            );
+        });
+    };
+
     return (
         <Drawer
             closeOnClickOutside={false}
@@ -211,7 +277,11 @@ export default function CreateListingModal(
             })}
         >
             <Paper withBorder radius="md" className={classes.comment}>
-                <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <LoadingOverlay
+                    visible={overlayVisible}
+                    transitionDuration={500}
+                />
+                <form onSubmit={form.onSubmit((values) => upload(values))}>
                     <SimpleGrid cols={1} style={{ marginBottom: '20px' }}>
                         <Switch
                             onLabel="Yes"
@@ -386,7 +456,6 @@ export default function CreateListingModal(
 
                     <Dropzone
                         onDrop={(item) => {
-                            console.log(item);
                             setFiles([...files, ...item]);
                         }}
                         onReject={(files) =>
@@ -399,7 +468,10 @@ export default function CreateListingModal(
                         <Group
                             position="center"
                             spacing="xl"
-                            style={{ minHeight: 220, pointerEvents: 'none' }}
+                            style={{
+                                minHeight: 220,
+                                pointerEvents: 'none',
+                            }}
                         >
                             <Dropzone.Accept>
                                 <IconUpload

@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { AuthContextProvider } from './context/AuthContext/AuthContext';
 import { MessagesContextProvider } from './context/MessagesContext/MessageContext';
 import { ListingContextProvider } from './context/ListingContext/ListingContext';
+import { NotificationsProvider } from '@mantine/notifications';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -15,7 +16,9 @@ root.render(
         <AuthContextProvider>
             <MessagesContextProvider>
                 <ListingContextProvider>
-                    <App />
+                    <NotificationsProvider>
+                        <App />
+                    </NotificationsProvider>
                 </ListingContextProvider>
             </MessagesContextProvider>
         </AuthContextProvider>
