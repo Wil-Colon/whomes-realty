@@ -23,10 +23,13 @@ import {
 import { useForm } from '@mantine/form';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import storage from '../../firebase';
 import { showNotification } from '@mantine/notifications';
+import { createListing } from '../../context/ListingContext/apiCalls';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
+import { ListingContext } from '../../context/ListingContext/ListingContext';
 
 interface CreateListingModalProps {
     open: boolean;
@@ -70,6 +73,8 @@ export default function CreateListingModal(
     const isMobile = useMediaQuery('(max-width: 600px)');
     const theme = useMantineTheme();
     const { classes } = useStyles();
+    const { user } = useContext(AuthContext);
+    const { dispatch } = useContext(ListingContext);
     const [overlayVisible, setOverlayVisible] = useState(false);
     const [formData, setFormData] = useState({ featuredListing: false }) as any;
     const [files, setFiles] = useState<FileWithPath[]>([]) as any;
@@ -131,7 +136,7 @@ export default function CreateListingModal(
             price: (value) =>
                 value.length < 6
                     ? 'Invalid Price'
-                    : /^[0-9]+$/.test(value) === false
+                    : /^[0-9,.]*$/.test(value) === false
                     ? 'Price should contain only numbers'
                     : null,
             address: (value) =>
@@ -162,7 +167,7 @@ export default function CreateListingModal(
                 /[a-z]/i.test(value) === true
                     ? 'Bedrooms should contain only numbers'
                     : value.length < 1
-                    ? 'Please Enter bedrooms amount'
+                    ? 'Please enter a valid number of bedrooms'
                     : null,
             baths: (value) =>
                 /[a-z]/i.test(value) === true
@@ -183,6 +188,10 @@ export default function CreateListingModal(
         setFormData({ ...formData, [target]: value });
     };
 
+    const uploadToDB = (listingData) => {
+        createListing(dispatch, user.accessToken, listingData);
+    };
+
     const closeWindow = () => {
         setTimeout(() => {
             setOverlayVisible(false);
@@ -192,12 +201,14 @@ export default function CreateListingModal(
             });
             form.reset();
             setFiles([]);
+            setFormData({ featuredListing: false });
             setOpened(false);
-        }, 300);
+        }, 400);
     };
 
-    const upload = (values) => {
+    const firebaseUpload = (values) => {
         let imageUrl = [] as any;
+        let progress;
         setOverlayVisible(true);
 
         files.forEach((file, i) => {
@@ -210,12 +221,8 @@ export default function CreateListingModal(
             uploadTask.on(
                 'state_changed',
                 (snapshot) => {
-                    // const progress =
-                    //     (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    // console.log(
-                    //     'upload is ' + Math.floor(progress) + '% done.'
-                    // );
-                    // setProgress(Math.floor(progress));
+                    progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 },
                 (err) => {
                     setOverlayVisible(false);
@@ -228,12 +235,15 @@ export default function CreateListingModal(
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                         imageUrl.push(url);
-                        setFormData({
-                            ...values,
-                            image: imageUrl,
-                        });
+
+                        if (i === files.length - 1 && progress >= 100) {
+                            uploadToDB({
+                                ...values,
+                                image: imageUrl,
+                            });
+                            closeWindow();
+                        }
                     });
-                    i === files.length - 1 && closeWindow();
                 }
             );
         });
@@ -281,7 +291,9 @@ export default function CreateListingModal(
                     visible={overlayVisible}
                     transitionDuration={500}
                 />
-                <form onSubmit={form.onSubmit((values) => upload(values))}>
+                <form
+                    onSubmit={form.onSubmit((values) => firebaseUpload(values))}
+                >
                     <SimpleGrid cols={1} style={{ marginBottom: '20px' }}>
                         <Switch
                             onLabel="Yes"

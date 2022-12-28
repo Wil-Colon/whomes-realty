@@ -24,6 +24,19 @@ export const DeleteListingFailure = () => ({
     type: 'DELETE_LISTING_FAILURE',
 });
 
+export const CreateListingStart = () => ({
+    type: 'CREATE_LISTING_START',
+});
+
+export const CreateListingSuccess = (listings) => ({
+    type: 'CREATE_LISTING_SUCCESS',
+    payload: listings,
+});
+
+export const CreateListingFailure = () => ({
+    type: 'CREATE_LISTING_FAILURE',
+});
+
 export const UpdateListingStart = () => ({
     type: 'UPDATE_LISTING_START',
 });

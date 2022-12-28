@@ -50,7 +50,6 @@ interface RowData {
     zipcode: string;
     bedRooms: string;
     baths: string;
-    propertyType: string;
     squareFootage: string;
     state: string;
     featuredListing: string;
@@ -161,7 +160,6 @@ export default function ListingTable({ data }: TableSortProps) {
             <td>{row.zipcode}</td>
             <td>{row.bedRooms}</td>
             <td>{row.baths}</td>
-            <td>{row.propertyType}</td>
             <td>{row.squareFootage}</td>
             <td>{row.state}</td>
         </tr>
@@ -239,13 +237,6 @@ export default function ListingTable({ data }: TableSortProps) {
                             onSort={() => setSorting('baths')}
                         >
                             Baths
-                        </Th>
-                        <Th
-                            sorted={sortBy === 'propertyType'}
-                            reversed={reverseSortDirection}
-                            onSort={() => setSorting('propertyType')}
-                        >
-                            Type
                         </Th>
                         <Th
                             sorted={sortBy === 'squareFootage'}

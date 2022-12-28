@@ -10,7 +10,6 @@ router.get('/', async (req, res) => {
     const cityQuery = req.query.city;
     const featuredListing = req.query.featuredListing;
     const noimageQuery = req.query.noimage;
-
     let listings = [];
 
     try {
@@ -53,7 +52,10 @@ router.post('/newlisting', verify, async (req, res) => {
         let listing = new Listing(listingFields);
 
         await listing.save();
-        return res.status(200).json(listing);
+
+        const allListings = await Listing.find({});
+
+        return res.status(200).json(allListings);
     } catch (err) {
         res.status(500).json(err);
     }

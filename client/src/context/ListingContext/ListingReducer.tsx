@@ -18,6 +18,24 @@ const ListingReducer = (state, action) => {
                 isFetching: false,
                 error: true,
             };
+        case 'CREATE_LISTING_START':
+            return {
+                listings: [],
+                isFetching: true,
+                error: false,
+            };
+        case 'CREATE_LISTING_SUCCESS':
+            return {
+                listings: action.payload,
+                isFetching: false,
+                error: false,
+            };
+        case 'CREATE_LISTING_FAILURE':
+            return {
+                listings: [],
+                isFetching: false,
+                error: true,
+            };
         case 'DELETE_LISTING_START':
             return {
                 listings: state.listings,
