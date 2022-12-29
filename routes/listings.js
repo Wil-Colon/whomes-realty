@@ -81,9 +81,11 @@ router.put('/:id', verify, async (req, res) => {
 //DELETE 'api/listings/:id'
 router.delete('/:id', verify, async (req, res) => {
     try {
-        await Listing.findOneAndDelete(req.params.id);
+        await Listing.findByIdAndDelete(req.params.id);
 
-        res.status(200).json('Listing has been deleted.');
+        const allListings = await Listing.find({});
+
+        return res.status(200).json(allListings);
     } catch (err) {
         res.status(500).json(err);
     }

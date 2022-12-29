@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
     createStyles,
     Table,
@@ -16,7 +16,12 @@ import {
     IconChevronDown,
     IconChevronUp,
     IconSearch,
+    IconHomeEdit,
+    IconTrash,
 } from '@tabler/icons';
+import { ListingContext } from '../../context/ListingContext/ListingContext';
+import { deleteListing } from '../../context/ListingContext/apiCalls';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
 
 const useStyles = createStyles((theme) => ({
     th: {
@@ -123,6 +128,8 @@ export default function ListingTable({ data }: TableSortProps) {
     const [sortedData, setSortedData] = useState(data);
     const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
     const [reverseSortDirection, setReverseSortDirection] = useState(false);
+    const { dispatch } = useContext(ListingContext);
+    const { user } = useContext(AuthContext);
 
     const setSorting = (field: keyof RowData) => {
         const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -143,6 +150,10 @@ export default function ListingTable({ data }: TableSortProps) {
         );
     };
 
+    const handleDelete = (id) => {
+        deleteListing(dispatch, user.accessToken, id);
+    };
+
     const rows = sortedData.map((row) => (
         <tr
             key={row._id}
@@ -153,6 +164,15 @@ export default function ListingTable({ data }: TableSortProps) {
                         : '',
             }}
         >
+            <td>
+                <IconHomeEdit
+                    style={{ cursor: 'pointer', marginRight: '15px' }}
+                />
+                <IconTrash
+                    onClick={(e) => handleDelete(row._id)}
+                    style={{ cursor: 'pointer' }}
+                />
+            </td>
             <td>{row.featuredListing}</td>
             <td>{row.address}</td>
             <td>{row.city}</td>
@@ -184,10 +204,11 @@ export default function ListingTable({ data }: TableSortProps) {
             <Table
                 horizontalSpacing="md"
                 verticalSpacing="xs"
-                sx={{ tableLayout: 'fixed', minWidth: 700, textAlign: 'left' }}
+                sx={{ tableLayout: 'fixed', minWidth: 830, textAlign: 'left' }}
             >
                 <thead>
                     <tr>
+                        <th>Edit Listing</th>
                         <Th
                             sorted={sortBy === 'featuredListing'}
                             reversed={reverseSortDirection}

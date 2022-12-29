@@ -38,15 +38,13 @@ const ListingReducer = (state, action) => {
             };
         case 'DELETE_LISTING_START':
             return {
-                listings: state.listings,
+                listings: [],
                 isFetching: true,
                 error: false,
             };
         case 'DELETE_LISTING_SUCCESS':
             return {
-                listings: state.listings?.filter(
-                    (listing) => listing._id !== action.payload
-                ),
+                listings: action.payload,
                 isFetching: false,
                 error: false,
             };

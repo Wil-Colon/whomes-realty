@@ -62,6 +62,7 @@ export default function MessagesTable() {
                 ? current?.filter((item) => item !== _id)
                 : [...current, _id]
         );
+
     const toggleAll = () => {
         setMarkAsReadStatus(markAsReadStatus ? false : true);
         setSelection((current) =>

@@ -173,7 +173,7 @@ export default function CreateListingModal(
                 /[a-z]/i.test(value) === true
                     ? 'Baths should contain only numbers'
                     : value.length < 1
-                    ? 'Please Enter bathroom amount'
+                    ? 'Please enter bathroom amount'
                     : null,
             squareFootage: (value) =>
                 /[a-z]/i.test(value) === true
@@ -192,7 +192,7 @@ export default function CreateListingModal(
         createListing(dispatch, user.accessToken, listingData);
     };
 
-    const closeWindow = () => {
+    const closeModal = () => {
         setTimeout(() => {
             setOverlayVisible(false);
             showNotification({
@@ -241,7 +241,7 @@ export default function CreateListingModal(
                                 ...values,
                                 image: imageUrl,
                             });
-                            closeWindow();
+                            closeModal();
                         }
                     });
                 }
@@ -292,7 +292,20 @@ export default function CreateListingModal(
                     transitionDuration={500}
                 />
                 <form
-                    onSubmit={form.onSubmit((values) => firebaseUpload(values))}
+                    onSubmit={form.onSubmit(
+                        (values) => {
+                            firebaseUpload(values);
+                        },
+                        (validationErrors, _values, _event) => {
+                            showNotification({
+                                color: 'red',
+                                title: 'Form error:',
+                                message: Object.keys(validationErrors)
+                                    .join(', ')
+                                    .toLowerCase(),
+                            });
+                        }
+                    )}
                 >
                     <SimpleGrid cols={1} style={{ marginBottom: '20px' }}>
                         <Switch

@@ -44,11 +44,19 @@ export const createListing = async (dispatch, accessToken, formData) => {
     }
 };
 
-export const deleteListing = async (dispatch, id) => {
+export const deleteListing = async (dispatch, accessToken, id) => {
     dispatch(DeleteListingStart());
     try {
-        await axios.delete(`http://localhost:5000/api/listing/${id}`);
-        dispatch(DeleteListingSuccess(id));
+        const res = await axios.delete(
+            `http://localhost:5000/api/listing/${id}`,
+            {
+                headers: {
+                    token: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        console.log(res.data);
+        dispatch(DeleteListingSuccess(res.data));
     } catch (err) {
         dispatch(getListingFailure());
         return err;

@@ -16,8 +16,8 @@ export default function CreateListing() {
         getListings(dispatch, '?noimage=true');
     }, [dispatch]);
 
-    listings.length > 0 &&
-        listings.forEach((item) => {
+    listings?.length > 0 &&
+        listings?.forEach((item) => {
             filteredList.push({
                 ...item,
                 featuredListing: item.featuredListing.toString(),
@@ -47,9 +47,13 @@ export default function CreateListing() {
                 {listings.length > 0 && filteredList.length > 0 ? (
                     <ListingTable data={filteredList} />
                 ) : (
-                    <p>No listings found</p>
+                    <h1 style={{ color: 'pink', fontSize: '100px' }}>
+                        No listings found
+                    </h1>
                 )}
             </div>
         </NavBar>
     );
 }
+
+//the flash problem is occuring here.
