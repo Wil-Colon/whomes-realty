@@ -31,10 +31,12 @@ import { AuthContext } from '../../context/AuthContext/AuthContext';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
 import storage from '../../firebase';
 
-interface CreateListingModalProps {
+interface EditListingModalProps {
     open: boolean;
     onClose: any;
     setOpened: any;
+    listingData: any;
+    setListingData: any;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -66,8 +68,14 @@ const data = [
     { value: 'Raw land', label: 'Raw land' },
 ];
 
-export default function CreateListingModal(
-    { open, onClose, setOpened }: CreateListingModalProps,
+export default function EditListingModal(
+    {
+        open,
+        onClose,
+        setOpened,
+        listingData,
+        setListingData,
+    }: EditListingModalProps,
     props: Partial<DropzoneProps>
 ) {
     const isMobile = useMediaQuery('(max-width: 600px)');
@@ -76,8 +84,30 @@ export default function CreateListingModal(
     const { user } = useContext(AuthContext);
     const { dispatch } = useContext(ListingContext);
     const [overlayVisible, setOverlayVisible] = useState(false);
-    const [formData, setFormData] = useState({ featuredListing: false }) as any;
+    const [formData, setFormData] = useState({
+        ...listingData,
+        featuredListing: JSON.parse(listingData.featuredListing),
+    }) as any;
     const [files, setFiles] = useState<FileWithPath[]>([]) as any;
+
+    const {
+        _id,
+        address,
+        baths,
+        bedRooms,
+        city,
+        cooling,
+        county,
+        description,
+        featuredListing,
+        neighborhood,
+        price,
+        propertyType,
+        squareFootage,
+        state,
+        yearBuilt,
+        zipcode,
+    } = formData;
 
     const previews = files.map((file, index) => {
         const imageUrl = URL.createObjectURL(file);
@@ -116,21 +146,21 @@ export default function CreateListingModal(
 
     const form = useForm({
         initialValues: {
-            price: '',
-            neighborhood: '',
-            address: '',
-            city: '',
-            state: '',
-            zipcode: '',
-            county: '',
-            bedRooms: '',
-            baths: '',
-            squareFootage: '',
-            yearBuilt: '',
-            cooling: '',
-            propertyType: [],
-            description: '',
-            featuredListing: false,
+            price: listingData.price,
+            neighborhood: neighborhood,
+            address: address,
+            city: city,
+            state: state,
+            zipcode: zipcode,
+            county: county,
+            bedRooms: bedRooms,
+            baths: baths,
+            squareFootage: squareFootage,
+            yearBuilt: yearBuilt,
+            cooling: cooling,
+            propertyType: propertyType,
+            description: description,
+            featuredListing: formData.featuredListing,
         },
         validate: {
             price: (value) =>
@@ -249,11 +279,18 @@ export default function CreateListingModal(
         });
     };
 
-    return (
+    return listingData === null ? (
+        <LoadingOverlay visible={true} />
+    ) : (
         <Drawer
             closeOnClickOutside={false}
             opened={open}
-            onClose={() => onClose(false)}
+            onClose={() => {
+                onClose(false);
+                setTimeout(() => {
+                    setListingData(null);
+                }, 100);
+            }}
             padding="xl"
             position="top"
             overlayColor="#151414"

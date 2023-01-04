@@ -22,6 +22,7 @@ import {
 import { ListingContext } from '../../context/ListingContext/ListingContext';
 import { deleteListing } from '../../context/ListingContext/apiCalls';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
+import EditListingModal from '../EditListingModal/EditListingModal';
 
 const useStyles = createStyles((theme) => ({
     th: {
@@ -130,6 +131,8 @@ export default function ListingTable({ data }: TableSortProps) {
     const [reverseSortDirection, setReverseSortDirection] = useState(false);
     const { dispatch } = useContext(ListingContext);
     const { user } = useContext(AuthContext);
+    const [opened, setOpened] = useState(false);
+    const [listingData, setListingData] = useState(null) as any;
 
     const setSorting = (field: keyof RowData) => {
         const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -154,6 +157,13 @@ export default function ListingTable({ data }: TableSortProps) {
         deleteListing(dispatch, user.accessToken, id);
     };
 
+    const handleEdit = (row) => {
+        setListingData(row);
+        setTimeout(() => {
+            setOpened(true);
+        }, 10);
+    };
+
     const rows = sortedData.map((row) => (
         <tr
             key={row._id}
@@ -167,12 +177,23 @@ export default function ListingTable({ data }: TableSortProps) {
             <td>
                 <IconHomeEdit
                     style={{ cursor: 'pointer', marginRight: '15px' }}
+                    onClick={() => handleEdit(row)}
                 />
                 <IconTrash
                     onClick={(e) => handleDelete(row._id)}
                     style={{ cursor: 'pointer' }}
                 />
             </td>
+            {listingData && (
+                <EditListingModal
+                    open={opened}
+                    onClose={() => setOpened(false)}
+                    setOpened={setOpened}
+                    listingData={listingData}
+                    setListingData={setListingData}
+                />
+            )}
+
             <td>{row.featuredListing}</td>
             <td>{row.address}</td>
             <td>{row.city}</td>
@@ -275,19 +296,7 @@ export default function ListingTable({ data }: TableSortProps) {
                         </Th>
                     </tr>
                 </thead>
-                <tbody>
-                    {rows.length > 0 ? (
-                        rows
-                    ) : (
-                        <tr>
-                            <td colSpan={Object.keys(data[0]).length}>
-                                <Text weight={500} align="center">
-                                    No Listings Found
-                                </Text>
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
+                <tbody>{rows}</tbody>
             </Table>
         </ScrollArea>
     );

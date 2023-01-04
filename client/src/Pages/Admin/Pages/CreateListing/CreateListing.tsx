@@ -44,16 +44,13 @@ export default function CreateListing() {
                     onClose={() => setOpened(false)}
                     setOpened={setOpened}
                 />
+
                 {listings.length > 0 && filteredList.length > 0 ? (
                     <ListingTable data={filteredList} />
                 ) : (
-                    <h1 style={{ color: 'pink', fontSize: '100px' }}>
-                        No listings found
-                    </h1>
+                    <Text style={{ fontSize: '40px' }}>No listings found</Text>
                 )}
             </div>
         </NavBar>
     );
 }
-
-//the flash problem is occuring here.
