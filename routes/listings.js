@@ -2,6 +2,21 @@ const router = require('express').Router();
 const Listing = require('../models/listing');
 const verify = require('../verifyToken');
 
+//Get listing by ID
+router.get('/:id', verify, async (req, res) => {
+    try {
+        const listing = await Listing.findById(req.params.id);
+
+        if (!listing) {
+            return res.status(400).json('No listings Found!');
+        }
+
+        res.status(200).json(listing);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 //Get all Listings
 //GET '/api/listings/'
 //accepts 'city' query to find listings based on city

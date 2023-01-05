@@ -10,6 +10,19 @@ import {
     GetListingSuccess,
 } from './ListingAction';
 
+export const getSingleListing = async (accessToken, id) => {
+    try {
+        const res = await axios.get(`http://localhost:5000/api/listing/${id}`, {
+            headers: {
+                token: `Bearer ${accessToken}`,
+            },
+        });
+        return res.data;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 export const getListings = async (dispatch, query?) => {
     dispatch(GetListingStart());
     try {

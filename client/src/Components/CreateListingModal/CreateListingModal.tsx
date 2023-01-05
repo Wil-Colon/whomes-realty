@@ -259,7 +259,7 @@ export default function CreateListingModal(
             overlayColor="#151414"
             transition="slide-up"
             overlayOpacity={0.2}
-            title="New Listing"
+            title="Create New Listing"
             styles={(theme) => ({
                 title: {
                     color: 'rgba(17,65,97,0.81)',
@@ -484,7 +484,11 @@ export default function CreateListingModal(
                             setFiles([...files, ...item]);
                         }}
                         onReject={(files) =>
-                            console.log('rejected files', files)
+                            showNotification({
+                                color: 'red',
+                                title: 'Error!',
+                                message: 'Some files could not be added.',
+                            })
                         }
                         maxSize={3 * 1024 ** 2}
                         accept={IMAGE_MIME_TYPE}

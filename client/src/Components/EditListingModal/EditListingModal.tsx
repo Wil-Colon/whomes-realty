@@ -23,10 +23,13 @@ import {
 import { useForm } from '@mantine/form';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { showNotification } from '@mantine/notifications';
-import { createListing } from '../../context/ListingContext/apiCalls';
+import {
+    createListing,
+    getSingleListing,
+} from '../../context/ListingContext/apiCalls';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
 import storage from '../../firebase';
@@ -109,6 +112,18 @@ export default function EditListingModal(
         zipcode,
     } = formData;
 
+    ////WOrking on getting image files to sit in Files state to display
+    useEffect(() => {
+        const getListing = async () => {
+            const res = await getSingleListing(user.accessToken, _id);
+            setFiles(res.image);
+        };
+        getListing();
+    }, []);
+
+    //Get Listing by id
+    //set image to files State
+
     const previews = files.map((file, index) => {
         const imageUrl = URL.createObjectURL(file);
 
@@ -146,7 +161,7 @@ export default function EditListingModal(
 
     const form = useForm({
         initialValues: {
-            price: listingData.price,
+            price: price,
             neighborhood: neighborhood,
             address: address,
             city: city,
@@ -160,7 +175,7 @@ export default function EditListingModal(
             cooling: cooling,
             propertyType: propertyType,
             description: description,
-            featuredListing: formData.featuredListing,
+            featuredListing: featuredListing,
         },
         validate: {
             price: (value) =>
@@ -296,7 +311,7 @@ export default function EditListingModal(
             overlayColor="#151414"
             transition="slide-up"
             overlayOpacity={0.2}
-            title="New Listing"
+            title={`Edit: ${address}`}
             styles={(theme) => ({
                 title: {
                     color: 'rgba(17,65,97,0.81)',

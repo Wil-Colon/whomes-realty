@@ -9,6 +9,9 @@ import {
     Center,
     TextInput,
     Highlight,
+    Menu,
+    Button,
+    Modal,
 } from '@mantine/core';
 import { keys } from '@mantine/utils';
 import {
@@ -16,8 +19,9 @@ import {
     IconChevronDown,
     IconChevronUp,
     IconSearch,
-    IconHomeEdit,
     IconTrash,
+    IconEdit,
+    IconSettings,
 } from '@tabler/icons';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
 import { deleteListing } from '../../context/ListingContext/apiCalls';
@@ -125,14 +129,16 @@ function sortData(
 }
 
 export default function ListingTable({ data }: TableSortProps) {
+    const { dispatch } = useContext(ListingContext);
+    const { user } = useContext(AuthContext);
     const [search, setSearch] = useState('');
     const [sortedData, setSortedData] = useState(data);
     const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
     const [reverseSortDirection, setReverseSortDirection] = useState(false);
-    const { dispatch } = useContext(ListingContext);
-    const { user } = useContext(AuthContext);
+    const [openedEditModal, setOpenedEditModal] = useState(false);
     const [opened, setOpened] = useState(false);
     const [listingData, setListingData] = useState(null) as any;
+    const [deleteListingId, setDeleteListingId] = useState('');
 
     const setSorting = (field: keyof RowData) => {
         const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -153,14 +159,10 @@ export default function ListingTable({ data }: TableSortProps) {
         );
     };
 
-    const handleDelete = (id) => {
-        deleteListing(dispatch, user.accessToken, id);
-    };
-
     const handleEdit = (row) => {
         setListingData(row);
         setTimeout(() => {
-            setOpened(true);
+            setOpenedEditModal(true);
         }, 10);
     };
 
@@ -175,24 +177,76 @@ export default function ListingTable({ data }: TableSortProps) {
             }}
         >
             <td>
-                <IconHomeEdit
-                    style={{ cursor: 'pointer', marginRight: '15px' }}
-                    onClick={() => handleEdit(row)}
-                />
-                <IconTrash
-                    onClick={(e) => handleDelete(row._id)}
-                    style={{ cursor: 'pointer' }}
-                />
+                <Menu shadow="md" width={200}>
+                    <Menu.Target>
+                        <UnstyledButton>
+                            <IconSettings />
+                        </UnstyledButton>
+                    </Menu.Target>
+
+                    <Menu.Dropdown>
+                        <Menu.Label>Settings</Menu.Label>
+                        <Menu.Item
+                            icon={<IconEdit size={14} />}
+                            onClick={() => handleEdit(row)}
+                        >
+                            Edit Listing
+                        </Menu.Item>
+                        <Menu.Label>Danger zone</Menu.Label>
+                        <Menu.Item
+                            onClick={() => {
+                                setOpened(true);
+                                setDeleteListingId(row._id);
+                            }}
+                            color="red"
+                            icon={<IconTrash size={14} />}
+                        >
+                            Delete
+                        </Menu.Item>
+                    </Menu.Dropdown>
+                </Menu>
             </td>
             {listingData && (
                 <EditListingModal
-                    open={opened}
-                    onClose={() => setOpened(false)}
-                    setOpened={setOpened}
+                    open={openedEditModal}
+                    onClose={() => setOpenedEditModal(false)}
+                    setOpened={setOpenedEditModal}
                     listingData={listingData}
                     setListingData={setListingData}
                 />
             )}
+            <Modal
+                centered
+                opened={opened}
+                onClose={() => setOpened(false)}
+                title="Delete Listing?"
+                size="auto"
+                transition="slide-up"
+                withCloseButton={false}
+                overlayOpacity={0.2}
+            >
+                <Button
+                    radius="lg"
+                    color="red"
+                    onClick={() =>
+                        deleteListing(
+                            dispatch,
+                            user.accessToken,
+                            deleteListingId
+                        )
+                    }
+                    style={{ marginRight: '10px' }}
+                >
+                    Yes
+                </Button>
+                <Button
+                    variant="outline"
+                    radius="lg"
+                    onClick={() => setOpened(false)}
+                >
+                    No
+                </Button>
+            </Modal>
 
             <td>{row.featuredListing}</td>
             <td>{row.address}</td>
@@ -207,97 +261,103 @@ export default function ListingTable({ data }: TableSortProps) {
     ));
 
     return (
-        <ScrollArea>
-            <Highlight
-                highlight={'featured'}
-                highlightColor="rgba(34, 139, 230, 0.57)"
-                style={{ fontSize: '15px' }}
-            >
-                Featured Items are shown on home page.
-            </Highlight>
-            <TextInput
-                placeholder="Search by any field"
-                mb="md"
-                icon={<IconSearch size={14} stroke={1.5} />}
-                value={search}
-                onChange={handleSearchChange}
-            />
-            <Table
-                horizontalSpacing="md"
-                verticalSpacing="xs"
-                sx={{ tableLayout: 'fixed', minWidth: 830, textAlign: 'left' }}
-            >
-                <thead>
-                    <tr>
-                        <th>Edit Listing</th>
-                        <Th
-                            sorted={sortBy === 'featuredListing'}
-                            reversed={reverseSortDirection}
-                            onSort={() => setSorting('featuredListing')}
-                        >
-                            Featured
-                        </Th>
-                        <Th
-                            sorted={sortBy === 'address'}
-                            reversed={reverseSortDirection}
-                            onSort={() => setSorting('address')}
-                        >
-                            Address
-                        </Th>
-                        <Th
-                            sorted={sortBy === 'city'}
-                            reversed={reverseSortDirection}
-                            onSort={() => setSorting('city')}
-                        >
-                            City
-                        </Th>
-                        <Th
-                            sorted={sortBy === 'price'}
-                            reversed={reverseSortDirection}
-                            onSort={() => setSorting('price')}
-                        >
-                            Price
-                        </Th>
+        <>
+            <ScrollArea>
+                <Highlight
+                    highlight={'featured'}
+                    highlightColor="rgba(34, 139, 230, 0.57)"
+                    style={{ fontSize: '15px' }}
+                >
+                    Featured Items are shown on home page.
+                </Highlight>
+                <TextInput
+                    placeholder="Search by any field"
+                    mb="md"
+                    icon={<IconSearch size={14} stroke={1.5} />}
+                    value={search}
+                    onChange={handleSearchChange}
+                />
+                <Table
+                    horizontalSpacing="md"
+                    verticalSpacing="xs"
+                    sx={{
+                        tableLayout: 'fixed',
+                        minWidth: 830,
+                        textAlign: 'left',
+                    }}
+                >
+                    <thead>
+                        <tr>
+                            <th>Edit Listing</th>
+                            <Th
+                                sorted={sortBy === 'featuredListing'}
+                                reversed={reverseSortDirection}
+                                onSort={() => setSorting('featuredListing')}
+                            >
+                                Featured
+                            </Th>
+                            <Th
+                                sorted={sortBy === 'address'}
+                                reversed={reverseSortDirection}
+                                onSort={() => setSorting('address')}
+                            >
+                                Address
+                            </Th>
+                            <Th
+                                sorted={sortBy === 'city'}
+                                reversed={reverseSortDirection}
+                                onSort={() => setSorting('city')}
+                            >
+                                City
+                            </Th>
+                            <Th
+                                sorted={sortBy === 'price'}
+                                reversed={reverseSortDirection}
+                                onSort={() => setSorting('price')}
+                            >
+                                Price
+                            </Th>
 
-                        <Th
-                            sorted={sortBy === 'zipcode'}
-                            reversed={reverseSortDirection}
-                            onSort={() => setSorting('zipcode')}
-                        >
-                            zipcode
-                        </Th>
-                        <Th
-                            sorted={sortBy === 'bedRooms'}
-                            reversed={reverseSortDirection}
-                            onSort={() => setSorting('bedRooms')}
-                        >
-                            Beds
-                        </Th>
-                        <Th
-                            sorted={sortBy === 'baths'}
-                            reversed={reverseSortDirection}
-                            onSort={() => setSorting('baths')}
-                        >
-                            Baths
-                        </Th>
-                        <Th
-                            sorted={sortBy === 'squareFootage'}
-                            reversed={reverseSortDirection}
-                            onSort={() => setSorting('squareFootage')}
-                        >
-                            Sq.ft
-                        </Th>
-                        <Th
-                            sorted={sortBy === 'state'}
-                            reversed={reverseSortDirection}
-                            onSort={() => setSorting('state')}
-                        >
-                            State
-                        </Th>
-                    </tr>
-                </thead>
-                <tbody>{rows}</tbody>
-            </Table>
-        </ScrollArea>
+                            <Th
+                                sorted={sortBy === 'zipcode'}
+                                reversed={reverseSortDirection}
+                                onSort={() => setSorting('zipcode')}
+                            >
+                                zipcode
+                            </Th>
+                            <Th
+                                sorted={sortBy === 'bedRooms'}
+                                reversed={reverseSortDirection}
+                                onSort={() => setSorting('bedRooms')}
+                            >
+                                Beds
+                            </Th>
+                            <Th
+                                sorted={sortBy === 'baths'}
+                                reversed={reverseSortDirection}
+                                onSort={() => setSorting('baths')}
+                            >
+                                Baths
+                            </Th>
+                            <Th
+                                sorted={sortBy === 'squareFootage'}
+                                reversed={reverseSortDirection}
+                                onSort={() => setSorting('squareFootage')}
+                            >
+                                Sq.ft
+                            </Th>
+                            <Th
+                                sorted={sortBy === 'state'}
+                                reversed={reverseSortDirection}
+                                onSort={() => setSorting('state')}
+                            >
+                                State
+                            </Th>
+                        </tr>
+                    </thead>
+                    <tbody>{rows}</tbody>
+                </Table>
+            </ScrollArea>
+        </>
     );
 }
