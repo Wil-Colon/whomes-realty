@@ -8,6 +8,9 @@ import {
     getListingFailure,
     GetListingStart,
     GetListingSuccess,
+    UpdateListingFailure,
+    UpdateListingStart,
+    UpdateListingSuccess,
 } from './ListingAction';
 
 export const getSingleListing = async (accessToken, id) => {
@@ -68,10 +71,29 @@ export const deleteListing = async (dispatch, accessToken, id) => {
                 },
             }
         );
-        console.log(res.data);
         dispatch(DeleteListingSuccess(res.data));
     } catch (err) {
         dispatch(getListingFailure());
         return err;
+    }
+};
+
+export const updateListing = async (dispatch, accessToken, id, formData) => {
+    dispatch(UpdateListingStart());
+    try {
+        const res = await axios.put(
+            `http://localhost:5000/api/listing/${id}`,
+            formData,
+            {
+                headers: {
+                    token: `Bearer ${accessToken}`,
+                },
+            }
+        );
+
+        dispatch(UpdateListingSuccess(res.data));
+        return res.data;
+    } catch (err) {
+        dispatch(UpdateListingFailure());
     }
 };

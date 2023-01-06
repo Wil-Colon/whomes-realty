@@ -1,3 +1,4 @@
+import './messageTable.scss';
 import {
     deleteMessageById,
     getAllMessages,
@@ -91,7 +92,6 @@ export default function MessagesTable() {
 
     const rows = messages?.map((message) => {
         date = moment(message.date, moment.ISO_8601).format('YYYY-MM-DD');
-
         const selected = selection.includes(message?._id);
 
         return (
@@ -224,7 +224,9 @@ export default function MessagesTable() {
                             <th>Date</th>
                         </tr>
                     </thead>
-                    <tbody>{messages?.length === 0 ? noMessages : rows}</tbody>
+                    <tbody className="messageRow">
+                        {messages?.length === 0 ? noMessages : rows}
+                    </tbody>
                 </Table>
             </ScrollArea>
         </>

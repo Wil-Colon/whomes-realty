@@ -1,3 +1,4 @@
+import './listingTable.scss';
 import { useState, useContext } from 'react';
 import {
     createStyles,
@@ -248,7 +249,7 @@ export default function ListingTable({ data }: TableSortProps) {
                 </Button>
             </Modal>
 
-            <td>{row.featuredListing}</td>
+            <td>{row.featuredListing === 'true' ? 'Yes' : 'No'}</td>
             <td>{row.address}</td>
             <td>{row.city}</td>
             <td>{row.price}</td>
@@ -355,7 +356,7 @@ export default function ListingTable({ data }: TableSortProps) {
                             </Th>
                         </tr>
                     </thead>
-                    <tbody>{rows}</tbody>
+                    <tbody className="listingRow">{rows}</tbody>
                 </Table>
             </ScrollArea>
         </>

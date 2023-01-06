@@ -80,13 +80,15 @@ router.post('/newlisting', verify, async (req, res) => {
 //PUT 'api/listing/:listingID
 router.put('/:id', verify, async (req, res) => {
     try {
-        const updatedListing = await Listing.findByIdAndUpdate(
+        await Listing.findByIdAndUpdate(
             req.params.id,
             { $set: req.body },
             { new: true }
-        );
+        ).exec();
 
-        return res.status(200).json(updatedListing);
+        const allListings = await Listing.find({});
+
+        return res.status(200).json(allListings);
     } catch (err) {
         res.status(500).json(err);
     }

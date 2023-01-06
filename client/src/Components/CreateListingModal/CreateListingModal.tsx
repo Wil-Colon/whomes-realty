@@ -13,6 +13,7 @@ import {
     useMantineTheme,
     Image,
     LoadingOverlay,
+    UnstyledButton,
 } from '@mantine/core';
 import {
     Dropzone,
@@ -22,7 +23,7 @@ import {
 } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconPhoto, IconUpload, IconX } from '@tabler/icons';
+import { IconEraser, IconPhoto, IconUpload, IconX } from '@tabler/icons';
 import { useContext, useState } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { showNotification } from '@mantine/notifications';
@@ -78,41 +79,6 @@ export default function CreateListingModal(
     const [overlayVisible, setOverlayVisible] = useState(false);
     const [formData, setFormData] = useState({ featuredListing: false }) as any;
     const [files, setFiles] = useState<FileWithPath[]>([]) as any;
-
-    const previews = files.map((file, index) => {
-        const imageUrl = URL.createObjectURL(file);
-
-        return (
-            <div key={index} style={{ position: 'relative' }}>
-                <span
-                    style={{
-                        color: 'red',
-                        position: 'absolute',
-                        top: '0',
-                        left: '15px',
-                        zIndex: 1,
-                        fontSize: '35px',
-                        cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                        setFiles(
-                            files.filter(
-                                (item) => files.indexOf(item) !== index
-                            )
-                        );
-                    }}
-                >
-                    x
-                </span>
-                <Image
-                    src={imageUrl}
-                    imageProps={{
-                        onLoad: () => URL.revokeObjectURL(imageUrl),
-                    }}
-                />
-            </div>
-        );
-    });
 
     const form = useForm({
         initialValues: {
@@ -182,14 +148,45 @@ export default function CreateListingModal(
         },
     });
 
+    const previews = files.map((file, index) => {
+        const imageUrl = URL.createObjectURL(file);
+
+        return (
+            <div key={index} style={{ position: 'relative' }}>
+                <span
+                    style={{
+                        color: 'red',
+                        position: 'absolute',
+                        top: '0',
+                        left: '15px',
+                        zIndex: 1,
+                        fontSize: '35px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                        setFiles(
+                            files.filter(
+                                (item) => files.indexOf(item) !== index
+                            )
+                        );
+                    }}
+                >
+                    x
+                </span>
+                <Image
+                    src={imageUrl}
+                    imageProps={{
+                        onLoad: () => URL.revokeObjectURL(imageUrl),
+                    }}
+                />
+            </div>
+        );
+    });
+
     const handleChange = (e) => {
         let target = e.target.name;
         let value = e.target.value;
         setFormData({ ...formData, [target]: value });
-    };
-
-    const uploadToDB = (listingData) => {
-        createListing(dispatch, user.accessToken, listingData);
     };
 
     const closeModal = () => {
@@ -206,47 +203,60 @@ export default function CreateListingModal(
         }, 400);
     };
 
+    const uploadToDB = (listingData) => {
+        createListing(dispatch, user.accessToken, listingData);
+    };
+
     const firebaseUpload = (values) => {
         let imageUrl = [] as any;
         let progress;
         setOverlayVisible(true);
 
-        files.forEach((file, i) => {
-            const fileName = file.name;
-            const itemsRef = ref(
-                storage,
-                `images/${values.address}/${fileName}`
-            );
-            const uploadTask = uploadBytesResumable(itemsRef, file);
-            uploadTask.on(
-                'state_changed',
-                (snapshot) => {
-                    progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                },
-                (err) => {
-                    setOverlayVisible(false);
-                    showNotification({
-                        color: 'red',
-                        title: 'Error!',
-                        message: 'There appears to be an error somewhere.',
-                    });
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                        imageUrl.push(url);
+        if (files.length === 0) {
+            uploadToDB({
+                ...values,
+                image: [],
+            });
+            closeModal();
+        } else {
+            files.forEach((file, i) => {
+                const fileName = file.name;
+                const itemsRef = ref(
+                    storage,
+                    `images/${values.address}/${fileName}`
+                );
+                const uploadTask = uploadBytesResumable(itemsRef, file);
+                uploadTask.on(
+                    'state_changed',
+                    (snapshot) => {
+                        progress =
+                            (snapshot.bytesTransferred / snapshot.totalBytes) *
+                            100;
+                    },
+                    (err) => {
+                        setOverlayVisible(false);
+                        showNotification({
+                            color: 'red',
+                            title: 'Error!',
+                            message: 'There appears to be an error somewhere.',
+                        });
+                    },
+                    () => {
+                        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                            imageUrl.push(url);
 
-                        if (i === files.length - 1 && progress >= 100) {
-                            uploadToDB({
-                                ...values,
-                                image: imageUrl,
-                            });
-                            closeModal();
-                        }
-                    });
-                }
-            );
-        });
+                            if (i === files.length - 1 && progress >= 100) {
+                                uploadToDB({
+                                    ...values,
+                                    image: imageUrl,
+                                });
+                                closeModal();
+                            }
+                        });
+                    }
+                );
+            });
+        }
     };
 
     return (
@@ -286,6 +296,16 @@ export default function CreateListingModal(
                 },
             })}
         >
+            <UnstyledButton
+                title="Erase and Start over?"
+                onClick={() => {
+                    form.reset();
+                    setFiles([]);
+                    setFormData({ featuredListing: false });
+                }}
+            >
+                <IconEraser size={28} /> <Text size={15}>Erase</Text>
+            </UnstyledButton>
             <Paper withBorder radius="md" className={classes.comment}>
                 <LoadingOverlay
                     visible={overlayVisible}
@@ -490,6 +510,7 @@ export default function CreateListingModal(
                                 message: 'Some files could not be added.',
                             })
                         }
+                        maxFiles={10}
                         maxSize={3 * 1024 ** 2}
                         accept={IMAGE_MIME_TYPE}
                         {...props}
@@ -533,8 +554,8 @@ export default function CreateListingModal(
                                     Drag images here or click to select files
                                 </Text>
                                 <Text size="sm" color="dimmed" inline mt={7}>
-                                    Attach as many files as you like, each file
-                                    should not exceed 5mb
+                                    Attach up to 10 files, each file should not
+                                    exceed 5mb
                                 </Text>
                             </div>
                         </Group>

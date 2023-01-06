@@ -27,8 +27,8 @@ import { useContext, useState, useEffect } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { showNotification } from '@mantine/notifications';
 import {
-    createListing,
     getSingleListing,
+    updateListing,
 } from '../../context/ListingContext/apiCalls';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
@@ -92,6 +92,15 @@ export default function EditListingModal(
         featuredListing: JSON.parse(listingData.featuredListing),
     }) as any;
     const [files, setFiles] = useState<FileWithPath[]>([]) as any;
+    const [currentImages, setCurrentImages] = useState([]);
+
+    useEffect(() => {
+        const getListing = async () => {
+            const res = await getSingleListing(user.accessToken, _id);
+            setCurrentImages(res.image);
+        };
+        getListing();
+    }, []);
 
     const {
         _id,
@@ -111,53 +120,6 @@ export default function EditListingModal(
         yearBuilt,
         zipcode,
     } = formData;
-
-    ////WOrking on getting image files to sit in Files state to display
-    useEffect(() => {
-        const getListing = async () => {
-            const res = await getSingleListing(user.accessToken, _id);
-            setFiles(res.image);
-        };
-        getListing();
-    }, []);
-
-    //Get Listing by id
-    //set image to files State
-
-    const previews = files.map((file, index) => {
-        const imageUrl = URL.createObjectURL(file);
-
-        return (
-            <div key={index} style={{ position: 'relative' }}>
-                <span
-                    style={{
-                        color: 'red',
-                        position: 'absolute',
-                        top: '0',
-                        left: '15px',
-                        zIndex: 1,
-                        fontSize: '35px',
-                        cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                        setFiles(
-                            files.filter(
-                                (item) => files.indexOf(item) !== index
-                            )
-                        );
-                    }}
-                >
-                    x
-                </span>
-                <Image
-                    src={imageUrl}
-                    imageProps={{
-                        onLoad: () => URL.revokeObjectURL(imageUrl),
-                    }}
-                />
-            </div>
-        );
-    });
 
     const form = useForm({
         initialValues: {
@@ -227,14 +189,75 @@ export default function EditListingModal(
         },
     });
 
+    const newPreviews = files.map((file, index) => {
+        const imageUrl = URL.createObjectURL(file);
+        return (
+            <div
+                key={index}
+                style={{ position: 'relative', marginTop: '25px' }}
+            >
+                <span
+                    style={{
+                        color: 'red',
+                        position: 'absolute',
+                        top: '0',
+                        left: '15px',
+                        zIndex: 1,
+                        fontSize: '35px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                        setFiles(
+                            files.filter(
+                                (item) => files.indexOf(item) !== index
+                            )
+                        );
+                    }}
+                >
+                    x
+                </span>
+                <Image
+                    src={imageUrl}
+                    imageProps={{
+                        onLoad: () => URL.revokeObjectURL(imageUrl),
+                    }}
+                />
+            </div>
+        );
+    });
+
+    const currentImagePreviews = currentImages.map((file, i) => {
+        return (
+            <div key={i} style={{ position: 'relative', marginTop: '25px' }}>
+                <span
+                    style={{
+                        color: 'red',
+                        position: 'absolute',
+                        top: '0',
+                        left: '15px',
+                        zIndex: 1,
+                        fontSize: '35px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                        setCurrentImages(
+                            currentImages.filter(
+                                (item) => currentImages.indexOf(item) !== i
+                            )
+                        );
+                    }}
+                >
+                    x
+                </span>
+                <Image src={file} />
+            </div>
+        );
+    });
+
     const handleChange = (e) => {
         let target = e.target.name;
         let value = e.target.value;
         setFormData({ ...formData, [target]: value });
-    };
-
-    const uploadToDB = (listingData) => {
-        createListing(dispatch, user.accessToken, listingData);
     };
 
     const closeModal = () => {
@@ -242,7 +265,7 @@ export default function EditListingModal(
             setOverlayVisible(false);
             showNotification({
                 title: 'Success!',
-                message: 'New Listing has been Created!',
+                message: 'Listing has been edited!',
             });
             form.reset();
             setFiles([]);
@@ -251,47 +274,62 @@ export default function EditListingModal(
         }, 400);
     };
 
+    const uploadToDB = (editedListingData) => {
+        updateListing(dispatch, user.accessToken, _id, editedListingData);
+    };
+
     const firebaseUpload = (values) => {
         let imageUrl = [] as any;
         let progress;
         setOverlayVisible(true);
 
-        files.forEach((file, i) => {
-            const fileName = file.name;
-            const itemsRef = ref(
-                storage,
-                `images/${values.address}/${fileName}`
-            );
-            const uploadTask = uploadBytesResumable(itemsRef, file);
-            uploadTask.on(
-                'state_changed',
-                (snapshot) => {
-                    progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                },
-                (err) => {
-                    setOverlayVisible(false);
-                    showNotification({
-                        color: 'red',
-                        title: 'Error!',
-                        message: 'There appears to be an error somewhere.',
-                    });
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                        imageUrl.push(url);
+        if (files.length === 0) {
+            uploadToDB({
+                ...values,
+                image: currentImages,
+            });
+            closeModal();
+        } else {
+            files.forEach((file, i) => {
+                const fileName = file.name;
+                const itemsRef = ref(
+                    storage,
+                    `images/${values.address}/${fileName}`
+                );
+                const uploadTask = uploadBytesResumable(itemsRef, file);
+                uploadTask.on(
+                    'state_changed',
+                    (snapshot) => {
+                        progress =
+                            (snapshot.bytesTransferred / snapshot.totalBytes) *
+                            100;
+                    },
+                    (err) => {
+                        setOverlayVisible(false);
+                        showNotification({
+                            color: 'red',
+                            title: 'Error!',
+                            message: 'There appears to be an error somewhere.',
+                        });
+                    },
+                    () => {
+                        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                            imageUrl.push(url);
 
-                        if (i === files.length - 1 && progress >= 100) {
-                            uploadToDB({
-                                ...values,
-                                image: imageUrl,
-                            });
-                            closeModal();
-                        }
-                    });
-                }
-            );
-        });
+                            if (i === files.length - 1 && progress >= 100) {
+                                imageUrl.push(...currentImages);
+                                uploadToDB({
+                                    ...values,
+                                    image: imageUrl,
+                                });
+                                console.log(imageUrl);
+                                closeModal();
+                            }
+                        });
+                    }
+                );
+            });
+        }
     };
 
     return listingData === null ? (
@@ -536,10 +574,15 @@ export default function EditListingModal(
                             setFiles([...files, ...item]);
                         }}
                         onReject={(files) =>
-                            console.log('rejected files', files)
+                            showNotification({
+                                color: 'red',
+                                title: 'Error!',
+                                message: 'Some files could not be added.',
+                            })
                         }
                         maxSize={3 * 1024 ** 2}
                         accept={IMAGE_MIME_TYPE}
+                        maxFiles={10}
                         {...props}
                     >
                         <Group
@@ -581,8 +624,8 @@ export default function EditListingModal(
                                     Drag images here or click to select files
                                 </Text>
                                 <Text size="sm" color="dimmed" inline mt={7}>
-                                    Attach as many files as you like, each file
-                                    should not exceed 5mb
+                                    Attach up to 10 files, each file should not
+                                    exceed 5mb
                                 </Text>
                             </div>
                         </Group>
@@ -590,9 +633,10 @@ export default function EditListingModal(
                     <SimpleGrid
                         cols={4}
                         breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
-                        mt={previews.length > 0 ? 'xl' : 0}
+                        mt={newPreviews.length > 0 ? 'xl' : 0}
                     >
-                        {previews}
+                        {currentImagePreviews}
+                        {newPreviews}
                     </SimpleGrid>
 
                     <Group position="right" mt="md">
