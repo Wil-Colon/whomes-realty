@@ -28,6 +28,11 @@ import { ListingContext } from '../../context/ListingContext/ListingContext';
 import { deleteListing } from '../../context/ListingContext/apiCalls';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 import EditListingModal from '../EditListingModal/EditListingModal';
+import storage from '../../firebase';
+import { ref, deleteObject } from 'firebase/storage';
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+import firebase from 'firebase/app';
 
 const useStyles = createStyles((theme) => ({
     th: {
@@ -139,7 +144,7 @@ export default function ListingTable({ data }: TableSortProps) {
     const [openedEditModal, setOpenedEditModal] = useState(false);
     const [opened, setOpened] = useState(false);
     const [listingData, setListingData] = useState(null) as any;
-    const [deleteListingId, setDeleteListingId] = useState('');
+    const [deleteListingData, setDeleteListingData] = useState() as any;
 
     const setSorting = (field: keyof RowData) => {
         const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -165,6 +170,23 @@ export default function ListingTable({ data }: TableSortProps) {
         setTimeout(() => {
             setOpenedEditModal(true);
         }, 10);
+    };
+
+    const handleDeleteListing = () => {
+        deleteListingData.image.length > 0 &&
+            deleteListingData?.image.forEach((image) => {
+                const imageName = ref(storage, image);
+
+                deleteObject(imageName)
+                    .then(() => {
+                        console.log('deleted yay');
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            });
+
+        deleteListing(dispatch, user.accessToken, deleteListingData._id);
     };
 
     const rows = sortedData.map((row) => (
@@ -197,7 +219,7 @@ export default function ListingTable({ data }: TableSortProps) {
                         <Menu.Item
                             onClick={() => {
                                 setOpened(true);
-                                setDeleteListingId(row._id);
+                                setDeleteListingData(row);
                             }}
                             color="red"
                             icon={<IconTrash size={14} />}
@@ -229,13 +251,7 @@ export default function ListingTable({ data }: TableSortProps) {
                 <Button
                     radius="lg"
                     color="red"
-                    onClick={() =>
-                        deleteListing(
-                            dispatch,
-                            user.accessToken,
-                            deleteListingId
-                        )
-                    }
+                    onClick={() => handleDeleteListing()}
                     style={{ marginRight: '10px' }}
                 >
                     Yes

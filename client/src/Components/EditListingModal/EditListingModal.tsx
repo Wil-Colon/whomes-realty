@@ -313,16 +313,19 @@ export default function EditListingModal(
                         });
                     },
                     () => {
+                        ///having problems with mongodb not recieving all urls
                         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                             imageUrl.push(url);
 
                             if (i === files.length - 1 && progress >= 100) {
                                 imageUrl.push(...currentImages);
-                                uploadToDB({
-                                    ...values,
-                                    image: imageUrl,
-                                });
-                                console.log(imageUrl);
+                                setTimeout(() => {
+                                    uploadToDB({
+                                        ...values,
+                                        image: imageUrl,
+                                    });
+                                }, 200);
+
                                 closeModal();
                             }
                         });
