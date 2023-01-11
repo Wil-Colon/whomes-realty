@@ -245,7 +245,10 @@ export default function CreateListingModal(
                         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                             imageUrl.push(url);
 
-                            if (i === files.length - 1 && progress >= 100) {
+                            if (
+                                imageUrl.length === files.length &&
+                                progress >= 100
+                            ) {
                                 uploadToDB({
                                     ...values,
                                     image: imageUrl,

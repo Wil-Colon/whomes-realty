@@ -1,5 +1,14 @@
 import './listing.scss';
-import { Grid, Card, Image, Text, Badge, Button, Group } from '@mantine/core';
+import {
+    Grid,
+    Card,
+    Image,
+    Text,
+    Badge,
+    Button,
+    Group,
+    Center,
+} from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { IconBath, IconBed, IconDimensions } from '@tabler/icons';
 
@@ -21,15 +30,30 @@ export default function Listing({ list }) {
                         withIndicators
                         height={200}
                     >
-                        {list?.image?.map((img, i) => (
-                            <Carousel.Slide key={i}>
-                                <Image
-                                    src={img}
-                                    height={160}
-                                    alt="home picture"
-                                />
-                            </Carousel.Slide>
-                        ))}
+                        {list.image.length > 0 ? (
+                            list?.image?.map((img, i) => (
+                                <Carousel.Slide key={i}>
+                                    <Image
+                                        src={img}
+                                        height={160}
+                                        alt="home picture"
+                                    />
+                                </Carousel.Slide>
+                            ))
+                        ) : (
+                            <Center
+                                style={{
+                                    backgroundColor: 'grey',
+                                    width: '100%',
+                                    position: 'relative',
+                                    color: 'lightgray',
+                                    fontSize: '30px',
+                                    fontFamily: 'Andale Mono',
+                                }}
+                            >
+                                No Preview
+                            </Center>
+                        )}
                     </Carousel>
                 </Card.Section>
 

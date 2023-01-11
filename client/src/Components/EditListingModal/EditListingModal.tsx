@@ -276,6 +276,7 @@ export default function EditListingModal(
 
     const uploadToDB = (editedListingData) => {
         updateListing(dispatch, user.accessToken, _id, editedListingData);
+        closeModal();
     };
 
     const firebaseUpload = (values) => {
@@ -288,7 +289,6 @@ export default function EditListingModal(
                 ...values,
                 image: currentImages,
             });
-            closeModal();
         } else {
             files.forEach((file, i) => {
                 const fileName = file.name;
@@ -313,20 +313,18 @@ export default function EditListingModal(
                         });
                     },
                     () => {
-                        ///having problems with mongodb not recieving all urls
                         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                             imageUrl.push(url);
 
-                            if (i === files.length - 1 && progress >= 100) {
-                                imageUrl.push(...currentImages);
+                            if (imageUrl.length === files.length) {
+                                currentImages.length > 0 &&
+                                    imageUrl.push(...currentImages);
                                 setTimeout(() => {
                                     uploadToDB({
                                         ...values,
                                         image: imageUrl,
                                     });
                                 }, 200);
-
-                                closeModal();
                             }
                         });
                     }
