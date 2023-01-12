@@ -14,6 +14,7 @@ import {
     Image,
     LoadingOverlay,
     UnstyledButton,
+    NativeSelect,
 } from '@mantine/core';
 import {
     Dropzone,
@@ -77,12 +78,16 @@ export default function CreateListingModal(
     const { user } = useContext(AuthContext);
     const { dispatch } = useContext(ListingContext);
     const [overlayVisible, setOverlayVisible] = useState(false);
-    const [formData, setFormData] = useState({ featuredListing: false }) as any;
+    const [formData, setFormData] = useState({
+        status: 'Active',
+        featuredListing: false,
+    }) as any;
     const [files, setFiles] = useState<FileWithPath[]>([]) as any;
 
     const form = useForm({
         initialValues: {
             price: '',
+            status: '',
             neighborhood: '',
             address: '',
             city: '',
@@ -103,47 +108,47 @@ export default function CreateListingModal(
                 value.length < 6
                     ? 'Invalid Price'
                     : /^[0-9,.]*$/.test(value) === false
-                    ? 'Price should contain only numbers'
+                    ? 'Price should contain only numbers.'
                     : null,
             address: (value) =>
                 /\d/.test(value) === false
-                    ? 'Missing Address Number'
+                    ? 'Missing Address Number.'
                     : /[a-z]/i.test(value) === false
-                    ? 'Missing Street name'
+                    ? 'Missing Street name.'
                     : null,
             city: (value) =>
                 /\d/.test(value) === true
-                    ? 'City should contain no numbers'
+                    ? 'City should contain no numbers.'
                     : value.length < 3
-                    ? 'Please enter valid City'
+                    ? 'Please enter valid City.'
                     : null,
             state: (value) =>
                 /\d/.test(value) === true
-                    ? 'State should contain no numbers'
+                    ? 'State should contain no numbers.'
                     : value.length < 2 || value.length > 2
-                    ? 'Please enter valid State'
+                    ? 'Please enter valid State.'
                     : null,
             zipcode: (value) =>
                 /[a-z]/i.test(value) === true
-                    ? 'Zipcode should contain no letters'
+                    ? 'Zipcode should contain no letters.'
                     : value.length < 5
-                    ? 'Please enter a valid Zipcode'
+                    ? 'Please enter a valid Zipcode.'
                     : null,
             bedRooms: (value) =>
                 /[a-z]/i.test(value) === true
-                    ? 'Bedrooms should contain only numbers'
+                    ? 'Bedrooms should contain only numbers.'
                     : value.length < 1
-                    ? 'Please enter a valid number of bedrooms'
+                    ? 'Please enter a valid number of bedrooms.'
                     : null,
             baths: (value) =>
                 /[a-z]/i.test(value) === true
-                    ? 'Baths should contain only numbers'
+                    ? 'Baths should contain only numbers.'
                     : value.length < 1
-                    ? 'Please enter bathroom amount'
+                    ? 'Please enter bathroom amount.'
                     : null,
             squareFootage: (value) =>
                 /[a-z]/i.test(value) === true
-                    ? 'State should contain no letters'
+                    ? 'State should contain no letters.'
                     : null,
         },
     });
@@ -307,7 +312,7 @@ export default function CreateListingModal(
                     setFormData({ featuredListing: false });
                 }}
             >
-                <IconEraser size={28} /> <Text size={15}>Erase</Text>
+                <IconEraser size={28} /> <Text size={15}>Reset</Text>
             </UnstyledButton>
             <Paper withBorder radius="md" className={classes.comment}>
                 <LoadingOverlay
@@ -322,7 +327,7 @@ export default function CreateListingModal(
                         (validationErrors, _values, _event) => {
                             showNotification({
                                 color: 'red',
-                                title: 'Form error:',
+                                title: 'Form Missing Values:',
                                 message: Object.keys(validationErrors)
                                     .join(', ')
                                     .toLowerCase(),
@@ -366,7 +371,6 @@ export default function CreateListingModal(
                             onChange={(e) => handleChange(e)}
                             {...form.getInputProps('price')}
                         />
-
                         <TextInput
                             name="address"
                             placeholder="Street Address"
@@ -483,6 +487,18 @@ export default function CreateListingModal(
                             size="md"
                             {...form.getInputProps('propertyType')}
                             clearable
+                        />
+                        <NativeSelect
+                            name="status"
+                            data={[
+                                'Active',
+                                'Closed',
+                                'Under Contract',
+                                'Deal Pending',
+                            ]}
+                            label="Listing Status"
+                            size="md"
+                            {...form.getInputProps('status')}
                         />
                     </SimpleGrid>
                     <SimpleGrid

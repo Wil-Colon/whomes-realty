@@ -30,9 +30,6 @@ import { AuthContext } from '../../context/AuthContext/AuthContext';
 import EditListingModal from '../EditListingModal/EditListingModal';
 import storage from '../../firebase';
 import { ref, deleteObject } from 'firebase/storage';
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-import firebase from 'firebase/app';
 
 const useStyles = createStyles((theme) => ({
     th: {
@@ -69,6 +66,7 @@ interface RowData {
     squareFootage: string;
     state: string;
     featuredListing: string;
+    status: string;
 }
 
 interface TableSortProps {
@@ -266,6 +264,7 @@ export default function ListingTable({ data }: TableSortProps) {
             </Modal>
 
             <td>{row.featuredListing === 'true' ? 'Yes' : 'No'}</td>
+            <td>{row.status}</td>
             <td>{row.address}</td>
             <td>{row.city}</td>
             <td>{row.price}</td>
@@ -305,13 +304,20 @@ export default function ListingTable({ data }: TableSortProps) {
                 >
                     <thead>
                         <tr>
-                            <th>Edit Listing</th>
+                            <th>Settings</th>
                             <Th
                                 sorted={sortBy === 'featuredListing'}
                                 reversed={reverseSortDirection}
                                 onSort={() => setSorting('featuredListing')}
                             >
                                 Featured
+                            </Th>
+                            <Th
+                                sorted={sortBy === 'status'}
+                                reversed={reverseSortDirection}
+                                onSort={() => setSorting('status')}
+                            >
+                                Status
                             </Th>
                             <Th
                                 sorted={sortBy === 'address'}
@@ -340,7 +346,7 @@ export default function ListingTable({ data }: TableSortProps) {
                                 reversed={reverseSortDirection}
                                 onSort={() => setSorting('zipcode')}
                             >
-                                zipcode
+                                Zipcode
                             </Th>
                             <Th
                                 sorted={sortBy === 'bedRooms'}

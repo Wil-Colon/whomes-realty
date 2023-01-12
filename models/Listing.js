@@ -5,6 +5,10 @@ const ListingSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    status: {
+        type: String,
+        default: 'Active',
+    },
     image: [String],
     bedRooms: {
         type: String,

@@ -7,7 +7,8 @@ import ListingTable from '../../../../Components/ListingTable/ListingTable';
 import CreateListingModal from '../../../../Components/CreateListingModal/CreateListingModal';
 
 export default function CreateListing() {
-    //filteredList will hold all data converted to a string. ListTable requires all strings for sorting.
+    //filteredList will hold all data converted to a string.
+    //ListTable requires all strings for sorting.
     let filteredList = [] as any;
     const { listings, dispatch } = useContext(ListingContext);
     const [opened, setOpened] = useState(false);
@@ -27,9 +28,6 @@ export default function CreateListing() {
     return (
         <NavBar>
             <div id="listings" style={{ padding: '20px 10px 40px 10px' }}>
-                <Text sx={{ fontSize: '30px', textAlign: 'center' }}>
-                    Listings
-                </Text>
                 <Button
                     variant="outline"
                     radius="lg"

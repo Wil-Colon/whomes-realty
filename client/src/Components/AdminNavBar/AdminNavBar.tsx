@@ -1,7 +1,13 @@
 import './AdminNavBar.scss';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
-import { AppShell, Loader, MediaQuery, Burger } from '@mantine/core';
+import {
+    AppShell,
+    Loader,
+    MediaQuery,
+    Burger,
+    Transition,
+} from '@mantine/core';
 import AdminNavbarContent from '../AdminNavBarContent/AdminNavBarContent';
 import { logout } from '../../context/AuthContext/AuthAction';
 import { validateAuth } from '../../context/AuthContext/apiCalls';
@@ -13,6 +19,7 @@ interface navBarProps {
 export default function AdminNavBar({ children }: navBarProps) {
     const { isFetching, user, dispatch } = useContext(AuthContext);
     const [opened, setOpened] = useState(false);
+    const [transitionOpened, setTransitionOpened] = useState(false);
 
     const navBarOpened = (selection) => {
         setOpened(selection);
@@ -27,6 +34,7 @@ export default function AdminNavBar({ children }: navBarProps) {
             }
         };
         authCheck();
+        setTransitionOpened(true);
     }, [dispatch, user.accessToken]);
 
     return isFetching ? (
@@ -66,7 +74,14 @@ export default function AdminNavBar({ children }: navBarProps) {
                 },
             })}
         >
-            {children}
+            <Transition
+                mounted={transitionOpened}
+                transition="fade"
+                duration={200}
+                timingFunction="ease-in-out"
+            >
+                {(styles) => <div style={styles}>{children}</div>}
+            </Transition>
         </AppShell>
     );
 }

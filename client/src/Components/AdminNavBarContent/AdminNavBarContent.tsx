@@ -125,7 +125,7 @@ const data = [
     { link: '', label: 'Home', icon: IconHomeStar },
     {
         link: 'createlisting',
-        label: 'Create/Edit Listings',
+        label: 'Listings',
         icon: IconHomePlus,
     },
     { link: 'messages', label: 'Mail', icon: IconMail },
@@ -201,7 +201,7 @@ export default function AdminNavbarContent({
 
     return (
         <Navbar
-            width={{ sm: 300 }}
+            width={{ sm: 225 }}
             p="md"
             className={classes.navbar}
             hidden={!hidden}

@@ -13,6 +13,7 @@ import {
     useMantineTheme,
     Image,
     LoadingOverlay,
+    NativeSelect,
 } from '@mantine/core';
 import {
     Dropzone,
@@ -90,21 +91,14 @@ export default function EditListingModal(
     const [formData, setFormData] = useState({
         ...listingData,
         featuredListing: JSON.parse(listingData.featuredListing),
+        status: listingData.status,
     }) as any;
     const [files, setFiles] = useState<FileWithPath[]>([]) as any;
     const [currentImages, setCurrentImages] = useState([]);
-
-    useEffect(() => {
-        const getListing = async () => {
-            const res = await getSingleListing(user.accessToken, _id);
-            setCurrentImages(res.image);
-        };
-        getListing();
-    }, []);
-
     const {
         _id,
         address,
+        status,
         baths,
         bedRooms,
         city,
@@ -120,6 +114,14 @@ export default function EditListingModal(
         yearBuilt,
         zipcode,
     } = formData;
+
+    useEffect(() => {
+        const getListing = async () => {
+            const res = await getSingleListing(user.accessToken, _id);
+            setCurrentImages(res.image);
+        };
+        getListing();
+    }, [user.accessToken, _id]);
 
     const form = useForm({
         initialValues: {
@@ -137,6 +139,7 @@ export default function EditListingModal(
             cooling: cooling,
             propertyType: propertyType,
             description: description,
+            status: status,
             featuredListing: featuredListing,
         },
         validate: {
@@ -551,6 +554,18 @@ export default function EditListingModal(
                             size="md"
                             {...form.getInputProps('propertyType')}
                             clearable
+                        />
+                        <NativeSelect
+                            name="status"
+                            data={[
+                                'Active',
+                                'Closed',
+                                'Under Contract',
+                                'Deal Pending',
+                            ]}
+                            label="Listing Status"
+                            size="md"
+                            {...form.getInputProps('status')}
                         />
                     </SimpleGrid>
                     <SimpleGrid
