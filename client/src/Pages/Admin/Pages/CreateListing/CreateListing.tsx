@@ -14,7 +14,7 @@ export default function CreateListing() {
     const [opened, setOpened] = useState(false);
 
     useEffect(() => {
-        getListings(dispatch, '');
+        getListings(dispatch, '?noimage=true');
     }, [dispatch]);
 
     listings?.length > 0 &&

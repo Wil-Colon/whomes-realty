@@ -30,7 +30,7 @@ export default function Listing({ list }) {
                         withIndicators
                         height={200}
                     >
-                        {list.image.length > 0 ? (
+                        {list?.image.length > 0 ? (
                             list?.image?.map((img, i) => (
                                 <Carousel.Slide key={i}>
                                     <Image
@@ -58,16 +58,20 @@ export default function Listing({ list }) {
                 </Card.Section>
 
                 <Group position="apart" mt="md" mb="xs">
-                    <Text weight={700}>{list?.city}</Text>
+                    <Text weight={700}>
+                        {list?.address}
+                        <br />
+                        {list?.city}
+                    </Text>
                     <Badge
                         color="pink"
                         variant="gradient"
                         gradient={{
                             from: 'indigo',
-                            to: 'gray',
+                            to: 'blue',
                         }}
                     >
-                        On Sale
+                        {list?.status}
                     </Badge>
                 </Group>
 

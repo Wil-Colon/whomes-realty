@@ -1,14 +1,23 @@
 import { Grid, Loader, Text } from '@mantine/core';
 import { getListings } from '../../context/ListingContext/apiCalls';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Listing from '../Listing/Listing';
 
 export default function FeatureListings() {
-    const { listings, dispatch, isFetching } = useContext(ListingContext);
+    const { dispatch, isFetching } = useContext(ListingContext);
+    const [list, setList] = useState() as any;
 
     useEffect(() => {
-        getListings(dispatch, '?featuredListing=true');
+        const getList = async () => {
+            const res = (await getListings(
+                dispatch,
+                '?featuredListing=true'
+            )) as any;
+
+            setList(res.data);
+        };
+        getList();
     }, [dispatch]);
 
     return (
@@ -20,9 +29,7 @@ export default function FeatureListings() {
                 {isFetching ? (
                     <Loader />
                 ) : (
-                    listings.map((list) => (
-                        <Listing key={list._id} list={list} />
-                    ))
+                    list?.map((list) => <Listing key={list._id} list={list} />)
                 )}
             </Grid>
         </div>

@@ -41,7 +41,9 @@ router.get('/', async (req, res) => {
         }
 
         if (noimageQuery) {
-            listings = await Listing.find({}).select('-image  -__v');
+            listings = await Listing.find({}).select(
+                '-image -propertyType -__v'
+            );
             return res.status(200).json(listings);
         }
         listings = await Listing.find({});
@@ -100,7 +102,9 @@ router.delete('/:id', verify, async (req, res) => {
     try {
         await Listing.findByIdAndDelete(req.params.id);
 
-        const allListings = await Listing.find({});
+        const allListings = await Listing.find({}).select(
+            '-image -propertyType -__v'
+        );
 
         return res.status(200).json(allListings);
     } catch (err) {

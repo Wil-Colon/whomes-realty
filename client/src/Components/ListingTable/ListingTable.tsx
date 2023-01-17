@@ -25,7 +25,10 @@ import {
     IconSettings,
 } from '@tabler/icons';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
-import { deleteListing } from '../../context/ListingContext/apiCalls';
+import {
+    deleteListing,
+    getSingleListing,
+} from '../../context/ListingContext/apiCalls';
 import { AuthContext } from '../../context/AuthContext/AuthContext';
 import EditListingModal from '../EditListingModal/EditListingModal';
 import storage from '../../firebase';
@@ -177,7 +180,7 @@ export default function ListingTable({ data }: TableSortProps) {
 
                 deleteObject(imageName)
                     .then(() => {
-                        console.log('deleted yay');
+                        console.log('deleted');
                     })
                     .catch((error) => {
                         console.log(error);
@@ -185,6 +188,7 @@ export default function ListingTable({ data }: TableSortProps) {
             });
 
         deleteListing(dispatch, user.accessToken, deleteListingData._id);
+        setDeleteListingData();
     };
 
     const rows = sortedData.map((row) => (
@@ -215,9 +219,13 @@ export default function ListingTable({ data }: TableSortProps) {
                         </Menu.Item>
                         <Menu.Label>Danger zone</Menu.Label>
                         <Menu.Item
-                            onClick={() => {
+                            onClick={async () => {
+                                const data = await getSingleListing(
+                                    user.accessToken,
+                                    row._id
+                                );
                                 setOpened(true);
-                                setDeleteListingData(row);
+                                setDeleteListingData(data);
                             }}
                             color="red"
                             icon={<IconTrash size={14} />}
