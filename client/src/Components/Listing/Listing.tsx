@@ -8,19 +8,48 @@ import {
     Button,
     Group,
     Center,
+    createStyles,
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { IconBath, IconBed, IconDimensions } from '@tabler/icons';
 
+const useStyles = createStyles((theme, _params, getRef) => ({
+    price: {
+        color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+    },
+
+    carousel: {
+        '&:hover': {
+            [`& .${getRef('carouselControls')}`]: {
+                opacity: 1,
+            },
+        },
+    },
+
+    carouselControls: {
+        ref: getRef('carouselControls'),
+        transition: 'opacity 150ms ease',
+        opacity: 0,
+    },
+
+    carouselIndicator: {
+        width: 4,
+        height: 4,
+        transition: 'width 250ms ease',
+
+        '&[data-active]': {
+            width: 16,
+        },
+    },
+}));
+
 export default function Listing({ list }) {
-    const truncate = (str, n) => {
-        return str?.length > n ? str.substr(0, n - 1) + '...' : str;
-    };
+    const { classes } = useStyles();
     return (
         <Grid.Col
             sm={4}
             xs={4}
-            style={{ maxWidth: '335px', minWidth: '270px' }}
+            style={{ maxWidth: '335px', minWidth: '283px' }}
         >
             <Card shadow="sm" p="lg" radius="md" withBorder>
                 <Card.Section>
@@ -28,14 +57,20 @@ export default function Listing({ list }) {
                         sx={{ maxWidth: 320 }}
                         mx="auto"
                         withIndicators
-                        height={200}
+                        loop
+                        withControls={list.image.length === 0 ? false : true}
+                        classNames={{
+                            root: classes.carousel,
+                            controls: classes.carouselControls,
+                            indicator: classes.carouselIndicator,
+                        }}
                     >
                         {list?.image.length > 0 ? (
                             list?.image?.map((img, i) => (
                                 <Carousel.Slide key={i}>
                                     <Image
                                         src={img}
-                                        height={160}
+                                        height={220}
                                         alt="home picture"
                                     />
                                 </Carousel.Slide>
@@ -45,8 +80,9 @@ export default function Listing({ list }) {
                                 style={{
                                     backgroundColor: 'grey',
                                     width: '100%',
+                                    height: '220px',
                                     position: 'relative',
-                                    color: 'lightgray',
+                                    color: 'white',
                                     fontSize: '30px',
                                     fontFamily: 'Andale Mono',
                                 }}
@@ -58,10 +94,12 @@ export default function Listing({ list }) {
                 </Card.Section>
 
                 <Group position="apart" mt="md" mb="xs">
-                    <Text weight={700}>
-                        {list?.address}
-                        <br />
-                        {list?.city}
+                    <Text
+                        style={{ textDecoration: 'underline' }}
+                        color={'darkgreen'}
+                        weight={700}
+                    >
+                        ${list?.price}
                     </Text>
                     <Badge
                         color="pink"
@@ -76,24 +114,22 @@ export default function Listing({ list }) {
                 </Group>
 
                 <Text weight={700} color={'blue'}>
-                    ${list?.price}
+                    {list?.address}
+                    <br />
+                    {list?.city}, {list?.state} {list?.zipcode}
                 </Text>
-
-                <Text
-                    size="sm"
-                    color="dimmed"
-                    sx={{ width: '280px', height: '60px' }}
-                >
-                    {truncate(list?.description, 100)}
-                </Text>
-                <Group spacing="xs" sx={{ marginTop: '10px' }}>
-                    <IconBath size={'20px'} />
-                    {list?.baths}
+                <Group spacing="lg" sx={{ marginTop: '10px' }}>
                     <IconBed size={'20px'} />
-                    {list?.bedRooms}
+                    <span style={{ marginLeft: '-15px' }}>
+                        {list?.bedRooms}bd{' '}
+                    </span>
+                    <IconBath size={'20px'} />
+                    <span style={{ marginLeft: '-15px' }}>{list?.baths}ba</span>
                     <IconDimensions size={'20px'} />
-                    {list?.squareFootage}ft
-                    <sup style={{ marginLeft: '-7px' }}>2</sup>
+                    <span style={{ marginLeft: '-15px' }}>
+                        {list?.squareFootage}ft
+                    </span>
+                    <sup style={{ marginLeft: '-15px' }}>2</sup>{' '}
                 </Group>
 
                 <Button

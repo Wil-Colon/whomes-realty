@@ -27,7 +27,7 @@ export default function CreateListing() {
 
     return (
         <NavBar>
-            <div id="listings" style={{ padding: '20px 10px 40px 10px' }}>
+            <div id="listings" style={{ padding: '0px 10px 40px 10px' }}>
                 <Button
                     variant="outline"
                     radius="lg"
