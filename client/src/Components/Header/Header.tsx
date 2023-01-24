@@ -109,6 +109,7 @@ export default function HeaderSimple({ links }: HeaderSimpleProps) {
             mb={0}
             fixed
             withBorder={false}
+            style={{ width: '100%', height: '100%' }}
             sx={
                 isScrolled
                     ? { transition: 'all 1s', backgroundColor: '#1f1f1ff2' }

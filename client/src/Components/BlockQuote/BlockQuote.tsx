@@ -1,6 +1,7 @@
 import { Blockquote, Center } from '@mantine/core';
-import { useIntersection } from '@mantine/hooks';
+import { useIntersection, useWindowScroll } from '@mantine/hooks';
 import { useRef, useState, useEffect } from 'react';
+import background from '../../assets/images/bg-houses.jpg';
 import './quoteComponent.scss';
 
 export default function BlockQuote() {
@@ -10,6 +11,7 @@ export default function BlockQuote() {
         threshold: 1,
     });
     const [viewed, setViewed] = useState(false);
+    const [scroll, scrollTo] = useWindowScroll();
 
     useEffect(() => {
         if (viewed === false && entry?.isIntersecting) {
@@ -22,22 +24,36 @@ export default function BlockQuote() {
             style={{
                 width: '100%',
                 height: '230px',
-                backgroundColor: '#33404c',
-                padding: '50px 0 50px 0',
+                padding: '0 10px 0 10px',
+                marginTop: '30px',
             }}
             ref={ref}
         >
-            {viewed && (
-                <Blockquote
-                    color="indigo"
-                    cite="-Sovanna Bun"
-                    className="block-quote"
-                >
-                    Best service I've received!!! Very professional and
-                    courteous, would absolutely recommend to my family and
-                    friends!
-                </Blockquote>
-            )}
+            <>
+                <div
+                    style={{
+                        width: '100%',
+                        height: '250px',
+                        zIndex: '-1',
+                        backgroundImage: `url(${background})`,
+                        backgroundPositionY: `${scroll.y / 40}%`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        filter: 'blur(4px)',
+                    }}
+                />
+                {viewed && (
+                    <Blockquote
+                        color="indigo"
+                        cite="-Sovanna Bun"
+                        className="block-quote"
+                    >
+                        Best service I've received!!! Very professional and
+                        courteous, would absolutely recommend to my family and
+                        friends!
+                    </Blockquote>
+                )}
+            </>
         </Center>
     );
 }

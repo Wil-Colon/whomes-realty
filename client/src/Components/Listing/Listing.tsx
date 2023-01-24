@@ -49,9 +49,12 @@ export default function Listing({ list }) {
         <Grid.Col
             sm={4}
             xs={4}
-            style={{ maxWidth: '335px', minWidth: '283px' }}
+            style={{
+                maxWidth: '335px',
+                minWidth: '283px',
+            }}
         >
-            <Card shadow="sm" p="lg" radius="md" withBorder>
+            <Card shadow="md" p="lg" radius="md" withBorder>
                 <Card.Section>
                     <Carousel
                         sx={{ maxWidth: 320 }}
@@ -113,7 +116,7 @@ export default function Listing({ list }) {
                     </Badge>
                 </Group>
 
-                <Text weight={700} color={'blue'}>
+                <Text align="center" weight={700} color={'blue'}>
                     {list?.address}
                     <br />
                     {list?.city}, {list?.state} {list?.zipcode}

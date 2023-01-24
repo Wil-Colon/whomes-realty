@@ -29,7 +29,10 @@ export default function FeatureListings() {
                 {isFetching ? (
                     <Loader />
                 ) : (
-                    list?.map((list) => <Listing key={list._id} list={list} />)
+                    list?.map(
+                        (list, i) =>
+                            i < 4 && <Listing key={list._id} list={list} />
+                    )
                 )}
             </Grid>
         </div>

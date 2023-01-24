@@ -1,3 +1,23 @@
+@keyframes border {
+    0% {
+        border-radius: 0px;
+    }
+    100% {
+        border-radius: 0px 0px 0px 80px;
+    }
+}
+
+#home {
+    border-radius: 0px 0px 0px 80px;
+    animation: border 2s;
+    animation-iteration-count: 1;
+}
+
+.slick-slider {
+    animation: border 2s;
+    animation-iteration-count: 1;
+    border-radius: 0px 0px 0px 80px;
+}
 .slick-list {
     width: 100%;
     min-width: 1800px;

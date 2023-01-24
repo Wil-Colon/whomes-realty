@@ -1,4 +1,4 @@
-import { Center, Text, Grid, Card, Button } from '@mantine/core';
+import { Center, Text, Grid, Card, Button, Container } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import StaffBioModal from '../StaffBioModal/StaffBioModal';
@@ -20,7 +20,7 @@ export default function Staff() {
     //OVERLAY DIV
 
     return (
-        <div>
+        <>
             <StaffBioModal
                 open={open}
                 onClose={() => setOpened(false)}
@@ -36,8 +36,11 @@ export default function Staff() {
                 style={{
                     width: '100%',
                     height: 'auto',
-                    backgroundColor: '#33404c',
+                    // backgroundColor: '#33404c',
+
                     padding: '20px 10px 40px 10px',
+                    borderRadius: '20px',
+                    marginBottom: '20px',
                 }}
             >
                 <Center>
@@ -216,6 +219,6 @@ export default function Staff() {
                     </Grid.Col>
                 </Grid>
             </div>
-        </div>
+        </>
     );
 }

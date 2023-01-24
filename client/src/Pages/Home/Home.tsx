@@ -1,6 +1,6 @@
 import FeatureListings from '../../Components/FeatureListings/FeatureListings';
-import HeaderSimple from '../../Components/Header/Header';
-import HeroTextOverlay from '../../Components/Hero/HeroTextOverlay';
+import Header from '../../Components/Header/Header';
+import Hero from '../../Components/Hero/Hero';
 import BlockQuote from '../../Components/BlockQuote/BlockQuote';
 import Staff from '../../Components/Staff/Staff/Staff';
 import Footer from '../../Components/Footer/Footer';
@@ -24,10 +24,10 @@ export default function Home() {
 
     return (
         <>
-            <HeaderSimple links={links} />
-            <HeroTextOverlay />
-            <BlockQuote />
+            <Header links={links} />
+            <Hero />
             <FeatureListings />
+            <BlockQuote />
             <Staff />
             <ContactUs />
             <Footer links={links} />
