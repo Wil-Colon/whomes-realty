@@ -3,10 +3,12 @@ import { getListings } from '../../context/ListingContext/apiCalls';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
 import { useContext, useEffect, useState } from 'react';
 import Listing from '../Listing/Listing';
+import { useMediaQuery } from '@mantine/hooks';
 
 export default function FeatureListings() {
     const { dispatch, isFetching } = useContext(ListingContext);
     const [list, setList] = useState() as any;
+    const isMobile = useMediaQuery('(min-width: 480px)');
 
     useEffect(() => {
         const getList = async () => {
@@ -27,11 +29,21 @@ export default function FeatureListings() {
             </Text>
             <Grid justify="center">
                 {isFetching ? (
-                    <Loader />
+                    <div
+                        style={
+                            !isMobile
+                                ? { minHeight: '1000px' }
+                                : { minHeight: '1500px' }
+                        }
+                    >
+                        <Loader />
+                    </div>
                 ) : (
                     list?.map(
                         (list, i) =>
-                            i < 4 && <Listing key={list._id} list={list} />
+                            i < 4 && (
+                                <Listing key={list._id} list={list} index={i} />
+                            )
                     )
                 )}
             </Grid>

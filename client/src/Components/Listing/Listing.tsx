@@ -9,7 +9,10 @@ import {
     Group,
     Center,
     createStyles,
+    Transition,
 } from '@mantine/core';
+import { useIntersection } from '@mantine/hooks';
+import { useRef, useState, useEffect } from 'react';
 import { Carousel } from '@mantine/carousel';
 import { IconBath, IconBed, IconDimensions } from '@tabler/icons';
 
@@ -43,8 +46,24 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     },
 }));
 
-export default function Listing({ list }) {
+export default function Listing({ list, index }) {
+    const containerRef = useRef();
+    const { ref, entry } = useIntersection({
+        root: containerRef.current,
+        threshold: 0.3,
+    });
+    const [viewed, setViewed] = useState(false);
+
     const { classes } = useStyles();
+
+    useEffect(() => {
+        if (viewed === false && entry?.isIntersecting) {
+            setTimeout(() => {
+                setViewed(true);
+            }, index * 100);
+        }
+    }, [entry?.isIntersecting, viewed]);
+
     return (
         <Grid.Col
             sm={4}
@@ -53,98 +72,109 @@ export default function Listing({ list }) {
                 maxWidth: '335px',
                 minWidth: '283px',
             }}
+            ref={ref}
         >
-            <Card shadow="md" p="lg" radius="md" withBorder>
-                <Card.Section>
-                    <Carousel
-                        sx={{ maxWidth: 320 }}
-                        mx="auto"
-                        withIndicators
-                        loop
-                        withControls={list.image.length === 0 ? false : true}
-                        classNames={{
-                            root: classes.carousel,
-                            controls: classes.carouselControls,
-                            indicator: classes.carouselIndicator,
-                        }}
-                    >
-                        {list?.image.length > 0 ? (
-                            list?.image?.map((img, i) => (
-                                <Carousel.Slide key={i}>
-                                    <Image
-                                        src={img}
-                                        height={220}
-                                        alt="home picture"
-                                    />
-                                </Carousel.Slide>
-                            ))
-                        ) : (
-                            <Center
-                                style={{
-                                    backgroundColor: 'grey',
-                                    width: '100%',
-                                    height: '220px',
-                                    position: 'relative',
-                                    color: 'white',
-                                    fontSize: '30px',
-                                    fontFamily: 'Andale Mono',
+            {viewed ? (
+                <div className="card">
+                    <Card shadow="md" p="lg" radius="md" withBorder>
+                        <Card.Section>
+                            <Carousel
+                                sx={{ maxWidth: 320 }}
+                                mx="auto"
+                                withIndicators
+                                loop
+                                withControls={
+                                    list.image.length === 0 ? false : true
+                                }
+                                classNames={{
+                                    root: classes.carousel,
+                                    controls: classes.carouselControls,
+                                    indicator: classes.carouselIndicator,
                                 }}
                             >
-                                No Preview
-                            </Center>
-                        )}
-                    </Carousel>
-                </Card.Section>
+                                {list?.image.length > 0 ? (
+                                    list?.image?.map((img, i) => (
+                                        <Carousel.Slide key={i}>
+                                            <Image
+                                                src={img}
+                                                height={220}
+                                                alt="home picture"
+                                            />
+                                        </Carousel.Slide>
+                                    ))
+                                ) : (
+                                    <Center
+                                        style={{
+                                            backgroundColor: 'grey',
+                                            width: '100%',
+                                            height: '220px',
+                                            position: 'relative',
+                                            color: 'white',
+                                            fontSize: '30px',
+                                            fontFamily: 'Andale Mono',
+                                        }}
+                                    >
+                                        No Preview
+                                    </Center>
+                                )}
+                            </Carousel>
+                        </Card.Section>
 
-                <Group position="apart" mt="md" mb="xs">
-                    <Text
-                        style={{ textDecoration: 'underline' }}
-                        color={'darkgreen'}
-                        weight={700}
-                    >
-                        ${list?.price}
-                    </Text>
-                    <Badge
-                        color="pink"
-                        variant="gradient"
-                        gradient={{
-                            from: 'indigo',
-                            to: 'blue',
-                        }}
-                    >
-                        {list?.status}
-                    </Badge>
-                </Group>
+                        <Group position="apart" mt="md" mb="xs">
+                            <Text
+                                style={{ textDecoration: 'underline' }}
+                                color={'darkgreen'}
+                                weight={700}
+                            >
+                                ${list?.price}
+                            </Text>
+                            <Badge
+                                color="pink"
+                                variant="gradient"
+                                gradient={{
+                                    from: 'indigo',
+                                    to: 'blue',
+                                }}
+                            >
+                                {list?.status}
+                            </Badge>
+                        </Group>
 
-                <Text align="center" weight={700} color={'blue'}>
-                    {list?.address}
-                    <br />
-                    {list?.city}, {list?.state} {list?.zipcode}
-                </Text>
-                <Group spacing="lg" sx={{ marginTop: '10px' }}>
-                    <IconBed size={'20px'} />
-                    <span style={{ marginLeft: '-15px' }}>
-                        {list?.bedRooms}bd{' '}
-                    </span>
-                    <IconBath size={'20px'} />
-                    <span style={{ marginLeft: '-15px' }}>{list?.baths}ba</span>
-                    <IconDimensions size={'20px'} />
-                    <span style={{ marginLeft: '-15px' }}>
-                        {list?.squareFootage}ft
-                    </span>
-                    <sup style={{ marginLeft: '-15px' }}>2</sup>{' '}
-                </Group>
+                        <Text align="center" weight={700} color={'blue'}>
+                            {list?.address}
+                            <br />
+                            {list?.city}, {list?.state} {list?.zipcode}
+                        </Text>
+                        <Group spacing="lg" sx={{ marginTop: '10px' }}>
+                            <IconBed size={'20px'} />
+                            <span style={{ marginLeft: '-15px' }}>
+                                {list?.bedRooms}bd{' '}
+                            </span>
+                            <IconBath size={'20px'} />
+                            <span style={{ marginLeft: '-15px' }}>
+                                {list?.baths}ba
+                            </span>
+                            <IconDimensions size={'20px'} />
+                            <span style={{ marginLeft: '-15px' }}>
+                                {list?.squareFootage}ft
+                            </span>
+                            <sup style={{ marginLeft: '-15px' }}>2</sup>{' '}
+                        </Group>
 
-                <Button
-                    variant="light"
-                    color="blue"
-                    fullWidth
-                    mt="md"
-                    radius="md"
-                >
-                    More Info
-                </Button>
-            </Card>
+                        <Button
+                            variant="light"
+                            color="blue"
+                            fullWidth
+                            mt="md"
+                            radius="md"
+                        >
+                            More Info
+                        </Button>
+                    </Card>
+                </div>
+            ) : (
+                <div style={{ minHeight: '400px' }}></div>
+            )}
         </Grid.Col>
     );
 }
