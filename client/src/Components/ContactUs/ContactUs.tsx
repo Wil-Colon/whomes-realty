@@ -7,15 +7,12 @@ import {
     Textarea,
     Button,
     Group,
-    ActionIcon,
     Container,
 } from '@mantine/core';
-import {
-    IconBrandTwitter,
-    IconBrandYoutube,
-    IconBrandInstagram,
-} from '@tabler/icons';
-// import { ContactIconsList } from '../ContactIcons/ContactIcons';
+import { useForm } from '@mantine/form';
+import { useState } from 'react';
+import { newMessage } from '../../context/MessagesContext/apiCalls';
+import { ContactIconsList } from '../ContactIcons/ContactIcons';
 
 const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -79,24 +76,33 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-const social = [IconBrandTwitter, IconBrandYoutube, IconBrandInstagram];
-
 export default function ContactUs() {
     const { classes } = useStyles();
+    const [submitted, setSubmitted] = useState(false);
 
-    const icons = social.map((Icon, index) => (
-        <ActionIcon
-            key={index}
-            size={28}
-            className={classes.social}
-            variant="transparent"
-        >
-            <Icon size={22} stroke={1.5} />
-        </ActionIcon>
-    ));
+    const form = useForm({
+        initialValues: {
+            email: '',
+            name: '',
+            message: '',
+            phoneNumber: '',
+        },
+
+        validate: {
+            email: (value) =>
+                /^\S+@\S+$/.test(value) ? null : 'Invalid email',
+            name: (value) =>
+                /\d/.test(value) === true
+                    ? 'City should contain no numbers.'
+                    : value.length < 2
+                    ? 'Invalid name'
+                    : null,
+            message: (value) => value.length < 5 && 'Invalid message',
+        },
+    });
 
     return (
-        <Container size={1500}>
+        <Container size={1900}>
             <div className={classes.wrapper}>
                 <SimpleGrid
                     cols={2}
@@ -106,51 +112,78 @@ export default function ContactUs() {
                     <div>
                         <Title className={classes.title}>Contact us</Title>
                         <Text className={classes.description} mt="sm" mb={30}>
-                            Leave your email and we will get back to you within
-                            24 hours
+                            Leave your email and we will get back to you as soon
+                            as possible.
                         </Text>
 
-                        {/* <ContactIconsList variant="white" /> */}
-
-                        <Group mt="xl">{icons}</Group>
+                        <ContactIconsList variant="white" />
                     </div>
-                    <div className={classes.form}>
-                        <TextInput
-                            label="Email"
-                            placeholder="your@email.com"
-                            required
-                            classNames={{
-                                input: classes.input,
-                                label: classes.inputLabel,
-                            }}
-                        />
-                        <TextInput
-                            label="Name"
-                            placeholder="John Doe"
-                            mt="md"
-                            classNames={{
-                                input: classes.input,
-                                label: classes.inputLabel,
-                            }}
-                        />
-                        <Textarea
-                            required
-                            label="Your message"
-                            placeholder="I want to order your goods"
-                            minRows={4}
-                            mt="md"
-                            classNames={{
-                                input: classes.input,
-                                label: classes.inputLabel,
-                            }}
-                        />
 
-                        <Group position="right" mt="md">
-                            <Button className={classes.control}>
-                                Send message
-                            </Button>
-                        </Group>
-                    </div>
+                    <form
+                        onSubmit={form.onSubmit((values) => newMessage(values))}
+                    >
+                        <div className={classes.form}>
+                            <TextInput
+                                withAsterisk
+                                name="email"
+                                label="Email"
+                                placeholder="your@email.com"
+                                classNames={{
+                                    input: classes.input,
+                                    label: classes.inputLabel,
+                                }}
+                                {...form.getInputProps('email')}
+                            />
+                            <TextInput
+                                withAsterisk
+                                label="Name"
+                                placeholder="John Doe"
+                                mt="md"
+                                classNames={{
+                                    input: classes.input,
+                                    label: classes.inputLabel,
+                                }}
+                                {...form.getInputProps('name')}
+                            />
+                            <TextInput
+                                name="phone"
+                                label="Phone Number"
+                                placeholder="Phone Number"
+                                mt="md"
+                                classNames={{
+                                    input: classes.input,
+                                    label: classes.inputLabel,
+                                }}
+                                {...form.getInputProps('phoneNumber')}
+                            />
+                            <Textarea
+                                withAsterisk
+                                name="message"
+                                label="Your message"
+                                placeholder=""
+                                minRows={4}
+                                mt="md"
+                                classNames={{
+                                    input: classes.input,
+                                    label: classes.inputLabel,
+                                }}
+                                {...form.getInputProps('message')}
+                            />
+                            <Group position="right" mt="md">
+                                <Button
+                                    type="submit"
+                                    className={classes.control}
+                                    onClick={() =>
+                                        form.validate().hasErrors === false &&
+                                        setSubmitted(true)
+                                    }
+                                    disabled={submitted}
+                                >
+                                    {!submitted ? 'Send Message' : 'Sent!'}
+                                </Button>
+                            </Group>
+                        </div>
+                    </form>
                 </SimpleGrid>
             </div>
         </Container>

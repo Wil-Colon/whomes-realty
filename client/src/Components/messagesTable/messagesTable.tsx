@@ -127,7 +127,7 @@ export default function MessagesTable() {
                                 openMessageDetails(message, true);
                             }}
                         >
-                            {`${message?.firstName} ${message?.lastName}`}
+                            {`${message?.name}`}
                         </Text>
                     </Group>
                 </td>

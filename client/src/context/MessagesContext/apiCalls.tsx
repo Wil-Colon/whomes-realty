@@ -101,3 +101,15 @@ export const markMultipleRead = async (dispatch, id, read) => {
         return err;
     }
 };
+
+export const newMessage = async (body) => {
+    try {
+        await axios.post(
+            `http://localhost:5000/api/messages/newMessage/`,
+            body
+        );
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+};

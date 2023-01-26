@@ -1,3 +1,4 @@
+import './messageDetailsModal.scss';
 import {
     Drawer,
     createStyles,
@@ -54,6 +55,8 @@ export default function MessageDetailsModal({
     useEffect(() => {
         setCurrentMessage(message);
     }, [message, dispatch]);
+
+    console.log(currentMessage);
 
     return (
         <Drawer
@@ -135,17 +138,20 @@ export default function MessageDetailsModal({
                 <Paper withBorder radius="md" className={classes.comment}>
                     <Group>
                         <div>
-                            <Text size="sm">
-                                {`${message.firstName} ${message.lastName}`}{' '}
-                                <small style={{ color: 'grey' }}>
-                                    <a href={`mailto:<${message.email}>`}>
-                                        {message.email}
-                                    </a>
-                                </small>
-                            </Text>
-
                             <Text size="xs" color="dimmed">
                                 {date}
+                            </Text>
+                            <Text size="sm">{`${currentMessage.name}`} </Text>
+
+                            <Text>
+                                <a href={`mailto:<${currentMessage.email}>`}>
+                                    {currentMessage.email}
+                                </a>
+                            </Text>
+                            <Text>
+                                <a href={`tel:<${currentMessage.phoneNumber}>`}>
+                                    {currentMessage.phoneNumber}
+                                </a>
                             </Text>
                         </div>
                     </Group>

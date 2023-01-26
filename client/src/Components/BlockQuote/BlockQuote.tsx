@@ -1,5 +1,9 @@
 import { Blockquote, Center } from '@mantine/core';
-import { useIntersection, useWindowScroll } from '@mantine/hooks';
+import {
+    useIntersection,
+    useMediaQuery,
+    useWindowScroll,
+} from '@mantine/hooks';
 import { useRef, useState, useEffect } from 'react';
 import background from '../../assets/images/bg-houses.jpg';
 import './quoteComponent.scss';
@@ -12,6 +16,7 @@ export default function BlockQuote() {
     });
     const [viewed, setViewed] = useState(false);
     const [scroll, scrollTo] = useWindowScroll();
+    const isMobile = useMediaQuery('(min-width: 480px)');
 
     useEffect(() => {
         if (viewed === false && entry?.isIntersecting) {
@@ -36,10 +41,13 @@ export default function BlockQuote() {
                         height: '250px',
                         zIndex: '-1',
                         backgroundImage: `url(${background})`,
-                        backgroundPositionY: `${scroll.y / 40}%`,
+                        WebkitBackgroundSize: '600px',
+                        backgroundPositionY: isMobile
+                            ? `${scroll.y / 40}%`
+                            : `${scroll.y / 40}%`,
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'cover',
-                        filter: 'blur(4px)',
+                        filter: 'blur(2px)',
                     }}
                 />
                 {viewed && (
