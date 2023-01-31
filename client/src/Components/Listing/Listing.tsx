@@ -66,11 +66,12 @@ export default function Listing({ list, index }) {
 
     return (
         <Grid.Col
-            sm={4}
-            xs={4}
+            lg={4}
+            md={4}
+            sm={6}
             style={{
                 maxWidth: '335px',
-                minWidth: '283px',
+                // minWidth: '283px',
             }}
             ref={ref}
         >
@@ -145,7 +146,11 @@ export default function Listing({ list, index }) {
                             <br />
                             {list?.city}, {list?.state} {list?.zipcode}
                         </Text>
-                        <Group spacing="lg" sx={{ marginTop: '10px' }}>
+                        <Group
+                            spacing="lg"
+                            position="center"
+                            sx={{ marginTop: '10px' }}
+                        >
                             <IconBed size={'20px'} />
                             <span style={{ marginLeft: '-15px' }}>
                                 {list?.bedRooms}bd{' '}

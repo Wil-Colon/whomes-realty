@@ -138,17 +138,18 @@ export default function MessageDetailsModal({
                 <Paper withBorder radius="md" className={classes.comment}>
                     <Group>
                         <div>
-                            <Text size="xs" color="dimmed">
+                            <Text className="date-text" size="xs">
                                 {date}
                             </Text>
-                            <Text size="sm">{`${currentMessage.name}`} </Text>
-
                             <Text>
-                                <a href={`mailto:<${currentMessage.email}>`}>
-                                    {currentMessage.email}
+                                {`${currentMessage.name}`}
+                                {''}
+                                <a href={`mailto:${currentMessage.email}`}>
+                                    {`<${currentMessage.email}>`}
                                 </a>
+                                {''}
                             </Text>
-                            <Text>
+                            <Text color="black">
                                 <a href={`tel:<${currentMessage.phoneNumber}>`}>
                                     {currentMessage.phoneNumber}
                                 </a>

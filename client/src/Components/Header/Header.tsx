@@ -58,10 +58,7 @@ const useStyles = createStyles((theme) => ({
     linkActive: {
         '&, &:hover': {
             textDecoration: 'underline 0.13em',
-            backgroundColor: theme.fn.variant({
-                variant: 'light',
-                color: theme.primaryColor,
-            }).background,
+            backgroundColor: '#4c6ef5 ',
             color: '#084275',
         },
     },
@@ -158,7 +155,14 @@ export default function HeaderSimple({ links }: HeaderSimpleProps) {
                 })}
             >
                 {items}
-                <Link className="admin-link" to="/admin/login">
+                <Link
+                    style={{
+                        position: 'absolute',
+                        bottom: '10px',
+                        right: '10px',
+                    }}
+                    to="/admin/login"
+                >
                     login
                 </Link>
             </Drawer>

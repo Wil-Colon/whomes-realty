@@ -1,4 +1,4 @@
-import { Grid, Loader, Text } from '@mantine/core';
+import { Center, Container, Grid, Loader, Text } from '@mantine/core';
 import { getListings } from '../../context/ListingContext/apiCalls';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
 import { useContext, useEffect, useState } from 'react';
@@ -8,7 +8,8 @@ import { useMediaQuery } from '@mantine/hooks';
 export default function FeatureListings() {
     const { dispatch, isFetching } = useContext(ListingContext);
     const [list, setList] = useState() as any;
-    const isMobile = useMediaQuery('(min-width: 480px)');
+    const isMobile = useMediaQuery('(max-width: 992px)');
+    let listSize = isMobile ? 4 : 6;
 
     useEffect(() => {
         const getList = async () => {
@@ -23,11 +24,12 @@ export default function FeatureListings() {
     }, [dispatch]);
 
     return (
-        <div id="listings" style={{ padding: '20px 10px 40px 10px' }}>
+        <Container id="listings" size={isMobile ? 800 : 1200} px={50}>
             <Text sx={{ fontSize: '30px', textAlign: 'center' }}>
                 FEATURE LISTINGS
             </Text>
-            <Grid justify="center">
+
+            <Grid justify={isMobile ? 'center' : 'space-between'}>
                 {isFetching ? (
                     <div
                         style={
@@ -41,12 +43,12 @@ export default function FeatureListings() {
                 ) : (
                     list?.map(
                         (list, i) =>
-                            i < 4 && (
+                            i < listSize && (
                                 <Listing key={list._id} list={list} index={i} />
                             )
                     )
                 )}
             </Grid>
-        </div>
+        </Container>
     );
 }

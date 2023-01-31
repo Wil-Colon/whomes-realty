@@ -34,34 +34,32 @@ export default function BlockQuote() {
             }}
             ref={ref}
         >
-            <>
-                <div
-                    style={{
-                        width: '100%',
-                        height: '250px',
-                        zIndex: '-1',
-                        backgroundImage: `url(${background})`,
-                        WebkitBackgroundSize: '600px',
-                        backgroundPositionY: isMobile
-                            ? `${scroll.y / 40}%`
-                            : `${scroll.y / 40}%`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'cover',
-                        filter: 'blur(2px)',
-                    }}
-                />
-                {viewed && (
-                    <Blockquote
-                        color="indigo"
-                        cite="-Sovanna Bun"
-                        className="block-quote"
-                    >
-                        Best service I've received!!! Very professional and
-                        courteous, would absolutely recommend to my family and
-                        friends!
-                    </Blockquote>
-                )}
-            </>
+            <div
+                style={{
+                    width: '100%',
+                    height: '250px',
+                    zIndex: '-1',
+                    backgroundImage: `url(${background})`,
+                    WebkitBackgroundSize: '600px',
+                    backgroundPositionY: isMobile
+                        ? `${scroll.y / 40}%`
+                        : `${scroll.y / 40}%`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    filter: 'blur(2px)',
+                }}
+            />
+            {viewed && (
+                <Blockquote
+                    color="indigo"
+                    cite="-Sovanna Bun"
+                    className="block-quote"
+                >
+                    Best service I've received!!! Very professional and
+                    courteous, would absolutely recommend to my family and
+                    friends!
+                </Blockquote>
+            )}
         </Center>
     );
 }

@@ -1,7 +1,12 @@
-a {
-    color: black;
+a:link {
+    color: #848484;
     font-size: small;
     &:hover {
         text-decoration: underline;
     }
+}
+
+.date-text {
+    color: '#003588';
+    text-decoration: underline;
 }

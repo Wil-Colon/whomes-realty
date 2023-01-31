@@ -5,6 +5,7 @@ import BlockQuote from '../../Components/BlockQuote/BlockQuote';
 import Staff from '../../Components/Staff/Staff/Staff';
 import Footer from '../../Components/Footer/Footer';
 import ContactUs from '../../Components/ContactUs/ContactUs';
+import Staff2 from '../../Components/Staff2/Staff2';
 
 export default function Home() {
     const links = [
@@ -28,7 +29,8 @@ export default function Home() {
             <Hero />
             <FeatureListings />
             <BlockQuote />
-            <Staff />
+            {<Staff2 />}
+            {/* <Staff /> */}
             <ContactUs />
             <Footer links={links} />
         </>
