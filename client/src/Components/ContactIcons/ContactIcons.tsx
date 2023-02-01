@@ -93,7 +93,7 @@ const MOCKDATA = [
     {
         title: 'Email',
         description: (
-            <a href="mailto: wendygarcia72@yahoo.com">
+            <a className="contact-links" href="mailto: wendygarcia72@yahoo.com">
                 wendygarcia72@yahoo.com
             </a>
         ),
@@ -101,13 +101,18 @@ const MOCKDATA = [
     },
     {
         title: 'Phone',
-        description: <a href="tel: (401) 286-1442">(401) 286-1442</a>,
+        description: (
+            <a className="contact-links" href="tel: (401) 286-1442">
+                (401) 286-1442
+            </a>
+        ),
         icon: IconPhone,
     },
     {
         title: 'Address',
         description: (
             <a
+                className="contact-links"
                 target="_blank"
                 rel="noopener noreferrer"
                 href="http://maps.google.com/?q=989 Reservoir Ave., Cranston, RI, United States, Rhode Island"

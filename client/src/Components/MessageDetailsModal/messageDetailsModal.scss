@@ -1,6 +1,7 @@
-a:link {
+.contactInfo a:link {
     color: #848484;
     font-size: small;
+    text-decoration: none;
     &:hover {
         text-decoration: underline;
     }

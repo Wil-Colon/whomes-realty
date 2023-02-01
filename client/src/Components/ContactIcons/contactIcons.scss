@@ -1,16 +1,7 @@
-a {
-    color: white !important;
-
-    text-decoration: none;
-}
-
-a:visited {
+.contact-links {
     color: white;
-    text-decoration: underline;
-}
-
-a:link {
-    color: white;
-    font-size: medium !important;
     text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
 }

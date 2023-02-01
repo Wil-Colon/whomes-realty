@@ -1,4 +1,4 @@
-import { Center, Container, Grid, Loader, Text } from '@mantine/core';
+import { Container, Grid, Loader, Text } from '@mantine/core';
 import { getListings } from '../../context/ListingContext/apiCalls';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
 import { useContext, useEffect, useState } from 'react';
@@ -24,7 +24,7 @@ export default function FeatureListings() {
     }, [dispatch]);
 
     return (
-        <Container id="listings" size={isMobile ? 800 : 1200} px={50}>
+        <Container id="listings" size={isMobile ? 800 : 1200}>
             <Text sx={{ fontSize: '30px', textAlign: 'center' }}>
                 FEATURE LISTINGS
             </Text>

@@ -137,23 +137,24 @@ export default function MessageDetailsModal({
                 </Group>
                 <Paper withBorder radius="md" className={classes.comment}>
                     <Group>
-                        <div>
+                        <div className="contactInfo">
                             <Text className="date-text" size="xs">
                                 {date}
                             </Text>
                             <Text>
                                 {`${currentMessage.name}`}
-                                {''}
+                                {'  '}
                                 <a href={`mailto:${currentMessage.email}`}>
                                     {`<${currentMessage.email}>`}
                                 </a>
-                                {''}
-                            </Text>
-                            <Text color="black">
+                                {'  '}
                                 <a href={`tel:<${currentMessage.phoneNumber}>`}>
                                     {currentMessage.phoneNumber}
                                 </a>
                             </Text>
+                            {/* <Text color="black">
+                               
+                            </Text> */}
                         </div>
                     </Group>
                     <TypographyStylesProvider className={classes.body}>

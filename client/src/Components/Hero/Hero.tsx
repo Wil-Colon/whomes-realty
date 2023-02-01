@@ -102,6 +102,7 @@ export default function Hero() {
         <AspectRatio
             ratio={!isMobile ? 6 / 9 : 6 / 2.6}
             sx={!isMobile ? { minHeight: '650px' } : { minHeight: '800px' }}
+            style={{ marginBottom: '20px' }}
         >
             <HeroVideoSlider />
             <div id="home" className={classes.wrapper}>

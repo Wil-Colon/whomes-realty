@@ -15,7 +15,7 @@ export default function BlockQuote() {
         threshold: 1,
     });
     const [viewed, setViewed] = useState(false);
-    const [scroll, scrollTo] = useWindowScroll();
+    const [scroll] = useWindowScroll();
     const isMobile = useMediaQuery('(min-width: 480px)');
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export default function BlockQuote() {
                 width: '100%',
                 height: '230px',
                 padding: '0 10px 0 10px',
-                marginTop: '30px',
+                marginTop: '50px',
             }}
             ref={ref}
         >
