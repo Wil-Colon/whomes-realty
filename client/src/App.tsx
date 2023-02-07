@@ -3,12 +3,7 @@ import {
     ColorSchemeProvider,
     ColorScheme,
 } from '@mantine/core';
-import {
-    BrowserRouter as Router,
-    Route,
-    Routes,
-    useLocation,
-} from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Admin/Pages/Login/Login';
@@ -24,6 +19,9 @@ function App() {
     const toggleColorScheme = (value?: ColorScheme) =>
         setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
+    const location = useLocation();
+    const background = location.state && location.state.background;
+
     return (
         <ColorSchemeProvider
             colorScheme={colorScheme}
@@ -34,31 +32,34 @@ function App() {
                 withGlobalStyles
                 withNormalizeCSS
             >
-                <Router>
-                    <Routes>
-                        <Route path="/home" element={<Home />}>
-                            <Route
-                                path="/home/listing/:id"
-                                element={<ListingDetailsModal />}
-                            />
-                        </Route>
-                        <Route path="*" element={<PageNotFound />} />
+                <Routes location={background || location}>
+                    <Route path="/" element={<Home />}>
+                        <Route
+                            path="/listing/:id"
+                            element={<ListingDetailsModal />}
+                        />
+                    </Route>
+                    <Route path="*" element={<PageNotFound />} />
 
-                        {/* admin paths */}
-                        <Route path="/admin/login" element={<Login />} />
-                        <Route path="/admin" element={<PrivateRoute />}>
-                            <Route path="/admin" element={<AdminHome />} />
-                            <Route
-                                path="/admin/createlisting"
-                                element={<CreateListing />}
-                            />
-                            <Route
-                                path="/admin/messages"
-                                element={<Messages />}
-                            />
-                        </Route>
+                    {/* admin paths */}
+                    <Route path="/admin/login" element={<Login />} />
+                    <Route path="/admin" element={<PrivateRoute />}>
+                        <Route path="/admin" element={<AdminHome />} />
+                        <Route
+                            path="/admin/createlisting"
+                            element={<CreateListing />}
+                        />
+                        <Route path="/admin/messages" element={<Messages />} />
+                    </Route>
+                </Routes>
+                {background && (
+                    <Routes>
+                        <Route
+                            path="/listing/:id"
+                            element={<ListingDetailsModal />}
+                        />
                     </Routes>
-                </Router>
+                )}
             </MantineProvider>
         </ColorSchemeProvider>
     );

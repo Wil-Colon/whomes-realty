@@ -7,6 +7,7 @@ import { AuthContextProvider } from './context/AuthContext/AuthContext';
 import { MessagesContextProvider } from './context/MessagesContext/MessageContext';
 import { ListingContextProvider } from './context/ListingContext/ListingContext';
 import { NotificationsProvider } from '@mantine/notifications';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -17,7 +18,9 @@ root.render(
             <MessagesContextProvider>
                 <ListingContextProvider>
                     <NotificationsProvider>
-                        <App />
+                        <Router>
+                            <App />
+                        </Router>
                     </NotificationsProvider>
                 </ListingContextProvider>
             </MessagesContextProvider>

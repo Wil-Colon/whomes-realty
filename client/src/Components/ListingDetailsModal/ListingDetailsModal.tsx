@@ -1,9 +1,11 @@
 import { useDisclosure, useCounter } from '@mantine/hooks';
 import { Modal, Button, Group, Text, Badge } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 export default function ListingDetailsModal() {
     const [opened, { close, open }] = useDisclosure(false);
     const [count, { increment, decrement }] = useCounter(3, { min: 0 });
+    const navigate = useNavigate();
 
     const badges = Array(count)
         .fill(0)
@@ -12,8 +14,8 @@ export default function ListingDetailsModal() {
     return (
         <>
             <Modal
-                opened={opened}
-                onClose={close}
+                opened={true}
+                onClose={() => navigate(-1)}
                 size="auto"
                 title="Modal size auto"
             >

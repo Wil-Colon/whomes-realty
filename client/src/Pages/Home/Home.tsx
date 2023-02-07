@@ -6,6 +6,7 @@ import Staff from '../../Components/Staff/Staff/Staff';
 import Footer from '../../Components/Footer/Footer';
 import ContactUs from '../../Components/ContactUs/ContactUs';
 import Staff2 from '../../Components/Staff2/Staff2';
+import { Outlet } from 'react-router-dom';
 
 export default function Home() {
     const links = [
@@ -33,6 +34,7 @@ export default function Home() {
             {/* <Staff /> */}
             <ContactUs />
             <Footer links={links} />
+            <Outlet />
         </>
     );
 }
