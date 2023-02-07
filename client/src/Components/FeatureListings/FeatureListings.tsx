@@ -8,7 +8,7 @@ import { useMediaQuery } from '@mantine/hooks';
 export default function FeatureListings() {
     const { dispatch, isFetching } = useContext(ListingContext);
     const [list, setList] = useState() as any;
-    const isMobile = useMediaQuery('(max-width: 992px)');
+    const isMobile = useMediaQuery('(max-width: 769px)');
     let listSize = isMobile ? 4 : 6;
 
     useEffect(() => {

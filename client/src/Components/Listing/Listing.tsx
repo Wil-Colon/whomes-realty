@@ -9,12 +9,12 @@ import {
     Group,
     Center,
     createStyles,
-    Transition,
 } from '@mantine/core';
 import { useIntersection } from '@mantine/hooks';
 import { useRef, useState, useEffect } from 'react';
 import { Carousel } from '@mantine/carousel';
 import { IconBath, IconBed, IconDimensions } from '@tabler/icons';
+import { Link, useLocation, useNavigate, NavLink } from 'react-router-dom';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     price: {
@@ -47,6 +47,8 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 }));
 
 export default function Listing({ list, index }) {
+    const navigate = useNavigate();
+
     const containerRef = useRef();
     const { ref, entry } = useIntersection({
         root: containerRef.current,
@@ -172,6 +174,13 @@ export default function Listing({ list, index }) {
                             fullWidth
                             mt="md"
                             radius="md"
+                            onClick={() => {
+                                <Link
+                                    to={`/home/listing/${list._id}`}
+                                    state={{ background: location }}
+                                />;
+                                // navigate(`/home/listing/${list._id}`);
+                            }}
                         >
                             More Info
                         </Button>

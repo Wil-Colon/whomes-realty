@@ -71,7 +71,7 @@ const useStyles = createStyles((theme) => ({
 
 export default function Staff2() {
     const { classes } = useStyles();
-    const isMobile = useMediaQuery('(max-width: 770px)');
+    const isMobile = useMediaQuery('(max-width: 768px)');
     return (
         <Container id="realtors" size={1200} style={{ margin: '50px auto' }}>
             <div className={classes.wrapper}>

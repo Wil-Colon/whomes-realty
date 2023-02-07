@@ -3,7 +3,12 @@ import {
     ColorSchemeProvider,
     ColorScheme,
 } from '@mantine/core';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+    useLocation,
+} from 'react-router-dom';
 import { useState } from 'react';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Admin/Pages/Login/Login';
@@ -12,6 +17,7 @@ import CreateListing from './Pages/Admin/Pages/CreateListing/CreateListing';
 import AdminHome from './Pages/Admin/Pages/AdminHome/AdminHome';
 import Messages from './Pages/Admin/Pages/Messages/Messages';
 import PrivateRoute from './Components/routing/PrivateRoute';
+import ListingDetailsModal from './Components/ListingDetailsModal/ListingDetailsModal';
 
 function App() {
     const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
@@ -30,7 +36,12 @@ function App() {
             >
                 <Router>
                     <Routes>
-                        <Route path="/" element={<Home />} />
+                        <Route path="/home" element={<Home />}>
+                            <Route
+                                path="/home/listing/:id"
+                                element={<ListingDetailsModal />}
+                            />
+                        </Route>
                         <Route path="*" element={<PageNotFound />} />
 
                         {/* admin paths */}

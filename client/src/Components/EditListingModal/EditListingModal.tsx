@@ -547,7 +547,7 @@ export default function EditListingModal(
                         <MultiSelect
                             name="propertyType"
                             data={data}
-                            label="Propery Type"
+                            label="Property Type"
                             placeholder="Pick all that apply"
                             transition="scale-y"
                             transitionDuration={150}
