@@ -1,4 +1,9 @@
 .mantine-Modal-inner {
-    overflow-y: hidden;
+    // overflow-y: hidden;
     // top: auto;
+}
+
+.mantine-Modal-header {
+    background-color: aquamarine;
+    border-radius: 5px 5px 0px 0;
 }

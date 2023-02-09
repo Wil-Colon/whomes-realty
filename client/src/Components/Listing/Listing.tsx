@@ -48,17 +48,14 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 export default function Listing({ list, index }) {
     const location = useLocation();
-
     const navigate = useNavigate();
-
     const containerRef = useRef();
+    const [viewed, setViewed] = useState(false);
+    const { classes } = useStyles();
     const { ref, entry } = useIntersection({
         root: containerRef.current,
         threshold: 0.3,
     });
-    const [viewed, setViewed] = useState(false);
-
-    const { classes } = useStyles();
 
     useEffect(() => {
         if (viewed === false && entry?.isIntersecting) {
@@ -178,7 +175,10 @@ export default function Listing({ list, index }) {
                             radius="md"
                             onClick={() => {
                                 navigate(`/listing/${list._id}`, {
-                                    state: { background: location },
+                                    state: {
+                                        background: location,
+                                        listId: list._id,
+                                    },
                                 });
                             }}
                         >

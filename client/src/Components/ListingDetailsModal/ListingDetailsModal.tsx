@@ -1,5 +1,5 @@
 import './listingDetailsModal.scss';
-import { useCounter } from '@mantine/hooks';
+import { useCounter, useMediaQuery } from '@mantine/hooks';
 import {
     Modal,
     Button,
@@ -11,12 +11,45 @@ import {
     Paper,
     ThemeIcon,
     ScrollArea,
+    Image,
+    Center,
 } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { IconColorSwatch } from '@tabler/icons';
+import { Carousel } from '@mantine/carousel';
+import { getSingleListing } from '../../context/ListingContext/apiCalls';
+import { list } from 'firebase/storage';
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, _params, getRef) => ({
+    price: {
+        color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+    },
+
+    carousel: {
+        width: '95%',
+        '&:hover': {
+            [`& .${getRef('carouselControls')}`]: {
+                opacity: 1,
+            },
+        },
+    },
+
+    carouselControls: {
+        ref: getRef('carouselControls'),
+        transition: 'opacity 150ms ease',
+        opacity: 0,
+    },
+
+    carouselIndicator: {
+        width: 4,
+        height: 4,
+        transition: 'width 250ms ease',
+
+        '&[data-active]': {
+            width: 16,
+        },
+    },
     card: {
         position: 'relative',
         cursor: 'pointer',
@@ -56,6 +89,18 @@ export default function ListingDetailsModal() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const { classes } = useStyles();
+    const isMobile = useMediaQuery('(min-width: 580px)');
+    const location = useLocation();
+    const listId = location.state.listId;
+    const [currentImages, setCurrentImages] = useState() as any;
+
+    useEffect(() => {
+        const getListing = async () => {
+            const res = await getSingleListing(listId);
+            setCurrentImages(res.image);
+        };
+        getListing();
+    }, [listId]);
 
     useEffect(() => {
         const onPageLoad = () => {
@@ -76,163 +121,182 @@ export default function ListingDetailsModal() {
         .map((_, index) => <Badge key={index}>Badge {index}</Badge>);
 
     return (
-        <div style={{ overflow: 'none', height: 'auto' }}>
-            <Modal
-                opened={open}
-                onClose={() => navigate(-1)}
-                size="90%"
-                transition="fade"
-                transitionDuration={400}
-                transitionTimingFunction="ease"
-                style={{
-                    maxWidth: '1300px',
-                    height: '100vh',
-                    margin: 'auto',
-                }}
-            >
-                <Grid columns={24}>
-                    <Grid.Col span={14}>
-                        <Grid
-                            columns={24}
-                            grow
-                            gutter="xl"
-                            style={{ height: '80vh', overflowY: 'auto' }}
-                        >
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'yellow',
-                                    height: '400px',
-                                }}
-                                span={24}
-                            >
-                                1
+        <Modal
+            opened={open}
+            onClose={() => navigate(-1)}
+            transition="fade"
+            transitionDuration={400}
+            transitionTimingFunction="ease"
+            fullScreen={!isMobile ? true : false}
+            centered
+            size={'85vw'}
+            style={{
+                // width: '90vw',
+                margin: 'auto',
+                height: 'auto',
+            }}
+        >
+            <Grid columns={!isMobile ? 10 : 20}>
+                {isMobile ? (
+                    <Grid.Col
+                        span={10}
+                        style={{ overflowY: 'scroll', height: '75vh' }}
+                    >
+                        <Grid gutter="xs">
+                            <Grid.Col lg={12}>
+                                <Image
+                                    radius="md"
+                                    src="https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+                                    alt="Random unsplash image"
+                                />
                             </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'blue',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                2
+                            <Grid.Col xs={12} lg={6}>
+                                <Image
+                                    radius="md"
+                                    src="https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+                                    alt="Random unsplash image"
+                                />
                             </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'green',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                3
+                            <Grid.Col xs={12} lg={6}>
+                                <Image
+                                    radius="md"
+                                    src="https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+                                    alt="Random unsplash image"
+                                />
                             </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'red',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                4
+                            <Grid.Col xs={12} lg={6}>
+                                <Image
+                                    radius="md"
+                                    src="https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+                                    alt="Random unsplash image"
+                                />
                             </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'yellow',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                5
+                            <Grid.Col xs={12} lg={6}>
+                                <Image
+                                    radius="md"
+                                    src="https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+                                    alt="Random unsplash image"
+                                />
                             </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'yellow',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                5
-                            </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'yellow',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                5
-                            </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'yellow',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                5
-                            </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'yellow',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                5
-                            </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'yellow',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                5
-                            </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'yellow',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                5
-                            </Grid.Col>
-                            <Grid.Col
-                                style={{
-                                    backgroundColor: 'yellow',
-                                    height: '200px',
-                                }}
-                                span={12}
-                            >
-                                5
+                            <Grid.Col xs={12} lg={6}>
+                                <Image
+                                    radius="md"
+                                    src="https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+                                    alt="Random unsplash image"
+                                />
                             </Grid.Col>
                         </Grid>
                     </Grid.Col>
-                    <Grid.Col span={9}>
-                        <Paper withBorder radius="md" className={classes.card}>
-                            <ThemeIcon
-                                size="xl"
-                                radius="md"
-                                variant="gradient"
-                                gradient={{
-                                    deg: 0,
-                                    from: 'pink',
-                                    to: 'orange',
+                ) : (
+                    <Carousel
+                        height={200}
+                        align="start"
+                        mx="auto"
+                        withIndicators
+                        loop
+                        withControls={
+                            currentImages?.length === 0 ? false : true
+                        }
+                        classNames={{
+                            root: classes.carousel,
+                            controls: classes.carouselControls,
+                            indicator: classes.carouselIndicator,
+                        }}
+                    >
+                        {currentImages?.length > 0 ? (
+                            currentImages.map((img, i) => (
+                                <Carousel.Slide key={i}>
+                                    <Image
+                                        src={img}
+                                        height={220}
+                                        alt="home picture"
+                                    />
+                                </Carousel.Slide>
+                            ))
+                        ) : (
+                            <Center
+                                style={{
+                                    backgroundColor: 'grey',
+                                    width: '100%',
+                                    height: '220px',
+                                    position: 'relative',
+                                    color: 'white',
+                                    fontSize: '30px',
+                                    fontFamily: 'Andale Mono',
                                 }}
                             >
-                                <IconColorSwatch size={28} stroke={1.5} />
-                            </ThemeIcon>
-                            <Text size="xl" weight={500} mt="md">
-                                Just testing Title
-                            </Text>
-                            <Text size="sm" mt="sm" color="dimmed">
-                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                            </Text>
-                        </Paper>
-                    </Grid.Col>
-                </Grid>
-            </Modal>
-        </div>
+                                No Preview
+                            </Center>
+                        )}
+                    </Carousel>
+                )}
+
+                <Grid.Col span={10}>
+                    <Paper withBorder radius="md" className={classes.card}>
+                        <ThemeIcon
+                            size="xl"
+                            radius="md"
+                            variant="gradient"
+                            gradient={{
+                                deg: 0,
+                                from: 'pink',
+                                to: 'orange',
+                            }}
+                        >
+                            <IconColorSwatch size={28} stroke={1.5} />
+                        </ThemeIcon>
+                        <Text size="xl" weight={500} mt="md">
+                            Just testing Title
+                        </Text>
+                        <Text size="sm" mt="sm" color="dimmed">
+                            Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                            Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                        </Text>
+                    </Paper>
+                    <Paper withBorder radius="md" className={classes.card}>
+                        <ThemeIcon
+                            size="xl"
+                            radius="md"
+                            variant="gradient"
+                            gradient={{
+                                deg: 0,
+                                from: 'pink',
+                                to: 'orange',
+                            }}
+                        >
+                            <IconColorSwatch size={28} stroke={1.5} />
+                        </ThemeIcon>
+                        <Text size="xl" weight={500} mt="md">
+                            Just testing Title
+                        </Text>
+                        <Text size="sm" mt="sm" color="dimmed">
+                            Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                            Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                        </Text>
+                    </Paper>
+                    <Paper withBorder radius="md" className={classes.card}>
+                        <ThemeIcon
+                            size="xl"
+                            radius="md"
+                            variant="gradient"
+                            gradient={{
+                                deg: 0,
+                                from: 'pink',
+                                to: 'orange',
+                            }}
+                        >
+                            <IconColorSwatch size={28} stroke={1.5} />
+                        </ThemeIcon>
+                        <Text size="xl" weight={500} mt="md">
+                            Just testing Title
+                        </Text>
+                        <Text size="sm" mt="sm" color="dimmed">
+                            Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                            Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                        </Text>
+                    </Paper>
+                </Grid.Col>
+            </Grid>
+        </Modal>
     );
 }

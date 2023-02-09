@@ -3,7 +3,7 @@ const Listing = require('../models/listing');
 const verify = require('../verifyToken');
 
 //Get listing by ID
-router.get('/:id', verify, async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const listing = await Listing.findById(req.params.id);
 

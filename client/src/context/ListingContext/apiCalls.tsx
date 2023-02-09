@@ -13,13 +13,9 @@ import {
     UpdateListingSuccess,
 } from './ListingAction';
 
-export const getSingleListing = async (accessToken, id) => {
+export const getSingleListing = async (id) => {
     try {
-        const res = await axios.get(`http://localhost:5000/api/listing/${id}`, {
-            headers: {
-                token: `Bearer ${accessToken}`,
-            },
-        });
+        const res = await axios.get(`http://localhost:5000/api/listing/${id}`);
         return res.data;
     } catch (err) {
         console.log(err);

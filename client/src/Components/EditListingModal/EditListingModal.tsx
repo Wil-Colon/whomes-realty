@@ -117,7 +117,7 @@ export default function EditListingModal(
 
     useEffect(() => {
         const getListing = async () => {
-            const res = await getSingleListing(user.accessToken, _id);
+            const res = await getSingleListing(_id);
             setCurrentImages(res.image);
         };
         getListing();

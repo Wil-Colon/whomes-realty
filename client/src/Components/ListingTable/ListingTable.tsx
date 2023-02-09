@@ -220,10 +220,7 @@ export default function ListingTable({ data }: TableSortProps) {
                         <Menu.Label>Danger zone</Menu.Label>
                         <Menu.Item
                             onClick={async () => {
-                                const data = await getSingleListing(
-                                    user.accessToken,
-                                    row._id
-                                );
+                                const data = await getSingleListing(row._id);
                                 setOpened(true);
                                 setDeleteListingData(data);
                             }}
