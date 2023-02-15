@@ -12,7 +12,7 @@ export default function BlockQuote() {
     const containerRef = useRef();
     const { ref, entry } = useIntersection({
         root: containerRef.current,
-        threshold: 1,
+        threshold: 0.2,
     });
     const [viewed, setViewed] = useState(false);
     const [scroll] = useWindowScroll();

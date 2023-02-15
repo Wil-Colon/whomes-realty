@@ -54,7 +54,7 @@ export default function Listing({ list, index }) {
     const { classes } = useStyles();
     const { ref, entry } = useIntersection({
         root: containerRef.current,
-        threshold: 0.3,
+        threshold: 0.1,
     });
 
     useEffect(() => {

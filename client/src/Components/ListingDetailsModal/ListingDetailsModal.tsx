@@ -75,6 +75,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         fontSize: 44,
         lineHeight: 1.2,
         fontWeight: 900,
+        [theme.fn.smallerThan('md')]: {
+            fontSize: 35,
+        },
 
         [theme.fn.smallerThan('xs')]: {
             fontSize: 28,
