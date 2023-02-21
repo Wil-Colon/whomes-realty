@@ -29,7 +29,7 @@ export default function Home() {
             <Hero />
             <FeatureListings />
             <BlockQuote />
-            {<Staff2 />}
+            <Staff2 />
             <ContactUs />
             <Footer links={links} />
             <Outlet />

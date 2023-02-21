@@ -5,21 +5,18 @@ import {
     Text,
     Grid,
     createStyles,
-    ThemeIcon,
     Image,
     Center,
-    Button,
     Group,
-    List,
     Title,
     Container,
     CloseButton,
+    Badge,
 } from '@mantine/core';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Carousel } from '@mantine/carousel';
 import { getSingleListing } from '../../context/ListingContext/apiCalls';
-import { IconCheck } from '@tabler/icons';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     price: {
@@ -131,13 +128,20 @@ export default function ListingDetailsModal() {
         }
     }, []);
 
+    const closeTransition = () => {
+        setOpen(false);
+        setTimeout(() => {
+            navigate('/');
+        }, 200);
+    };
+
     return (
         <Modal
             withCloseButton={false}
             opened={open}
-            onClose={() => navigate(-1)}
+            onClose={() => closeTransition()}
             transition="fade"
-            transitionDuration={400}
+            transitionDuration={500}
             transitionTimingFunction="ease"
             fullScreen={!isMobile ? true : false}
             centered
@@ -158,7 +162,7 @@ export default function ListingDetailsModal() {
                 <CloseButton
                     variant="outline"
                     color={'blue'}
-                    onClick={() => navigate(-1)}
+                    onClick={() => closeTransition()}
                 />
             </Group>
             {listingData ? (
@@ -250,6 +254,16 @@ export default function ListingDetailsModal() {
                             <div className={classes.inner}>
                                 <div className={classes.content}>
                                     <Title className={classes.title}>
+                                        <Badge
+                                            style={{
+                                                fontWeight: '600',
+                                                marginBottom: '5px',
+                                            }}
+                                        >
+                                            {listingData.status}
+                                        </Badge>
+                                        <br />
+
                                         <Text
                                             component="span"
                                             variant="gradient"
@@ -264,66 +278,89 @@ export default function ListingDetailsModal() {
                                         </Text>
                                         <br />
                                         <span>
-                                            {listingData.city},
+                                            {listingData.city},{' '}
                                             {listingData.state}{' '}
                                             {listingData.zipcode}
                                         </span>
                                     </Title>
-                                    <Text color="dimmed" mt="md">
-                                        Build fully functional accessible web
-                                        applications faster than ever – Mantine
-                                        includes more than 120 customizable
-                                        components and hooks to cover you in any
-                                        situation
-                                    </Text>
 
-                                    <List
-                                        mt={30}
-                                        spacing="sm"
-                                        size="sm"
-                                        icon={
-                                            <ThemeIcon size={20} radius="xl">
-                                                <IconCheck
-                                                    size={12}
-                                                    stroke={1.5}
-                                                />
-                                            </ThemeIcon>
-                                        }
-                                    >
-                                        <List.Item>
-                                            <b>TypeScript based</b> – build type
-                                            safe applications, all components
-                                            and hooks export types
-                                        </List.Item>
-                                        <List.Item>
-                                            <b>Free and open source</b> – all
-                                            packages have MIT license, you can
-                                            use Mantine in any project
-                                        </List.Item>
-                                        <List.Item>
-                                            <b>No annoying focus ring</b> –
-                                            focus ring will appear only when
-                                            user navigates with keyboard
-                                        </List.Item>
-                                    </List>
+                                    <div style={{ marginTop: '20px' }}>
+                                        <Text mt="md" color={'#3c3a3a'}>
+                                            <Text
+                                                weight={600}
+                                                color={'#228be6'}
+                                                size={14}
+                                            >
+                                                Listing Price:
+                                            </Text>
+                                            {`$${listingData.price}`}
+                                        </Text>
+                                        <Text mt="md" color={'#3c3a3a'}>
+                                            <Text
+                                                weight={600}
+                                                color={'#228be6'}
+                                                size={14}
+                                            >
+                                                Home Description:
+                                            </Text>
+                                            {listingData.description}
+                                        </Text>
+                                    </div>
+                                    <div style={{ marginTop: '20px' }}>
+                                        <Text
+                                            weight={600}
+                                            color={'#228be6'}
+                                            size={14}
+                                        >
+                                            Home Information:
+                                        </Text>
 
-                                    <Group mt={30}>
-                                        <Button
-                                            radius="xl"
-                                            size="md"
-                                            className={classes.control}
+                                        <Grid
+                                            columns={24}
+                                            style={{ color: '#3c3a3a' }}
+                                            gutter={5}
                                         >
-                                            Get started
-                                        </Button>
-                                        <Button
-                                            variant="default"
-                                            radius="xl"
-                                            size="md"
-                                            className={classes.control}
-                                        >
-                                            Source code
-                                        </Button>
-                                    </Group>
+                                            <Grid.Col lg={12} md={24}>
+                                                <b> Status</b> –{' '}
+                                                {listingData?.status}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
+                                                <b> Property Type</b> –{' '}
+                                                {listingData?.propertyType.join(
+                                                    ', '
+                                                )}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
+                                                <b>Beds </b> –{' '}
+                                                {listingData?.bedRooms}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
+                                                <b>Baths </b> –{' '}
+                                                {listingData?.baths}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
+                                                <b>Cooling</b> –{' '}
+                                                {listingData?.cooling
+                                                    .charAt(0)
+                                                    .toUpperCase()}
+                                                {listingData?.cooling.slice(1)}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
+                                                <b>Year Built </b> –{' '}
+                                                {listingData?.yearBuilt}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
+                                                <b>Lot Size </b> –{' '}
+                                                {listingData?.squareFootage}{' '}
+                                                Sq.Ft.
+                                            </Grid.Col>
+
+                                            <Grid.Col lg={12} md={24}>
+                                                <b>County</b> –{' '}
+                                                {listingData?.county}
+                                            </Grid.Col>
+                                        </Grid>
+                                    </div>
                                 </div>
                             </div>
                         </Container>
