@@ -12,6 +12,7 @@ import {
     Container,
     CloseButton,
     Badge,
+    Divider,
 } from '@mantine/core';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -127,6 +128,8 @@ export default function ListingDetailsModal() {
             return () => window.removeEventListener('load', onPageLoad);
         }
     }, []);
+
+    console.log(listingData);
 
     const closeTransition = () => {
         setOpen(false);
@@ -249,7 +252,11 @@ export default function ListingDetailsModal() {
                         </Carousel>
                     )}
 
-                    <Grid.Col span={10}>
+                    <Grid.Col
+                        className="listingDetails"
+                        span={10}
+                        style={{ overflowY: 'scroll', height: '75vh' }}
+                    >
                         <Container className={classes.container}>
                             <div className={classes.inner}>
                                 <div className={classes.content}>
@@ -295,6 +302,9 @@ export default function ListingDetailsModal() {
                                             </Text>
                                             {`$${listingData.price}`}
                                         </Text>
+                                    </div>
+
+                                    <div>
                                         <Text mt="md" color={'#3c3a3a'}>
                                             <Text
                                                 weight={600}
@@ -306,7 +316,14 @@ export default function ListingDetailsModal() {
                                             {listingData.description}
                                         </Text>
                                     </div>
-                                    <div style={{ marginTop: '20px' }}>
+
+                                    <Divider my="sm" />
+
+                                    <div
+                                        style={{
+                                            marginTop: '20px',
+                                        }}
+                                    >
                                         <Text
                                             weight={600}
                                             color={'#228be6'}
@@ -317,7 +334,10 @@ export default function ListingDetailsModal() {
 
                                         <Grid
                                             columns={24}
-                                            style={{ color: '#3c3a3a' }}
+                                            style={{
+                                                color: '#3c3a3a',
+                                                fontSize: '13px',
+                                            }}
                                             gutter={5}
                                         >
                                             <Grid.Col lg={12} md={24}>
@@ -339,6 +359,21 @@ export default function ListingDetailsModal() {
                                                 {listingData?.baths}
                                             </Grid.Col>
                                             <Grid.Col lg={12} md={24}>
+                                                <b>Parking </b> –{' '}
+                                                {listingData?.parking}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
+                                                <b>Bath Features </b> –{' '}
+                                                {listingData?.bathFeatures ===
+                                                ''
+                                                    ? 'None'
+                                                    : listingData.bathFeatures}{' '}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
+                                                <b>Basement</b> –{' '}
+                                                {listingData?.basement}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
                                                 <b>Cooling</b> –{' '}
                                                 {listingData?.cooling
                                                     .charAt(0)
@@ -346,18 +381,25 @@ export default function ListingDetailsModal() {
                                                 {listingData?.cooling.slice(1)}
                                             </Grid.Col>
                                             <Grid.Col lg={12} md={24}>
+                                                <b>Appliances </b> –{' '}
+                                                {listingData?.appliances === ''
+                                                    ? 'None'
+                                                    : listingData.appliances}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
                                                 <b>Year Built </b> –{' '}
                                                 {listingData?.yearBuilt}
+                                            </Grid.Col>
+                                            <Grid.Col lg={12} md={24}>
+                                                <b>HOA Fees: </b> –{' '}
+                                                {listingData?.hoaFee === ''
+                                                    ? 'None'
+                                                    : listingData.hoaFee}
                                             </Grid.Col>
                                             <Grid.Col lg={12} md={24}>
                                                 <b>Lot Size </b> –{' '}
                                                 {listingData?.squareFootage}{' '}
                                                 Sq.Ft.
-                                            </Grid.Col>
-
-                                            <Grid.Col lg={12} md={24}>
-                                                <b>County</b> –{' '}
-                                                {listingData?.county}
                                             </Grid.Col>
                                         </Grid>
                                     </div>

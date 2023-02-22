@@ -16,6 +16,9 @@ const ListingSchema = new mongoose.Schema({
     baths: {
         type: String,
     },
+    bathFeatures: {
+        type: String,
+    },
     squareFootage: {
         type: String,
     },
@@ -49,6 +52,18 @@ const ListingSchema = new mongoose.Schema({
         type: String,
     },
     description: {
+        type: String,
+    },
+    parking: {
+        type: String,
+    },
+    appliances: {
+        type: String,
+    },
+    basement: {
+        type: String,
+    },
+    hoaFee: {
         type: String,
     },
     featuredListing: {

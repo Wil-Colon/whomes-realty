@@ -113,6 +113,11 @@ export default function EditListingModal(
         state,
         yearBuilt,
         zipcode,
+        parking,
+        appliances,
+        bathFeatures,
+        basement,
+        hoaFee,
     } = formData;
 
     useEffect(() => {
@@ -141,6 +146,11 @@ export default function EditListingModal(
             description: description,
             status: status,
             featuredListing: featuredListing,
+            parking: parking,
+            appliances: appliances,
+            bathFeatures: bathFeatures,
+            basement: basement,
+            hoaFee: hoaFee,
         },
         validate: {
             price: (value) =>
@@ -500,6 +510,15 @@ export default function EditListingModal(
                             {...form.getInputProps('baths')}
                         />
                         <TextInput
+                            name="bathFeatures"
+                            size="md"
+                            placeholder="Bath Features? Jacuzzi, Tub, Shower Stall"
+                            label="Bath Features"
+                            value={formData.bathFeatures}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('bathFeatures')}
+                        />
+                        <TextInput
                             name="squareFootage"
                             size="md"
                             placeholder="Square Footage"
@@ -538,11 +557,38 @@ export default function EditListingModal(
                         <TextInput
                             name="cooling"
                             size="md"
-                            placeholder="cooling"
+                            placeholder="Electric, Baseboard, Central?"
                             label="Cooling"
                             value={formData.cooling}
                             onChange={(e) => handleChange(e)}
                             {...form.getInputProps('cooling')}
+                        />
+                        <TextInput
+                            name="parking"
+                            size="md"
+                            placeholder="parking spaces"
+                            label="Parking"
+                            value={formData.parking}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('parking')}
+                        />
+                        <TextInput
+                            name="appliances"
+                            size="md"
+                            placeholder="Dishwasher, Washing machine, Dryer, etc"
+                            label="Appliance"
+                            value={formData.appliances}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('appliances')}
+                        />
+                        <TextInput
+                            name="basement"
+                            size="md"
+                            placeholder="Yes/No, basement built?"
+                            label="Basement"
+                            value={formData.basement}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('basement')}
                         />
                         <MultiSelect
                             name="propertyType"
@@ -554,6 +600,15 @@ export default function EditListingModal(
                             size="md"
                             {...form.getInputProps('propertyType')}
                             clearable
+                        />
+                        <TextInput
+                            name="hoaFee"
+                            size="md"
+                            placeholder="HOA fee? ex: $200/m"
+                            label="Hoa Fee?"
+                            value={formData.hoaFee}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('hoaFee')}
                         />
                         <NativeSelect
                             name="status"

@@ -59,6 +59,7 @@ const useStyles = createStyles((theme) => ({
 
 const data = [
     { value: 'Single Family Home', label: 'Single Family Home' },
+    { value: 'Multi family', label: 'Multi family' },
     { value: 'Town Home', label: 'Town Home' },
     { value: 'Condo', label: 'Condo' },
     { value: 'Ranch', label: 'Ranch' },
@@ -101,7 +102,12 @@ export default function CreateListingModal(
             cooling: '',
             propertyType: [],
             description: '',
+            parking: '',
             featuredListing: false,
+            appliances: '',
+            bathFeatures: '',
+            basement: '',
+            hoaFee: '',
         },
         validate: {
             price: (value) =>
@@ -433,6 +439,15 @@ export default function CreateListingModal(
                             {...form.getInputProps('baths')}
                         />
                         <TextInput
+                            name="bathFeatures"
+                            size="md"
+                            placeholder="Bath Features? Jacuzzi, Tub, Shower Stall"
+                            label="Bath Features"
+                            value={formData.bathFeatures}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('bathFeatures')}
+                        />
+                        <TextInput
                             name="squareFootage"
                             size="md"
                             placeholder="Square Footage"
@@ -471,11 +486,47 @@ export default function CreateListingModal(
                         <TextInput
                             name="cooling"
                             size="md"
-                            placeholder="cooling"
+                            placeholder="Electric, Baseboard, Central?"
                             label="Cooling"
                             value={formData.cooling}
                             onChange={(e) => handleChange(e)}
                             {...form.getInputProps('cooling')}
+                        />
+                        <TextInput
+                            name="parking"
+                            size="md"
+                            placeholder="Parking spaces"
+                            label="Parking"
+                            value={formData.parking}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('parking')}
+                        />
+                        <TextInput
+                            name="appliances"
+                            size="md"
+                            placeholder="Dishwasher, Washing machine, Dryer, etc"
+                            label="Appliance"
+                            value={formData.appliances}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('appliances')}
+                        />
+                        <TextInput
+                            name="basement"
+                            size="md"
+                            placeholder="Yes/No, basement built?"
+                            label="Basement"
+                            value={formData.basement}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('basement')}
+                        />
+                        <TextInput
+                            name="hoaFee"
+                            size="md"
+                            placeholder="HOA fee? ex: $200/m"
+                            label="Hoa Fee?"
+                            value={formData.hoaFee}
+                            onChange={(e) => handleChange(e)}
+                            {...form.getInputProps('hoaFee')}
                         />
                         <MultiSelect
                             name="propertyType"
