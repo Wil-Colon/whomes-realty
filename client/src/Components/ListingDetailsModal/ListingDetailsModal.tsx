@@ -13,6 +13,7 @@ import {
     CloseButton,
     Badge,
     Divider,
+    Button,
 } from '@mantine/core';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -99,6 +100,8 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 export default function ListingDetailsModal() {
     const { classes } = useStyles();
     const [open, setOpen] = useState(false);
+    const [imageModalOpen, setImageModalOpen] = useState(false);
+    const [imageModalImg, setImageModalImg] = useState('');
     const [listingData, setListingData] = useState(null) as any;
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
@@ -129,8 +132,6 @@ export default function ListingDetailsModal() {
         }
     }, []);
 
-    console.log(listingData);
-
     const closeTransition = () => {
         setOpen(false);
         setTimeout(() => {
@@ -138,13 +139,16 @@ export default function ListingDetailsModal() {
         }, 200);
     };
 
+    const openImageModal = (img) => {
+        setImageModalOpen(true);
+        setImageModalImg(img);
+    };
+
     return (
         <Modal
             withCloseButton={false}
             opened={open}
             onClose={() => closeTransition()}
-            transition="fade"
-            transitionDuration={500}
             transitionTimingFunction="ease"
             fullScreen={!isMobile ? true : false}
             centered
@@ -154,6 +158,21 @@ export default function ListingDetailsModal() {
                 height: 'auto',
             }}
         >
+            <Modal
+                opened={imageModalOpen}
+                onClose={() => setImageModalOpen(false)}
+                size={'100%'}
+                withCloseButton={false}
+                overlayBlur={3}
+            >
+                <Image
+                    radius="md"
+                    src={imageModalImg}
+                    alt="Random unsplash image"
+                    style={{ position: 'relative' }}
+                />
+            </Modal>
+
             <Group position="apart">
                 <Image
                     src={require('../../assets/images/logo1.png')}
@@ -182,13 +201,19 @@ export default function ListingDetailsModal() {
                                             radius="md"
                                             src={`${listingData.image[0]}`}
                                             alt="Random unsplash image"
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() =>
+                                                openImageModal(
+                                                    listingData.image[0]
+                                                )
+                                            }
                                         />
                                     </Grid.Col>
                                 ) : (
                                     <h1>No Previews</h1>
                                 )}
                                 {!isLoading &&
-                                    listingData.image.map((image, i) => {
+                                    listingData.image.map((img, i) => {
                                         return (
                                             i > 0 && (
                                                 <Grid.Col
@@ -198,9 +223,15 @@ export default function ListingDetailsModal() {
                                                 >
                                                     <Image
                                                         radius="md"
-                                                        src={`${image}`}
+                                                        src={`${img}`}
                                                         alt="Random unsplash image"
                                                         height={200}
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                        }}
+                                                        onClick={() =>
+                                                            openImageModal(img)
+                                                        }
                                                     />
                                                 </Grid.Col>
                                             )
@@ -230,7 +261,9 @@ export default function ListingDetailsModal() {
                                         <Image
                                             src={img}
                                             height={220}
+                                            style={{ cursor: 'pointer' }}
                                             alt="home picture"
+                                            onClick={() => openImageModal(img)}
                                         />
                                     </Carousel.Slide>
                                 ))
@@ -252,11 +285,7 @@ export default function ListingDetailsModal() {
                         </Carousel>
                     )}
 
-                    <Grid.Col
-                        className="listingDetails"
-                        span={10}
-                        style={{ overflowY: 'scroll', height: '75vh' }}
-                    >
+                    <Grid.Col className="listingDetails" span={10} style={{}}>
                         <Container className={classes.container}>
                             <div className={classes.inner}>
                                 <div className={classes.content}>
@@ -270,7 +299,6 @@ export default function ListingDetailsModal() {
                                             {listingData.status}
                                         </Badge>
                                         <br />
-
                                         <Text
                                             component="span"
                                             variant="gradient"
@@ -290,7 +318,6 @@ export default function ListingDetailsModal() {
                                             {listingData.zipcode}
                                         </span>
                                     </Title>
-
                                     <div style={{ marginTop: '20px' }}>
                                         <Text mt="md" color={'#3c3a3a'}>
                                             <Text
@@ -303,7 +330,6 @@ export default function ListingDetailsModal() {
                                             {`$${listingData.price}`}
                                         </Text>
                                     </div>
-
                                     <div>
                                         <Text mt="md" color={'#3c3a3a'}>
                                             <Text
@@ -316,12 +342,10 @@ export default function ListingDetailsModal() {
                                             {listingData.description}
                                         </Text>
                                     </div>
-
                                     <Divider my="sm" />
-
                                     <div
                                         style={{
-                                            marginTop: '20px',
+                                            marginTop: '15px',
                                         }}
                                     >
                                         <Text
@@ -406,6 +430,28 @@ export default function ListingDetailsModal() {
                                 </div>
                             </div>
                         </Container>
+                        <Divider my="sm" />
+                        <Group position="center" style={{ marginTop: '15px' }}>
+                            <a
+                                href="tel:4019435800"
+                                style={{ textDecoration: 'none' }}
+                            >
+                                <Button
+                                    style={{ width: '150px' }}
+                                    variant="outline"
+                                >
+                                    Give us a Call
+                                </Button>
+                            </a>
+                            <a href="mailto:wendygarcia72@yahoo.com">
+                                <Button
+                                    style={{ width: '150px' }}
+                                    variant="outline"
+                                >
+                                    Email us
+                                </Button>
+                            </a>
+                        </Group>
                     </Grid.Col>
                 </Grid>
             ) : (

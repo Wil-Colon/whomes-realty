@@ -94,17 +94,22 @@ export default function Staff2() {
                         Owner/Broker
                     </Text>
                     <Text size="sm" color="dimmed">
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the
-                        industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and
-                        scrambled it to make a type specimen book. It has
-                        survived not only five centuries, but also the leap into
-                        electronic typesetting, remaining essentially unchanged.
-                        It was popularised in the 1960s with the release of
-                        Letraset sheets containing Lorem Ipsum passages, and
-                        more recently with desktop publishing software like
-                        Aldus PageMaker including versions of Lorem Ipsum
+                        Wendy Garcia is broker/Owner of W Homes realty, she’s
+                        licensed and been doing real estate since 1997.
+                        Dedication, integrity, honest, true passion for her
+                        business and her clients have helped Wendy’s reputation
+                        for more than 20 years helping the community to purchase
+                        and sell their properties in the state of Rhode Island.
+                        Wendy specialized in Residential properties sales
+                        including first time homes, second homes and income
+                        properties. Thanks to her high ethical standard and
+                        clients success Wendy has loyal clientele, personal
+                        referrals and respect for others real estate agents in
+                        the business Multi millions sales volume award winner,
+                        GRI is a nationally recognized professional which stands
+                        for Graduate Realtors Institute. ABR is a designation
+                        Accredited buyer’s representative by the national
+                        association of Realtors.
                     </Text>
                 </div>
                 <Image
