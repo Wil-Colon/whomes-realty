@@ -9,7 +9,7 @@ import {
     Group,
     Container,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { useForm, isEmail } from '@mantine/form';
 import { useState } from 'react';
 import { newMessage } from '../../context/MessagesContext/apiCalls';
 import { ContactIconsList } from '../ContactIcons/ContactIcons';
@@ -89,13 +89,12 @@ export default function ContactUs() {
         },
 
         validate: {
-            email: (value) =>
-                /^\S+@\S+$/.test(value) ? null : 'Invalid email',
+            email: isEmail('Invalid email'),
             name: (value) =>
                 /\d/.test(value) === true
-                    ? 'City should contain no numbers.'
-                    : value.length < 2
-                    ? 'Invalid name'
+                    ? 'Name should contain no numbers.'
+                    : value.length <= 1
+                    ? 'Name should not be empty'
                     : null,
             message: (value) => value.length < 5 && 'Invalid message',
         },

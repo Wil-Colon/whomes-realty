@@ -153,6 +153,7 @@ export default function ListingDetailsModal() {
             fullScreen={!isMobile ? true : false}
             centered
             size={'85vw'}
+            zIndex={'1001'}
             style={{
                 margin: 'auto',
                 height: 'auto',
@@ -161,7 +162,7 @@ export default function ListingDetailsModal() {
             <Modal
                 opened={imageModalOpen}
                 onClose={() => setImageModalOpen(false)}
-                size={'100%'}
+                size={!isMobile ? '100%' : '70%'}
                 withCloseButton={false}
                 overlayBlur={3}
             >
@@ -169,7 +170,9 @@ export default function ListingDetailsModal() {
                     radius="md"
                     src={imageModalImg}
                     alt="Random unsplash image"
-                    style={{ position: 'relative' }}
+                    style={{
+                        position: 'relative',
+                    }}
                 />
             </Modal>
 
@@ -192,7 +195,11 @@ export default function ListingDetailsModal() {
                     {isMobile ? (
                         <Grid.Col
                             span={10}
-                            style={{ overflowY: 'scroll', height: '75vh' }}
+                            style={{
+                                overflowY: 'scroll',
+                                height: '85vh',
+                                minHeight: '800px',
+                            }}
                         >
                             <Grid gutter="xs">
                                 {!isLoading && listingData.image.length > 0 ? (

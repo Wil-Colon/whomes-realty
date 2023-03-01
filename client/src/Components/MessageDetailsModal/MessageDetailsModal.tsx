@@ -157,6 +157,7 @@ export default function MessageDetailsModal({
                             </Text> */}
                         </div>
                     </Group>
+
                     <TypographyStylesProvider className={classes.body}>
                         <div
                             className={classes.content}

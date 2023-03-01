@@ -267,12 +267,6 @@ export default function EditListingModal(
         );
     });
 
-    const handleChange = (e) => {
-        let target = e.target.name;
-        let value = e.target.value;
-        setFormData({ ...formData, [target]: value });
-    };
-
     const closeModal = () => {
         setTimeout(() => {
             setOverlayVisible(false);
@@ -443,8 +437,6 @@ export default function EditListingModal(
                             size="md"
                             min={7}
                             max={12}
-                            value={formData.price}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('price')}
                         />
 
@@ -454,8 +446,6 @@ export default function EditListingModal(
                             label="Address"
                             withAsterisk
                             size="md"
-                            value={formData.address}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('address')}
                         />
                         <TextInput
@@ -463,9 +453,7 @@ export default function EditListingModal(
                             size="md"
                             placeholder="City"
                             label="City"
-                            value={formData.city}
                             withAsterisk
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('city')}
                         />
                         <TextInput
@@ -473,9 +461,7 @@ export default function EditListingModal(
                             size="md"
                             placeholder="RI"
                             label="State"
-                            value={formData.state}
                             withAsterisk
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('state')}
                         />
                         <TextInput
@@ -483,9 +469,7 @@ export default function EditListingModal(
                             size="md"
                             placeholder="Zipcode"
                             label="Zipcode"
-                            value={formData.zipcode}
                             withAsterisk
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('zipcode')}
                         />
 
@@ -495,8 +479,6 @@ export default function EditListingModal(
                             placeholder="Bedrooms"
                             label="Bedrooms"
                             withAsterisk
-                            value={formData.bedRooms}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('bedRooms')}
                         />
                         <TextInput
@@ -505,8 +487,6 @@ export default function EditListingModal(
                             placeholder="Baths"
                             label="Baths"
                             withAsterisk
-                            value={formData.baths}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('baths')}
                         />
                         <TextInput
@@ -514,8 +494,6 @@ export default function EditListingModal(
                             size="md"
                             placeholder="Bath Features? Jacuzzi, Tub, Shower Stall"
                             label="Bath Features"
-                            value={formData.bathFeatures}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('bathFeatures')}
                         />
                         <TextInput
@@ -523,8 +501,6 @@ export default function EditListingModal(
                             size="md"
                             placeholder="Square Footage"
                             label="Square Footage"
-                            value={formData.squareFootage}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('squareFootage')}
                         />
                         <TextInput
@@ -532,8 +508,6 @@ export default function EditListingModal(
                             size="md"
                             placeholder="Year Built"
                             label="Year Built"
-                            value={formData.yearBuilt}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('yearBuilt')}
                         />
                         <TextInput
@@ -541,8 +515,6 @@ export default function EditListingModal(
                             size="md"
                             placeholder="County"
                             label="County"
-                            value={formData.county}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('county')}
                         />
                         <TextInput
@@ -550,8 +522,6 @@ export default function EditListingModal(
                             placeholder="Neighborhood"
                             label="Neighborhood"
                             size="md"
-                            value={formData.neighborhood}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('neighborhood')}
                         />
                         <TextInput
@@ -559,8 +529,6 @@ export default function EditListingModal(
                             size="md"
                             placeholder="Electric, Baseboard, Central?"
                             label="Cooling"
-                            value={formData.cooling}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('cooling')}
                         />
                         <TextInput
@@ -568,8 +536,6 @@ export default function EditListingModal(
                             size="md"
                             placeholder="parking spaces"
                             label="Parking"
-                            value={formData.parking}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('parking')}
                         />
                         <TextInput
@@ -577,8 +543,6 @@ export default function EditListingModal(
                             size="md"
                             placeholder="Dishwasher, Washing machine, Dryer, etc"
                             label="Appliance"
-                            value={formData.appliances}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('appliances')}
                         />
                         <TextInput
@@ -586,8 +550,6 @@ export default function EditListingModal(
                             size="md"
                             placeholder="Yes/No, basement built?"
                             label="Basement"
-                            value={formData.basement}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('basement')}
                         />
                         <MultiSelect
@@ -606,8 +568,6 @@ export default function EditListingModal(
                             size="md"
                             placeholder="HOA fee? ex: $200/m"
                             label="Hoa Fee?"
-                            value={formData.hoaFee}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('hoaFee')}
                         />
                         <NativeSelect
@@ -634,8 +594,6 @@ export default function EditListingModal(
                             radius="md"
                             size="md"
                             minRows={4}
-                            value={formData.description}
-                            onChange={(e) => handleChange(e)}
                             {...form.getInputProps('description')}
                         />
                     </SimpleGrid>

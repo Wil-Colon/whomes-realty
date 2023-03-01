@@ -139,18 +139,21 @@ export default function HeaderSimple({ links }: HeaderSimpleProps) {
             <Drawer
                 opened={opened}
                 onClose={toggle}
-                title="WHomes"
+                title="WHomes Realty"
                 padding="xl"
                 size="xl"
                 overlayBlur={1}
                 position="right"
+                zIndex={1002}
                 overlayOpacity={0.2}
                 styles={(theme) => ({
                     drawer: {
+                        fontSize: '25px',
                         backgroundColor: '#1a1919f2',
                     },
                     header: {
                         color: 'white',
+                        textDecoration: 'underline',
                     },
                 })}
             >
@@ -158,6 +161,7 @@ export default function HeaderSimple({ links }: HeaderSimpleProps) {
                 <Link
                     style={{
                         position: 'absolute',
+                        fontSize: '15px',
                         bottom: '10px',
                         right: '10px',
                     }}
