@@ -22,9 +22,10 @@ const useStyles = createStyles((theme) => ({
         backgroundSize: 'cover',
         backgroundImage:
             'url(https://livability.com/wp-content/uploads/2021/10/65ProvidenceRI21-1.jpg)',
-            [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-               minHeight: 600
-            },
+        [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+            minHeight: 600,
+            height: '100vh',
+        },
     },
 
     form: {
@@ -40,7 +41,7 @@ const useStyles = createStyles((theme) => ({
 
         [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
             maxWidth: '100%',
-            height: 600,
+            height: '100vh',
         },
     },
 
@@ -125,7 +126,6 @@ export default function Login() {
                         })
                     }
                 />
-                <Checkbox label="Keep me logged in" mt="xl" size="md" />
                 <Button
                     fullWidth
                     mt="xl"

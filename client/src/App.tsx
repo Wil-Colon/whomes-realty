@@ -13,6 +13,7 @@ import AdminHome from './Pages/Admin/Pages/AdminHome/AdminHome';
 import Messages from './Pages/Admin/Pages/Messages/Messages';
 import PrivateRoute from './Components/routing/PrivateRoute';
 import ListingDetailsModal from './Components/ListingDetailsModal/ListingDetailsModal';
+import ViewAllListings from './Pages/ViewAllListings/ViewAllListings';
 
 function App() {
     const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
@@ -39,6 +40,10 @@ function App() {
                             element={<ListingDetailsModal />}
                         />
                     </Route>
+                    <Route
+                        path="/viewalllistings"
+                        element={<ViewAllListings />}
+                    />
                     <Route path="*" element={<PageNotFound />} />
 
                     {/* admin paths */}

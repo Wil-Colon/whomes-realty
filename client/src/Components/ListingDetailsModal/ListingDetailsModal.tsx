@@ -165,6 +165,7 @@ export default function ListingDetailsModal() {
                 size={!isMobile ? '100%' : '70%'}
                 withCloseButton={false}
                 overlayBlur={3}
+                zIndex={'1002'}
             >
                 <Image
                     radius="md"

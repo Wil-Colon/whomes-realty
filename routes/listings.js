@@ -22,35 +22,19 @@ router.get('/:id', async (req, res) => {
 //accepts 'city' query to find listings based on city
 //accepts 'featuredListing' query to pull only featured listings
 router.get('/', async (req, res) => {
-    const cityQuery = req.query.city;
-    const featuredListing = req.query.featuredListing;
     const noimageQuery = req.query.noimage;
+    const query = req.query;
     let listings = [];
 
     try {
-        if (featuredListing) {
-            listings = await Listing.find({
-                featuredListing: featuredListing,
-            });
-            return res.status(200).json(listings);
-        }
-
-        if (cityQuery) {
-            listings = await Listing.find({ city: cityQuery });
-            return res.status(200).json(listings);
-        }
-
         if (noimageQuery) {
             listings = await Listing.find({}).select(
                 '-image -propertyType -__v'
             );
             return res.status(200).json(listings);
         }
-        listings = await Listing.find({});
 
-        if (listings.length === 0) {
-            return res.status(500).json({ error: 'No listings found!' });
-        }
+        listings = await Listing.find(query);
 
         res.status(200).json(listings);
     } catch (err) {
