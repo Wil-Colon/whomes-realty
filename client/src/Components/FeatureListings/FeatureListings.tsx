@@ -9,6 +9,7 @@ export default function FeatureListings() {
     const { dispatch, isFetching } = useContext(ListingContext);
     const [list, setList] = useState() as any;
     const isMobile = useMediaQuery('(max-width: 769px)');
+
     let listSize = isMobile ? 4 : 6;
     useEffect(() => {
         const getList = async () => {

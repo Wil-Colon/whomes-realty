@@ -135,7 +135,7 @@ export default function ListingDetailsModal() {
     const closeTransition = () => {
         setOpen(false);
         setTimeout(() => {
-            navigate('/');
+            navigate(`${location.state.background.pathname}`);
         }, 200);
     };
 

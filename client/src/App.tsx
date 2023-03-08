@@ -40,10 +40,7 @@ function App() {
                             element={<ListingDetailsModal />}
                         />
                     </Route>
-                    <Route
-                        path="/viewalllistings"
-                        element={<ViewAllListings />}
-                    />
+                    <Route path="/viewlistings" element={<ViewAllListings />} />
                     <Route path="*" element={<PageNotFound />} />
 
                     {/* admin paths */}

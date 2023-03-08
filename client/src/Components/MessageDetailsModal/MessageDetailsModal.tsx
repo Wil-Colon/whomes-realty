@@ -56,8 +56,6 @@ export default function MessageDetailsModal({
         setCurrentMessage(message);
     }, [message, dispatch]);
 
-    console.log(currentMessage);
-
     return (
         <Drawer
             opened={open}
