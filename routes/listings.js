@@ -26,6 +26,8 @@ router.get('/', async (req, res) => {
     const query = req.query;
     let listings = [];
 
+    console.log(query);
+
     try {
         if (noimageQuery) {
             listings = await Listing.find({}).select(

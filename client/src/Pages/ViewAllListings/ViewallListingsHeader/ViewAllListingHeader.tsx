@@ -1,15 +1,7 @@
-import {
-    Burger,
-    Button,
-    Drawer,
-    Group,
-    Image,
-    NativeSelect,
-    Text,
-} from '@mantine/core';
+import { Burger, Button, Drawer, Group, Image, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconPhone } from '@tabler/icons';
-import { useState } from 'react';
+import ViewAllListingsFilter from '../ViewAllListingsFilters/ViewAllListingsFilters';
 
 interface ViewListingHeaderProps {
     setFilter;
@@ -20,12 +12,10 @@ export default function ViewListingHeader({
     const isMobile = useMediaQuery('(max-width: 769px)');
     const [opened, { toggle }] = useDisclosure(false);
 
-    const [value, setValue] = useState('');
-
     return (
         <>
             <div
-                style={{ position: 'relative', height: '80px', zIndex: '9999' }}
+                style={{ position: 'relative', height: '80px', zIndex: '1000' }}
             >
                 <div
                     style={{
@@ -71,30 +61,25 @@ export default function ViewListingHeader({
             <Drawer
                 opened={!isMobile ? false : opened}
                 onClose={toggle}
+                title="WHomes Realty"
                 position={'right'}
                 padding="xl"
                 overlayBlur={1}
-                overlayOpacity={0.2}
+                overlayOpacity={0.5}
+                zIndex={999}
+                styles={(theme) => ({
+                    drawer: {
+                        fontSize: '25px',
+                        backgroundColor: '#1a1919f2',
+                    },
+                    header: {
+                        marginTop: '55px',
+                        color: 'white',
+                        textDecoration: 'underline',
+                    },
+                })}
             >
-                <NativeSelect
-                    data={[
-                        'Single Family Home',
-                        'Multi family',
-                        'Town Home',
-                        'Condo',
-                        'Ranch',
-                        'Residential',
-                        'Commercial',
-                        'Industrial',
-                        'Raw land',
-                    ]}
-                    onChange={(event) => setValue(event.currentTarget.value)}
-                    label="Property Type"
-                    description="This is anonymous"
-                    withAsterisk
-                    value={value}
-                />
-                <Button>All Beds</Button>{' '}
+                <ViewAllListingsFilter setFilter={setFilter} />
             </Drawer>
 
             <Group
@@ -106,32 +91,17 @@ export default function ViewListingHeader({
                 }}
             >
                 {!isMobile ? (
-                    <>
-                        {' '}
-                        <NativeSelect
-                            placeholder="Select Property Type"
-                            data={[
-                                'None',
-                                'Single Family Home',
-                                'Multi family',
-                                'Town Home',
-                                'Condo',
-                                'Ranch',
-                                'Residential',
-                                'Commercial',
-                                'Industrial',
-                                'Raw land',
-                            ]}
-                            label="Property Type"
-                            onChange={(event) =>
-                                setFilter(event.currentTarget.value)
-                            }
-                            value={value}
-                        />
-                        <Button>All Beds</Button>{' '}
-                    </>
+                    <ViewAllListingsFilter setFilter={setFilter} />
                 ) : (
-                    <Burger size={'sm'} opened={opened} onClick={toggle} />
+                    <Button
+                        variant="outline"
+                        color="red"
+                        radius={'lg'}
+                        size={'sm'}
+                        onClick={toggle}
+                    >
+                        Filter
+                    </Button>
                 )}
             </Group>
         </>

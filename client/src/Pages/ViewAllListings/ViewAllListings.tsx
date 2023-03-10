@@ -1,42 +1,33 @@
-import {
-    Burger,
-    Button,
-    Container,
-    Divider,
-    Drawer,
-    Grid,
-    Group,
-    Loader,
-} from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { Container, Divider, Grid, Loader } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useContext, useEffect, useState } from 'react';
 import Listing from '../../Components/Listing/Listing';
 import { getListings } from '../../context/ListingContext/apiCalls';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
-import ViewListingHeader from './ViewListingsHeader/ViewListingHeader';
+import ViewAllListingHeader from './ViewallListingsHeader/ViewAllListingHeader';
 
 export default function ViewAllListings() {
     const { dispatch, isFetching } = useContext(ListingContext);
     const [list, setList] = useState() as any;
     const isMobile = useMediaQuery('(max-width: 769px)');
-    const [value, setValue] = useState('');
+    const [filterValue, setFilterValue] = useState('');
 
     useEffect(() => {
         const getList = async () => {
-            const res = (await getListings(dispatch, '/')) as any;
+            const res = (await getListings(dispatch, `?${filterValue}`)) as any;
 
             setList(res.data);
         };
         getList();
-    }, [dispatch]);
+    }, [dispatch, filterValue]);
 
-    const selectedFilter = (value) => setValue(value);
-
-    console.log(value);
+    const selectedFilter = (value) => {
+        setFilterValue(value);
+    };
 
     return (
         <div>
-            <ViewListingHeader setFilter={selectedFilter} />
+            <ViewAllListingHeader setFilter={selectedFilter} />
 
             <Divider />
 
