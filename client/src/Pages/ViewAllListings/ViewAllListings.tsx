@@ -1,4 +1,4 @@
-import { Container, Divider, Grid, Loader } from '@mantine/core';
+import { Container, Divider, Grid, Loader, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useContext, useEffect, useState } from 'react';
 import Listing from '../../Components/Listing/Listing';
@@ -52,6 +52,7 @@ export default function ViewAllListings() {
                             <Listing key={list._id} list={list} index={i} />
                         ))
                     )}
+                    {list.length === 0 && <Text>No Listings Available</Text>}
                 </Grid>
             </Container>
         </div>

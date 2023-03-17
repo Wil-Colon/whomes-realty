@@ -1,5 +1,5 @@
 import './ViewAllListingsFilters.scss';
-import { Button, Group, NativeSelect } from '@mantine/core';
+import { Button, Group, MultiSelect, NativeSelect } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
 interface ViewAllListingsFilerProps {
@@ -10,16 +10,37 @@ export default function ViewAllListingsFilter({
 }: ViewAllListingsFilerProps) {
     const form = useForm({
         initialValues: {
-            propertyType: null,
+            propertyType: [] as any,
             bedRooms: null,
         },
     });
+
+    const data = [
+        { label: 'Single Family Home', value: 'Single Family Home' },
+        { label: 'Multi family', value: 'Multi family' },
+        { label: 'Town Home', value: 'Town Home' },
+        { label: 'Condo', value: 'Condo' },
+        { label: 'Ranch', value: 'Ranch' },
+        { label: 'Residential', value: 'Residential' },
+        { label: 'Commercial', value: 'Commercial' },
+        { label: 'Industrial', value: 'Industrial' },
+        { label: 'Raw land', value: 'Raw land' },
+    ];
 
     return (
         <form
             onSubmit={form.onSubmit((values) => {
                 Object.keys(values).forEach((key) => {
-                    if (values[key] === null || values[key] === '-') {
+                    if (
+                        values[key] === null ||
+                        values[key] === '-' ||
+                        (values.propertyType &&
+                            values.propertyType.length === 0)
+                    ) {
+                        form.setValues((prev) => ({
+                            propertyType: [],
+                            ...prev,
+                        }));
                         delete values[key];
                     }
                 });
@@ -28,27 +49,21 @@ export default function ViewAllListingsFilter({
                         .replace(/:\s*/g, '=')
                         .replace(/['"]+/g, '')
                         .replace(/[{}]/g, '')
+                        .replace(/[[\]']+/g, '')
                         .split(',')
                         .join('&')
                 );
             })}
         >
             <Group>
-                <NativeSelect
+                <MultiSelect
+                    onSearchChange={() => console.log(form.values)}
+                    clearable
                     label="Property Type"
                     name="propertyType"
-                    data={[
-                        '-',
-                        'Single Family Home',
-                        'Multi family',
-                        'Town Home',
-                        'Condo',
-                        'Ranch',
-                        'Residential',
-                        'Commercial',
-                        'Industrial',
-                        'Raw land',
-                    ]}
+                    maxSelectedValues={3}
+                    data={data}
+                    style={{ maxWidth: '300px' }}
                     {...form.getInputProps('propertyType')}
                 />
                 <NativeSelect

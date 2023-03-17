@@ -29,7 +29,7 @@ export default function FeatureListings() {
                 FEATURE LISTINGS
             </Text>
 
-            <Grid justify={isMobile ? 'center' : 'space-between'}>
+            <Grid justify="center">
                 {isFetching ? (
                     <div
                         style={
