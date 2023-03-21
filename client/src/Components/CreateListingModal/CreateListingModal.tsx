@@ -68,6 +68,21 @@ const data = [
     { value: 'Industrial', label: 'Industrial' },
     { value: 'Raw land', label: 'Raw land' },
 ];
+const cityData = [
+    { value: 'Providece', label: 'Providence' },
+    { value: 'North Providence', label: 'North Providence' },
+    { value: 'East Providence', label: 'East Providence' },
+    { value: 'Cranston', label: 'Cranston' },
+    { value: 'Johnston', label: 'Johnston' },
+    { value: 'Lincoln', label: 'Lincoln' },
+    { value: 'Warwick', label: 'Warwick' },
+    { value: 'Smithfield', label: 'Smithfield' },
+    { value: 'West Warwick', label: 'West Warwick' },
+    { value: 'Pawtucket', label: 'Pawtucket' },
+    { value: 'Central Falls', label: 'Central Falls' },
+    { value: 'Woonsocket', label: 'Woonsocket' },
+    { value: 'Cumberland', label: 'Cumberland' },
+];
 
 export default function CreateListingModal(
     { open, onClose, setOpened }: CreateListingModalProps,
@@ -377,7 +392,9 @@ export default function CreateListingModal(
                             size="md"
                             {...form.getInputProps('address')}
                         />
-                        <TextInput
+
+                        <NativeSelect
+                            data={cityData}
                             name="city"
                             size="md"
                             placeholder="City"
@@ -428,7 +445,7 @@ export default function CreateListingModal(
                         <TextInput
                             name="squareFootage"
                             size="md"
-                            placeholder="Square Footage"
+                            placeholder="ex. 2000 or 3500"
                             label="Square Footage"
                             {...form.getInputProps('squareFootage')}
                         />

@@ -9,6 +9,7 @@ import ViewAllListingHeader from './ViewallListingsHeader/ViewAllListingHeader';
 export default function ViewAllListings() {
     const { dispatch, isFetching } = useContext(ListingContext);
     const [list, setList] = useState() as any;
+    const [isLoading, setIsloading] = useState(true);
     const isMobile = useMediaQuery('(max-width: 769px)');
     const [filterValue, setFilterValue] = useState('');
 
@@ -17,6 +18,7 @@ export default function ViewAllListings() {
             const res = (await getListings(dispatch, `?${filterValue}`)) as any;
 
             setList(res.data);
+            setIsloading(false);
         };
         getList();
     }, [dispatch, filterValue]);
@@ -25,7 +27,9 @@ export default function ViewAllListings() {
         setFilterValue(value);
     };
 
-    return (
+    return isLoading ? (
+        <Loader />
+    ) : (
         <div>
             <ViewAllListingHeader setFilter={selectedFilter} />
 

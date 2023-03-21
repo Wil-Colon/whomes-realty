@@ -122,7 +122,7 @@ export default function Listing({ list, index }) {
                             </Carousel>
                         </Card.Section>
 
-                        <Group position="apart" mt="md" mb="xs">
+                        <Group grow mt="md" mb="xs" spacing={'sm'}>
                             <Text
                                 style={{ textDecoration: 'underline' }}
                                 color={'darkgreen'}

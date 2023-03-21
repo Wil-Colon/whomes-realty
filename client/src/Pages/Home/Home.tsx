@@ -21,6 +21,10 @@ export default function Home() {
             link: 'realtors',
             label: 'Realtors',
         },
+        {
+            link: '/viewlistings',
+            label: 'View Listings',
+        },
     ];
 
     return (

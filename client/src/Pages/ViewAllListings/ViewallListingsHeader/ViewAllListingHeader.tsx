@@ -1,6 +1,7 @@
 import { Burger, Button, Drawer, Group, Image, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconPhone } from '@tabler/icons';
+import { Link } from 'react-router-dom';
 import ViewAllListingsFilter from '../ViewAllListingsFilters/ViewAllListingsFilters';
 
 interface ViewListingHeaderProps {
@@ -37,12 +38,14 @@ export default function ViewListingHeader({
                             paddingRight: '10px',
                         }}
                     >
-                        <Image
-                            src={require('../../../assets/images/logo2.png')}
-                            alt="company logo"
-                            width={60}
-                            height={60}
-                        />
+                        <Link to="/">
+                            <Image
+                                src={require('../../../assets/images/logo2.png')}
+                                alt="company logo"
+                                width={60}
+                                height={60}
+                            />
+                        </Link>
                         <Group spacing={5}>
                             <IconPhone style={{ color: 'white' }} />
                             <a

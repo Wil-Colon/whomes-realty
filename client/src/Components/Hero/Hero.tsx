@@ -9,6 +9,7 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import HeroVideoSlider from './HeroVideoSlider';
 
 const useStyles = createStyles((theme) => ({
@@ -151,19 +152,14 @@ export default function Hero() {
                                         Find your future home in Rhode Island
                                         today!
                                     </Text>
-                                    <Button
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            element?.scrollIntoView({
-                                                block: 'center',
-                                                behavior: 'smooth',
-                                            });
-                                        }}
-                                        className={classes.button}
-                                        size="lg"
-                                    >
-                                        View Listings
-                                    </Button>
+                                    <Link to="/viewlistings">
+                                        <Button
+                                            className={classes.button}
+                                            size="lg"
+                                        >
+                                            View Listings
+                                        </Button>
+                                    </Link>
                                 </div>
                             </>
                         )}

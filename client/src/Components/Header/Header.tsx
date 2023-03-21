@@ -82,7 +82,7 @@ export default function HeaderSimple({ links }: HeaderSimpleProps) {
     const items = links.map((link) => (
         <Link
             key={link.label}
-            to={`#${link.link}`}
+            to={`${link.link !== '/viewlistings' ? '#' : ''}${link.link}`}
             className={cx(classes.link, {
                 [classes.linkActive]: active === link.link,
             })}

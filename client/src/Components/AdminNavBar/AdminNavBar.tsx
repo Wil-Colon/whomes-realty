@@ -8,7 +8,7 @@ import {
     Burger,
     Transition,
 } from '@mantine/core';
-import AdminNavbarContent from '../AdminNavBarContent/AdminNavBarContent';
+import AdminNavbarContent from './AdminNavBarContent/AdminNavBarContent';
 import { logout } from '../../context/AuthContext/AuthAction';
 import { validateAuth } from '../../context/AuthContext/apiCalls';
 

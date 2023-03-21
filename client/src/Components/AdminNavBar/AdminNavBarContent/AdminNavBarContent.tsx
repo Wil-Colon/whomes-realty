@@ -14,10 +14,11 @@ import {
     IconMail,
 } from '@tabler/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { getUnReadMessages } from '../../context/MessagesContext/apiCalls';
-import { AuthContext } from '../../context/AuthContext/AuthContext';
-import { logout } from '../../context/AuthContext/AuthAction';
-import { MessagesContext } from '../../context/MessagesContext/MessageContext';
+import { getUnReadMessages } from '../../../context/MessagesContext/apiCalls';
+import { AuthContext } from '../../../context/AuthContext/AuthContext';
+import { logout } from '../../../context/AuthContext/AuthAction';
+import { MessagesContext } from '../../../context/MessagesContext/MessageContext';
+import DarkThemeButton from '../../DarkThemeButton';
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const icon = getRef('icon');
@@ -210,7 +211,7 @@ export default function AdminNavbarContent({
             <Navbar.Section grow>
                 <Link to="/">
                     <Image
-                        src={require('../../assets/images/logo2.png')}
+                        src={require('../../../assets/images/logo2.png')}
                         alt="company logo"
                         width={60}
                         height={60}

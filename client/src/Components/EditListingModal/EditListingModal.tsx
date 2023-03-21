@@ -63,6 +63,7 @@ const useStyles = createStyles((theme) => ({
 
 const data = [
     { value: 'Single Family Home', label: 'Single Family Home' },
+    { value: 'Multi family', label: 'Multi family' },
     { value: 'Town Home', label: 'Town Home' },
     { value: 'Condo', label: 'Condo' },
     { value: 'Ranch', label: 'Ranch' },
