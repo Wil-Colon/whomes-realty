@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const listing = require('../models/listing');
 const Listing = require('../models/listing');
 const verify = require('../verifyToken');
 
@@ -21,12 +22,9 @@ router.get('/:id', async (req, res) => {
 //GET '/api/listings/'
 //accepts 'city' query to find listings based on city
 //accepts 'featuredListing' query to pull only featured listings
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     const noimageQuery = req.query.noimage;
-    const query = req.query;
     let listings = [];
-
-    console.log(query);
 
     try {
         if (noimageQuery) {
@@ -36,8 +34,23 @@ router.get('/', async (req, res) => {
             return res.status(200).json(listings);
         }
 
-        listings = await Listing.find(query);
+        if (req.body.query) {
+            let { propertyType, ...rest } = req.body.query;
 
+            if (propertyType) {
+                listings = await Listing.find({
+                    propertyType: { $in: propertyType },
+                    ...rest,
+                });
+                return res.status(200).json(listings);
+            }
+            if (Object.keys(rest).length > 0) {
+                listings = await Listing.find(rest);
+                return res.status(200).json(listings);
+            }
+        }
+
+        listings = await Listing.find({});
         res.status(200).json(listings);
     } catch (err) {
         res.status(500).json(err);

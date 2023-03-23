@@ -1,4 +1,4 @@
-import { Burger, Button, Drawer, Group, Image, Text } from '@mantine/core';
+import { Button, Drawer, Group, Image, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconPhone } from '@tabler/icons';
 import { Link } from 'react-router-dom';

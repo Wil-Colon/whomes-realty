@@ -15,7 +15,7 @@ export default function ViewAllListings() {
 
     useEffect(() => {
         const getList = async () => {
-            const res = (await getListings(dispatch, `?${filterValue}`)) as any;
+            const res = (await getListings(dispatch, filterValue)) as any;
 
             setList(res.data);
             setIsloading(false);

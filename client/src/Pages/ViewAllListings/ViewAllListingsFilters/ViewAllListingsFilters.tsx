@@ -18,15 +18,15 @@ export default function ViewAllListingsFilter({
     });
 
     const data = [
-        { label: 'Single Family Home', value: 'Single Family Home' },
-        { label: 'Multi family', value: 'Multi family' },
-        { label: 'Town Home', value: 'Town Home' },
-        { label: 'Condo', value: 'Condo' },
-        { label: 'Ranch', value: 'Ranch' },
-        { label: 'Residential', value: 'Residential' },
-        { label: 'Commercial', value: 'Commercial' },
-        { label: 'Industrial', value: 'Industrial' },
-        { label: 'Raw land', value: 'Raw land' },
+        'Single Family Home',
+        'Multi family',
+        'Town Home',
+        'Condo',
+        'Ranch',
+        'Residential',
+        'Commercial',
+        'Industrial',
+        'Raw land',
     ];
 
     const cityData = [
@@ -58,22 +58,13 @@ export default function ViewAllListingsFilter({
                         }));
                     });
                 }
-
                 Object.keys(values).forEach((key) => {
                     if (values[key] === null || values[key] === '-') {
                         delete values[key];
                     }
                 });
-                setFilter(
-                    JSON.stringify(values)
-                        .replace(/:\s*/g, '=')
-                        .replace(/['"]+/g, '')
-                        .replace(/[{}]/g, '')
-                        .replace(/[[\]']+/g, '')
-                        .replace(/:/g, '')
-                        .split(',')
-                        .join('&')
-                );
+
+                setFilter(values);
             })}
         >
             <Group>
