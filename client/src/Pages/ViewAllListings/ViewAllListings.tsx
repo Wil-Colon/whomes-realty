@@ -1,10 +1,12 @@
 import { Container, Divider, Grid, Loader, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useContext, useEffect, useState } from 'react';
-import Listing from '../../Components/Listing/Listing';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
+// import Listing from '../../Components/Listing/Listing';
 import { getListings } from '../../context/ListingContext/apiCalls';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
 import ViewAllListingHeader from './ViewallListingsHeader/ViewAllListingHeader';
+
+const Listing = React.lazy(() => import('../../Components/Listing/Listing'));
 
 export default function ViewAllListings() {
     const { dispatch, isFetching } = useContext(ListingContext);
@@ -53,7 +55,9 @@ export default function ViewAllListings() {
                         </div>
                     ) : (
                         list?.map((list, i) => (
-                            <Listing key={list._id} list={list} index={i} />
+                            <Suspense key={list._id} fallback={<Loader />}>
+                                <Listing list={list} index={i} />
+                            </Suspense>
                         ))
                     )}
                     {list.length === 0 && <Text>No Listings Available</Text>}

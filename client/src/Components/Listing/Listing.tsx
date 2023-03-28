@@ -67,12 +67,9 @@ export default function Listing({ list, index }) {
 
     return (
         <Grid.Col
-            // lg={4}
-            // md={4}
             sm={4}
             style={{
                 maxWidth: '335px',
-                // minWidth: '283px',
             }}
             ref={ref}
         >

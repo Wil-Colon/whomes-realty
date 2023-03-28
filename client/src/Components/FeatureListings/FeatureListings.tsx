@@ -1,9 +1,11 @@
 import { Container, Grid, Loader, Text } from '@mantine/core';
 import { getListings } from '../../context/ListingContext/apiCalls';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
-import { useContext, useEffect, useState } from 'react';
-import Listing from '../Listing/Listing';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
+// import Listing from '../Listing/Listing';
 import { useMediaQuery } from '@mantine/hooks';
+
+const Listing = React.lazy(() => import('../Listing/Listing'));
 
 export default function FeatureListings() {
     const { dispatch, isFetching } = useContext(ListingContext);
@@ -44,7 +46,13 @@ export default function FeatureListings() {
                     list?.map(
                         (list, i) =>
                             i < listSize && (
-                                <Listing key={list._id} list={list} index={i} />
+                                <Suspense fallback={<Loader />}>
+                                    <Listing
+                                        key={list._id}
+                                        list={list}
+                                        index={i}
+                                    />
+                                </Suspense>
                             )
                     )
                 )}

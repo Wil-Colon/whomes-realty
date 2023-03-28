@@ -49,7 +49,7 @@ export default function ViewListingHeader({
                         <Group spacing={5}>
                             <IconPhone style={{ color: 'white' }} />
                             <a
-                                href="4019435800"
+                                href="tel:4019435800"
                                 style={{ textDecoration: 'none' }}
                             >
                                 <Text sx={{ color: 'white' }}>
@@ -91,6 +91,7 @@ export default function ViewListingHeader({
                     maxWidth: '95%',
                     margin: 'auto',
                     marginBottom: '15px',
+                    paddingTop: '10px',
                 }}
             >
                 {!isMobile ? (
@@ -100,7 +101,7 @@ export default function ViewListingHeader({
                         variant="outline"
                         color="red"
                         radius={'lg'}
-                        size={'sm'}
+                        size={'xs'}
                         onClick={toggle}
                     >
                         Filter

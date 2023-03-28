@@ -78,7 +78,7 @@ export default function ViewAllListingsFilter({
                     {...form.getInputProps('propertyType')}
                 />
                 <NativeSelect
-                    label="Bed Rooms"
+                    label="Rooms"
                     name="bedRooms"
                     data={['-', '1', '2', '3', '4', '5', '6', '7', '8']}
                     {...form.getInputProps('bedRooms')}
@@ -101,7 +101,7 @@ export default function ViewAllListingsFilter({
                     color="red"
                     radius="lg"
                     type="submit"
-                    style={{ width: '70px' }}
+                    style={{ width: '70px', marginTop: '23px' }}
                 >
                     Submit
                 </Button>

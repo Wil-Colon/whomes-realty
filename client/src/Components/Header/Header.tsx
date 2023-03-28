@@ -123,7 +123,7 @@ export default function HeaderSimple({ links }: HeaderSimpleProps) {
 
                 <Group spacing={5} className={classes.links}>
                     <IconPhone style={{ color: 'white' }} />
-                    <a href="4019435800" style={{ textDecoration: 'none' }}>
+                    <a href="tel:4019435800" style={{ textDecoration: 'none' }}>
                         <Text sx={{ color: 'white' }}>401-943-5800</Text>{' '}
                     </a>
                 </Group>
