@@ -23,3 +23,18 @@
     animation: panLeft 1s;
     animation-iteration-count: 1;
 }
+
+@keyframes loadDiv {
+    0% {
+        height: 0px;
+    }
+    100% {
+        height: 400px;
+    }
+}
+.loader {
+    animation: loadDiv 0.3s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    height: 429.5px;
+}

@@ -82,7 +82,6 @@ const useStyles = createStyles((theme) => ({
 export default function Hero() {
     const { classes } = useStyles();
     const isMobile = useMediaQuery('(min-width: 480px)');
-    const element = document.getElementById('listings');
     const [playAnimation, setPlayAnimation] = useState(false);
 
     useEffect(() => {

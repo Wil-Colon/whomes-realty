@@ -4,9 +4,11 @@ import { useForm } from '@mantine/form';
 
 interface ViewAllListingsFilerProps {
     setFilter;
+    toggleDrawer;
 }
 export default function ViewAllListingsFilter({
     setFilter,
+    toggleDrawer,
 }: ViewAllListingsFilerProps) {
     const form = useForm({
         initialValues: {
@@ -63,8 +65,8 @@ export default function ViewAllListingsFilter({
                         delete values[key];
                     }
                 });
-
                 setFilter(values);
+                toggleDrawer(false);
             })}
         >
             <Group>

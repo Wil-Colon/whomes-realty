@@ -46,12 +46,8 @@ export default function FeatureListings() {
                     list?.map(
                         (list, i) =>
                             i < listSize && (
-                                <Suspense fallback={<Loader />}>
-                                    <Listing
-                                        key={list._id}
-                                        list={list}
-                                        index={i}
-                                    />
+                                <Suspense fallback={<Loader />} key={list._id}>
+                                    <Listing list={list} index={i} />
                                 </Suspense>
                             )
                     )

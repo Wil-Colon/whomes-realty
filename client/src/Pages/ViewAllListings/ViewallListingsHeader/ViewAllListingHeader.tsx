@@ -82,7 +82,10 @@ export default function ViewListingHeader({
                     },
                 })}
             >
-                <ViewAllListingsFilter setFilter={setFilter} />
+                <ViewAllListingsFilter
+                    setFilter={setFilter}
+                    toggleDrawer={toggle}
+                />
             </Drawer>
 
             <Group
@@ -95,7 +98,10 @@ export default function ViewListingHeader({
                 }}
             >
                 {!isMobile ? (
-                    <ViewAllListingsFilter setFilter={setFilter} />
+                    <ViewAllListingsFilter
+                        setFilter={setFilter}
+                        toggleDrawer={toggle}
+                    />
                 ) : (
                     <Button
                         variant="outline"

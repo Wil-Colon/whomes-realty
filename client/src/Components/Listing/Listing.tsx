@@ -9,6 +9,7 @@ import {
     Group,
     Center,
     createStyles,
+    Loader,
 } from '@mantine/core';
 import { useIntersection } from '@mantine/hooks';
 import { useRef, useState, useEffect } from 'react';
@@ -63,7 +64,7 @@ export default function Listing({ list, index }) {
                 setViewed(true);
             }, index * 100);
         }
-    }, [entry?.isIntersecting, viewed]);
+    }, [entry?.isIntersecting, viewed, index]);
 
     return (
         <Grid.Col
@@ -184,7 +185,7 @@ export default function Listing({ list, index }) {
                     </Card>
                 </div>
             ) : (
-                <div style={{ minHeight: '400px' }}></div>
+                <div className="loader"></div>
             )}
         </Grid.Col>
     );
