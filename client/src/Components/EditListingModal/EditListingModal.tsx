@@ -198,7 +198,7 @@ export default function EditListingModal(
                     : null,
             squareFootage: (value) =>
                 /[a-z]/i.test(value) === true
-                    ? 'State should contain no letters'
+                    ? 'Sqft should contain no letters'
                     : null,
         },
     });
@@ -574,6 +574,7 @@ export default function EditListingModal(
                         <NativeSelect
                             name="status"
                             data={[
+                                '-',
                                 'Active',
                                 'Closed',
                                 'Under Contract',

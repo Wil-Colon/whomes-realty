@@ -23,6 +23,7 @@ export default function ViewAllListings() {
             const res = (await getListings(dispatch, filterValue)) as any;
             setList(res.data);
             setIsloading(false);
+            setStartIndex(0);
         };
         getList();
     }, [dispatch, filterValue]);
@@ -33,12 +34,9 @@ export default function ViewAllListings() {
     }, [list, pagination.active, totalPages]);
 
     const selectedFilter = (value) => {
-        pagination.first();
+        pagination.setPage(0);
         setFilterValue(value);
         setIsloading(true);
-        setTimeout(() => {
-            setIsloading(false);
-        }, 100);
     };
 
     return (
@@ -89,6 +87,7 @@ export default function ViewAllListings() {
                             onClick={() => {
                                 setStartIndex(pagination.active * 6 - 6);
                             }}
+                            initialPage={1}
                             total={totalPages}
                         />
                     )}

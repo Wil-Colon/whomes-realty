@@ -169,7 +169,7 @@ export default function CreateListingModal(
                     : null,
             squareFootage: (value) =>
                 /[a-z]/i.test(value) === true
-                    ? 'State should contain no letters.'
+                    ? 'Sqft should contain no letters.'
                     : null,
         },
     });
@@ -518,7 +518,9 @@ export default function CreateListingModal(
                         />
                         <NativeSelect
                             name="status"
+                            defaultValue={'Active'}
                             data={[
+                                '-',
                                 'Active',
                                 'Closed',
                                 'Under Contract',
