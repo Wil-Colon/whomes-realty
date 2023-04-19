@@ -2,9 +2,12 @@ import './ViewAllListingsFilters.scss';
 import {
     Button,
     Drawer,
+    Flex,
     Group,
+    Menu,
     MultiSelect,
     NativeSelect,
+    Text,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
@@ -16,7 +19,7 @@ interface ViewAllListingsFilerProps {
 export default function ViewAllListingsFilter({
     setFilter,
 }: ViewAllListingsFilerProps) {
-    const [openDrawer, { toggle }] = useDisclosure(false);
+    const [openDrawer, setOpenDrawer] = useState(false);
     const [disableSubmit, setDisableSubmit] = useState(true);
     const isMobile = useMediaQuery('(max-width: 769px)');
     const form = useForm({
@@ -45,6 +48,10 @@ export default function ViewAllListingsFilter({
             ? setDisableSubmit(false)
             : setDisableSubmit(true);
     }, [form]);
+
+    useEffect(() => {
+        !isMobile && setOpenDrawer(false);
+    }, [isMobile]);
 
     const propertyTypeData = [
         'Single Family Home',
@@ -95,17 +102,78 @@ export default function ViewAllListingsFilter({
                 setFilter(values);
                 form.setValues({ ...defaultFormvalues, ...values });
                 form.resetDirty({ ...defaultFormvalues, ...values });
-                toggle();
+                setOpenDrawer(false);
             })}
         >
             <Group>
+                <Flex direction="column" justify="center" align="center">
+                    <Menu shadow="md" width={300}>
+                        <Menu.Target>
+                            <Button
+                                variant="default"
+                                style={{ marginTop: '25px', fontWeight: '500' }}
+                            >
+                                Any Price
+                            </Button>
+                        </Menu.Target>
+                        <Menu.Dropdown>
+                            <Text
+                                color={'gray'}
+                                style={{
+                                    margin: '5px 0 5px 7px',
+                                }}
+                            >
+                                Price Range
+                            </Text>
+                            <Flex direction="row" justify="space-evenly">
+                                <NativeSelect
+                                    label=""
+                                    name="price1"
+                                    style={{
+                                        width: '45%',
+                                    }}
+                                    data={[
+                                        'No Min',
+                                        '1',
+                                        '2',
+                                        '3',
+                                        '4',
+                                        '5',
+                                        '6',
+                                        '7',
+                                        '8',
+                                    ]}
+                                    {...form.getInputProps('bedRooms')}
+                                />
+                                -
+                                <NativeSelect
+                                    label=""
+                                    name="price2"
+                                    style={{ width: '45%' }}
+                                    data={[
+                                        'No Min',
+                                        '1',
+                                        '2',
+                                        '3',
+                                        '4',
+                                        '5',
+                                        '6',
+                                        '7',
+                                        '8',
+                                    ]}
+                                    {...form.getInputProps('baths')}
+                                />
+                            </Flex>
+                        </Menu.Dropdown>
+                    </Menu>
+                </Flex>
                 <MultiSelect
                     clearable
                     label="Property Type"
                     name="propertyType"
                     maxSelectedValues={3}
                     data={propertyTypeData}
-                    style={{ maxWidth: '300px' }}
+                    style={isMobile ? { width: '300px' } : { width: '300px' }}
                     {...form.getInputProps('propertyType')}
                 />
                 <NativeSelect
@@ -144,8 +212,8 @@ export default function ViewAllListingsFilter({
     return (
         <>
             <Drawer
-                opened={isMobile ? openDrawer : false}
-                onClose={toggle}
+                opened={openDrawer}
+                onClose={() => setOpenDrawer(false)}
                 title="WHomes Realty"
                 position={'right'}
                 padding="xl"
@@ -173,8 +241,8 @@ export default function ViewAllListingsFilter({
                     variant="outline"
                     color="red"
                     radius={'lg'}
-                    size={'xs'}
-                    onClick={toggle}
+                    size={'sm'}
+                    onClick={() => setOpenDrawer(true)}
                 >
                     Filter
                 </Button>
