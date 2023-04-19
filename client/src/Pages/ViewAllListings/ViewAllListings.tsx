@@ -4,12 +4,12 @@ import { useMediaQuery, usePagination } from '@mantine/hooks';
 import { getListings } from '../../context/ListingContext/apiCalls';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
 import { Pagination } from '@mantine/core';
-import ViewAllListingHeader from './ViewallListingsHeader/ViewAllListingHeader';
+import ViewAllListingHeader from '../../Components/ViewallListingsHeader/ViewAllListingHeader';
 const Listing = React.lazy(() => import('../../Components/Listing/Listing'));
 
 export default function ViewAllListings() {
     const isMobile = useMediaQuery('(max-width: 769px)');
-    const { dispatch, isFetching } = useContext(ListingContext);
+    const { dispatch } = useContext(ListingContext);
     const [list, setList] = useState() as any;
     const [isLoading, setIsloading] = useState(true);
     const [filterValue, setFilterValue] = useState('');

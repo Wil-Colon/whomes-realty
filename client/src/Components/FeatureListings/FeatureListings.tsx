@@ -1,10 +1,8 @@
+import React, { Suspense, useContext, useEffect, useState } from 'react';
 import { Container, Grid, Loader, Text } from '@mantine/core';
 import { getListings } from '../../context/ListingContext/apiCalls';
 import { ListingContext } from '../../context/ListingContext/ListingContext';
-import React, { Suspense, useContext, useEffect, useState } from 'react';
-// import Listing from '../Listing/Listing';
 import { useMediaQuery } from '@mantine/hooks';
-
 const Listing = React.lazy(() => import('../Listing/Listing'));
 
 export default function FeatureListings() {

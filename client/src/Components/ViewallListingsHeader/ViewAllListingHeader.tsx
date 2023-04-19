@@ -1,5 +1,5 @@
-import { Button, Drawer, Group, Image, Text } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { Group, Image, Text } from '@mantine/core';
+
 import { IconPhone } from '@tabler/icons';
 import { Link } from 'react-router-dom';
 import ViewAllListingsFilter from '../ViewAllListingsFilters/ViewAllListingsFilters';
@@ -10,9 +10,6 @@ interface ViewListingHeaderProps {
 export default function ViewListingHeader({
     setFilter,
 }: ViewListingHeaderProps) {
-    const isMobile = useMediaQuery('(max-width: 769px)');
-    const [opened, { toggle }] = useDisclosure(false);
-
     return (
         <>
             <div
@@ -40,7 +37,7 @@ export default function ViewListingHeader({
                     >
                         <Link to="/">
                             <Image
-                                src={require('../../../assets/images/logo2.png')}
+                                src={require('../../assets/images/logo2.png')}
                                 alt="company logo"
                                 width={60}
                                 height={60}
@@ -61,33 +58,6 @@ export default function ViewListingHeader({
                 </div>
             </div>
 
-            <Drawer
-                opened={!isMobile ? false : opened}
-                onClose={toggle}
-                title="WHomes Realty"
-                position={'right'}
-                padding="xl"
-                overlayBlur={1}
-                overlayOpacity={0.5}
-                zIndex={999}
-                styles={(theme) => ({
-                    drawer: {
-                        fontSize: '25px',
-                        backgroundColor: '#1a1919f2',
-                    },
-                    header: {
-                        marginTop: '55px',
-                        color: 'white',
-                        textDecoration: 'underline',
-                    },
-                })}
-            >
-                <ViewAllListingsFilter
-                    setFilter={setFilter}
-                    toggleDrawer={toggle}
-                />
-            </Drawer>
-
             <Group
                 position="right"
                 style={{
@@ -97,22 +67,7 @@ export default function ViewListingHeader({
                     paddingTop: '10px',
                 }}
             >
-                {!isMobile ? (
-                    <ViewAllListingsFilter
-                        setFilter={setFilter}
-                        toggleDrawer={toggle}
-                    />
-                ) : (
-                    <Button
-                        variant="outline"
-                        color="red"
-                        radius={'lg'}
-                        size={'xs'}
-                        onClick={toggle}
-                    >
-                        Filter
-                    </Button>
-                )}
+                <ViewAllListingsFilter setFilter={setFilter} />
             </Group>
         </>
     );

@@ -88,11 +88,12 @@ export default function HeaderSimple({ links }: HeaderSimpleProps) {
             })}
             onClick={() => {
                 setActive(link.link);
+                toggle();
             }}
             scroll={(e) =>
                 e.scrollIntoView({
                     behavior: 'smooth',
-                    block: 'center',
+                    block: 'start',
                 })
             }
         >
