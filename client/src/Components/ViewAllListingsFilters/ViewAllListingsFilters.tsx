@@ -10,26 +10,38 @@ import {
     Text,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useMediaQuery } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 
 interface ViewAllListingsFilerProps {
     setFilter;
 }
+
 export default function ViewAllListingsFilter({
     setFilter,
 }: ViewAllListingsFilerProps) {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [disableSubmit, setDisableSubmit] = useState(true);
     const isMobile = useMediaQuery('(max-width: 769px)');
+
     const form = useForm({
+        validateInputOnChange: true,
         initialValues: {
+            minPrice: '0' as any,
+            maxPrice: '0' as any,
             propertyType: [] as any,
             bedRooms: '-' as any,
             baths: '-' as any,
             city: '-' as any,
         },
+        validate: {
+            minPrice: (value, values) =>
+                Number(value) > Number(values.maxPrice)
+                    ? form.setFieldValue('minPrice', values.maxPrice)
+                    : null,
+        },
     });
+
     const defaultFormvalues = {
         propertyType: [],
         bedRooms: '-',
@@ -52,6 +64,31 @@ export default function ViewAllListingsFilter({
     useEffect(() => {
         !isMobile && setOpenDrawer(false);
     }, [isMobile]);
+
+    const minPriceData = [
+        { label: 'No Min', value: '0' },
+        { label: '$100,000', value: '100000' },
+        { label: '$200,000', value: '200000' },
+        { label: '$300,000', value: '300000' },
+        { label: '$400,000', value: '400000' },
+        { label: '$500,000', value: '500000' },
+        { label: '$600,000', value: '600000' },
+        { label: '$700,000', value: '700000' },
+        { label: '$800,000', value: '800000' },
+        { label: '$900,000', value: '900000' },
+    ];
+    const maxPriceData = [
+        { label: 'No Min', value: '0' },
+        { label: '$100,000', value: '100000' },
+        { label: '$200,000', value: '200000' },
+        { label: '$300,000', value: '300000' },
+        { label: '$400,000', value: '400000' },
+        { label: '$500,000', value: '500000' },
+        { label: '$600,000', value: '600000' },
+        { label: '$700,000', value: '700000' },
+        { label: '$800,000', value: '800000' },
+        { label: '$900,000', value: '900000' },
+    ];
 
     const propertyTypeData = [
         'Single Family Home',
@@ -82,6 +119,64 @@ export default function ViewAllListingsFilter({
         { value: 'Cumberland', label: 'Cumberland' },
     ];
 
+    const PriceSelectMenuDesktop = (
+        <Flex direction="column">
+            <Text size={14} align="left">
+                Price
+            </Text>
+            <Menu shadow="md" width={300}>
+                <Menu.Target>
+                    <Button
+                        variant="default"
+                        style={{ marginTop: '3px', fontWeight: '500' }}
+                    >
+                        {' '}
+                        {form.values.minPrice === '0' &&
+                        form.values.maxPrice === '0'
+                            ? 'No min'
+                            : `$${form.values.minPrice.replace(
+                                  /.{3}/,
+                                  '$&,'
+                              )} - $${form.values.maxPrice.replace(
+                                  /.{3}/,
+                                  '$&,'
+                              )}`}
+                    </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                    <Text
+                        color={!isMobile ? 'grey' : 'white'}
+                        style={{
+                            margin: '5px 0 5px 7px',
+                            fontSize: '14px',
+                        }}
+                    >
+                        Price Range
+                    </Text>
+                    <Flex direction="row" justify="space-evenly">
+                        <NativeSelect
+                            data={minPriceData}
+                            label=""
+                            name="minPrice"
+                            style={{
+                                width: '50%',
+                            }}
+                            {...form.getInputProps('minPrice')}
+                        />
+                        -
+                        <NativeSelect
+                            label=""
+                            name="maxPrice"
+                            style={{ width: '50%' }}
+                            data={maxPriceData}
+                            {...form.getInputProps('maxPrice')}
+                        />
+                    </Flex>
+                </Menu.Dropdown>
+            </Menu>
+        </Flex>
+    );
+
     const filterSelectForm = (
         <form
             onSubmit={form.onSubmit((values) => {
@@ -106,67 +201,40 @@ export default function ViewAllListingsFilter({
             })}
         >
             <Group>
-                <Flex direction="column" justify="center" align="center">
-                    <Menu shadow="md" width={300}>
-                        <Menu.Target>
-                            <Button
-                                variant="default"
-                                style={{ marginTop: '25px', fontWeight: '500' }}
-                            >
-                                Any Price
-                            </Button>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                            <Text
-                                color={'gray'}
+                {!isMobile && PriceSelectMenuDesktop}
+                {isMobile && (
+                    <div style={{ marginTop: '-15px', width: '100%' }}>
+                        <Text
+                            color={!isMobile ? 'grey' : 'white'}
+                            style={{
+                                margin: '5px auto 5px 0px',
+                                fontSize: '14px',
+                            }}
+                        >
+                            Price Range
+                        </Text>
+                        <Flex direction="row" justify="space-evenly">
+                            <NativeSelect
+                                label=""
+                                name="price1"
                                 style={{
-                                    margin: '5px 0 5px 7px',
+                                    width: '50%',
                                 }}
-                            >
-                                Price Range
-                            </Text>
-                            <Flex direction="row" justify="space-evenly">
-                                <NativeSelect
-                                    label=""
-                                    name="price1"
-                                    style={{
-                                        width: '45%',
-                                    }}
-                                    data={[
-                                        'No Min',
-                                        '1',
-                                        '2',
-                                        '3',
-                                        '4',
-                                        '5',
-                                        '6',
-                                        '7',
-                                        '8',
-                                    ]}
-                                    {...form.getInputProps('bedRooms')}
-                                />
-                                -
-                                <NativeSelect
-                                    label=""
-                                    name="price2"
-                                    style={{ width: '45%' }}
-                                    data={[
-                                        'No Min',
-                                        '1',
-                                        '2',
-                                        '3',
-                                        '4',
-                                        '5',
-                                        '6',
-                                        '7',
-                                        '8',
-                                    ]}
-                                    {...form.getInputProps('baths')}
-                                />
-                            </Flex>
-                        </Menu.Dropdown>
-                    </Menu>
-                </Flex>
+                                data={minPriceData}
+                                {...form.getInputProps('minPrice')}
+                            />
+                            {'-'}
+                            <NativeSelect
+                                label=""
+                                name="price2"
+                                style={{ width: '50%' }}
+                                data={maxPriceData}
+                                {...form.getInputProps('maxPrice')}
+                            />
+                        </Flex>
+                    </div>
+                )}
+
                 <MultiSelect
                     clearable
                     label="Property Type"
