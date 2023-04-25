@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const listing = require('../models/listing');
 const Listing = require('../models/listing');
 const verify = require('../verifyToken');
 
@@ -18,10 +17,8 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-//Get all Listings
-//GET '/api/listings/'
-//accepts 'city' query to find listings based on city
-//accepts 'featuredListing' query to pull only featured listings
+//POST all Listings '/api/listings/'
+//req.body.query for filtering data
 router.post('/', async (req, res) => {
     const noimageQuery = req.query.noimage;
     let listings = [];
@@ -35,7 +32,30 @@ router.post('/', async (req, res) => {
         }
 
         if (req.body.query) {
-            let { propertyType, ...rest } = req.body.query;
+            let { propertyType, minPrice, maxPrice, ...rest } = req.body.query;
+
+            if (maxPrice && propertyType) {
+                listings = await Listing.find({
+                    price: {
+                        $gte: minPrice === '0' ? '0' : minPrice,
+                        $lte: maxPrice,
+                    },
+                    propertyType: { $in: propertyType },
+                    ...rest,
+                });
+                return res.status(200).json(listings);
+            }
+
+            if (maxPrice) {
+                listings = await Listing.find({
+                    price: {
+                        $gte: minPrice === '0' ? '0' : minPrice,
+                        $lte: maxPrice,
+                    },
+                    ...rest,
+                });
+                return res.status(200).json(listings);
+            }
 
             if (propertyType) {
                 listings = await Listing.find({
@@ -44,6 +64,7 @@ router.post('/', async (req, res) => {
                 });
                 return res.status(200).json(listings);
             }
+
             if (Object.keys(rest).length > 0) {
                 listings = await Listing.find(rest);
                 return res.status(200).json(listings);

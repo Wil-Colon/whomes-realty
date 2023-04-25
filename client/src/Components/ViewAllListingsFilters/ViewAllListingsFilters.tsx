@@ -22,7 +22,12 @@ export default function ViewAllListingsFilter({
 }: ViewAllListingsFilerProps) {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [disableSubmit, setDisableSubmit] = useState(true);
+    const [minPriceDisable, setMinPriceDisable] = useState(true);
     const isMobile = useMediaQuery('(max-width: 769px)');
+
+    const convertStringToNumber = (value) => {
+        return Number(value.replace(/,/g, ''));
+    };
 
     const form = useForm({
         validateInputOnChange: true,
@@ -36,13 +41,19 @@ export default function ViewAllListingsFilter({
         },
         validate: {
             minPrice: (value, values) =>
-                Number(value) > Number(values.maxPrice)
-                    ? form.setFieldValue('minPrice', values.maxPrice)
-                    : null,
+                convertStringToNumber(value) >
+                    convertStringToNumber(values.maxPrice) &&
+                form.setFieldValue('minPrice', values.maxPrice),
+            maxPrice: (value) =>
+                Number(value) === 0
+                    ? setMinPriceDisable(true)
+                    : setMinPriceDisable(false),
         },
     });
 
     const defaultFormvalues = {
+        minPrice: '0',
+        maxPrice: '0',
         propertyType: [],
         bedRooms: '-',
         baths: '-',
@@ -58,6 +69,10 @@ export default function ViewAllListingsFilter({
             ? setDisableSubmit(false)
             : form.isDirty('propertyType')
             ? setDisableSubmit(false)
+            : form.isDirty('minPrice')
+            ? setDisableSubmit(false)
+            : form.isDirty('maxPrice')
+            ? setDisableSubmit(false)
             : setDisableSubmit(true);
     }, [form]);
 
@@ -67,27 +82,27 @@ export default function ViewAllListingsFilter({
 
     const minPriceData = [
         { label: 'No Min', value: '0' },
-        { label: '$100,000', value: '100000' },
-        { label: '$200,000', value: '200000' },
-        { label: '$300,000', value: '300000' },
-        { label: '$400,000', value: '400000' },
-        { label: '$500,000', value: '500000' },
-        { label: '$600,000', value: '600000' },
-        { label: '$700,000', value: '700000' },
-        { label: '$800,000', value: '800000' },
-        { label: '$900,000', value: '900000' },
+        { label: '$100,000', value: '100,000' },
+        { label: '$200,000', value: '200,000' },
+        { label: '$300,000', value: '300,000' },
+        { label: '$400,000', value: '400,000' },
+        { label: '$500,000', value: '500,000' },
+        { label: '$600,000', value: '600,000' },
+        { label: '$700,000', value: '700,000' },
+        { label: '$800,000', value: '800,000' },
+        { label: '$900,000', value: '900,000' },
     ];
     const maxPriceData = [
         { label: 'No Min', value: '0' },
-        { label: '$100,000', value: '100000' },
-        { label: '$200,000', value: '200000' },
-        { label: '$300,000', value: '300000' },
-        { label: '$400,000', value: '400000' },
-        { label: '$500,000', value: '500000' },
-        { label: '$600,000', value: '600000' },
-        { label: '$700,000', value: '700000' },
-        { label: '$800,000', value: '800000' },
-        { label: '$900,000', value: '900000' },
+        { label: '$100,000', value: '100,000' },
+        { label: '$200,000', value: '200,000' },
+        { label: '$300,000', value: '300,000' },
+        { label: '$400,000', value: '400,000' },
+        { label: '$500,000', value: '500,000' },
+        { label: '$600,000', value: '600,000' },
+        { label: '$700,000', value: '700,000' },
+        { label: '$800,000', value: '800,000' },
+        { label: '$900,000', value: '900,000' },
     ];
 
     const propertyTypeData = [
@@ -121,26 +136,20 @@ export default function ViewAllListingsFilter({
 
     const PriceSelectMenuDesktop = (
         <Flex direction="column">
-            <Text size={14} align="left">
+            <Text size={14} align="left" style={{ marginTop: '4px' }}>
                 Price
             </Text>
             <Menu shadow="md" width={300}>
                 <Menu.Target>
                     <Button
                         variant="default"
-                        style={{ marginTop: '3px', fontWeight: '500' }}
+                        style={{ marginTop: '-1px', fontWeight: '500' }}
                     >
                         {' '}
                         {form.values.minPrice === '0' &&
                         form.values.maxPrice === '0'
                             ? 'No min'
-                            : `$${form.values.minPrice.replace(
-                                  /.{3}/,
-                                  '$&,'
-                              )} - $${form.values.maxPrice.replace(
-                                  /.{3}/,
-                                  '$&,'
-                              )}`}
+                            : `$${form.values.minPrice} - $${form.values.maxPrice}`}
                     </Button>
                 </Menu.Target>
                 <Menu.Dropdown>
@@ -161,6 +170,7 @@ export default function ViewAllListingsFilter({
                             style={{
                                 width: '50%',
                             }}
+                            disabled={minPriceDisable}
                             {...form.getInputProps('minPrice')}
                         />
                         -
@@ -190,8 +200,11 @@ export default function ViewAllListingsFilter({
                     });
                 }
                 Object.keys(values).forEach((key) => {
-                    if (values[key] === null || values[key] === '-') {
-                        delete values[key];
+                    if (values[key] === '-' || values['key'] === null) {
+                        return delete values[key];
+                    } else if (values['maxPrice'] === '0') {
+                        delete values['maxPrice'];
+                        delete values['minPrice'];
                     }
                 });
                 setFilter(values);
@@ -216,17 +229,18 @@ export default function ViewAllListingsFilter({
                         <Flex direction="row" justify="space-evenly">
                             <NativeSelect
                                 label=""
-                                name="price1"
+                                name="minPrice"
                                 style={{
                                     width: '50%',
                                 }}
                                 data={minPriceData}
+                                disabled={minPriceDisable}
                                 {...form.getInputProps('minPrice')}
                             />
                             {'-'}
                             <NativeSelect
                                 label=""
-                                name="price2"
+                                name="maxPrice"
                                 style={{ width: '50%' }}
                                 data={maxPriceData}
                                 {...form.getInputProps('maxPrice')}
