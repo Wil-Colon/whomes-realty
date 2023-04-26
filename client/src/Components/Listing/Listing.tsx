@@ -9,7 +9,6 @@ import {
     Group,
     Center,
     createStyles,
-    Loader,
 } from '@mantine/core';
 import { useIntersection } from '@mantine/hooks';
 import { useRef, useState, useEffect } from 'react';

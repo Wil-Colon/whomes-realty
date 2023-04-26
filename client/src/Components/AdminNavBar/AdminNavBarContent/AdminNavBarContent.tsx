@@ -18,7 +18,6 @@ import { getUnReadMessages } from '../../../context/MessagesContext/apiCalls';
 import { AuthContext } from '../../../context/AuthContext/AuthContext';
 import { logout } from '../../../context/AuthContext/AuthAction';
 import { MessagesContext } from '../../../context/MessagesContext/MessageContext';
-import DarkThemeButton from '../../DarkThemeButton';
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const icon = getRef('icon');
