@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const db = require('./db');
 const cors = require('cors');
+const path = require('path');
 
 app.use(cors());
 
@@ -13,6 +14,12 @@ db();
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/listing', require('./routes/listings'));
 app.use('/api/messages', require('./routes/messages'));
+
+app.use(express.static('client/build'));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+});
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

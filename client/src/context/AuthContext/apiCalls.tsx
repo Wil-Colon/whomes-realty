@@ -3,7 +3,7 @@ import { loginFailure, loginStart, loginSuccess } from './AuthAction';
 
 export const validateAuth = async (accessToken) => {
     try {
-        const res = await axios.get('http://localhost:5000/api/auth/', {
+        const res = await axios.get('/api/auth/', {
             headers: {
                 token: `Bearer ${accessToken}`,
             },
@@ -19,10 +19,7 @@ export const login = async (userInput, dispatch) => {
     dispatch(loginStart());
 
     try {
-        const res = await axios.post(
-            'http://localhost:5000/api/auth/login',
-            userInput
-        );
+        const res = await axios.post('/api/auth/login', userInput);
         dispatch(loginSuccess(res.data));
     } catch (err) {
         dispatch(loginFailure(err));

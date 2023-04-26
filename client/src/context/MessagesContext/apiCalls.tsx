@@ -13,16 +13,13 @@ import {
 
 export const getUnReadMessages = async () => {
     try {
-        const res = await axios.get(
-            'http://localhost:5000/api/messages?unread=true',
-            {
-                headers: {
-                    token:
-                        'Bearer ' +
-                        JSON.parse(localStorage.getItem('user')!).accessToken,
-                },
-            }
-        );
+        const res = await axios.get('/api/messages?unread=true', {
+            headers: {
+                token:
+                    'Bearer ' +
+                    JSON.parse(localStorage.getItem('user')!).accessToken,
+            },
+        });
         return res.data;
     } catch (err) {
         return err;
@@ -32,7 +29,7 @@ export const getUnReadMessages = async () => {
 export const getAllMessages = async (dispatch) => {
     dispatch(getMessagesStart());
     try {
-        const res = await axios.get('http://localhost:5000/api/messages', {
+        const res = await axios.get('/api/messages', {
             headers: {
                 token:
                     'Bearer ' +
@@ -50,7 +47,7 @@ export const getAllMessages = async (dispatch) => {
 export const deleteMessageById = async (dispatch, id) => {
     dispatch(deleteMessageStart());
     try {
-        await axios.delete(`http://localhost:5000/api/messages/delete/`, {
+        await axios.delete(`/api/messages/delete/`, {
             headers: {
                 token:
                     'Bearer ' +
@@ -70,12 +67,9 @@ export const deleteMessageById = async (dispatch, id) => {
 export const markAsRead = async (dispatch, id, read) => {
     dispatch(markAsReadStart());
     try {
-        const message = await axios.put(
-            `http://localhost:5000/api/messages/${id}`,
-            {
-                read,
-            }
-        );
+        const message = await axios.put(`/api/messages/${id}`, {
+            read,
+        });
         dispatch(markAsReadSuccess(message.data));
     } catch (err) {
         dispatch(markAsReadFailure());
@@ -87,13 +81,10 @@ export const markMultipleRead = async (dispatch, id, read) => {
     dispatch(markAsReadStart());
 
     try {
-        const message = await axios.patch(
-            `http://localhost:5000/api/messages/markmultipleread`,
-            {
-                read,
-                id,
-            }
-        );
+        const message = await axios.patch(`/api/messages/markmultipleread`, {
+            read,
+            id,
+        });
 
         dispatch(markAsReadSuccess(message.data));
     } catch (err) {
@@ -104,10 +95,7 @@ export const markMultipleRead = async (dispatch, id, read) => {
 
 export const newMessage = async (body) => {
     try {
-        await axios.post(
-            `http://localhost:5000/api/messages/newMessage/`,
-            body
-        );
+        await axios.post(`/api/messages/newMessage/`, body);
     } catch (err) {
         console.log(err);
         return err;
