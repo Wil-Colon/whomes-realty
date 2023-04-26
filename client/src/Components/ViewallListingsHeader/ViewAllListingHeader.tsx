@@ -1,8 +1,8 @@
 import { Group, Image, Text } from '@mantine/core';
-
 import { IconPhone } from '@tabler/icons';
 import { Link } from 'react-router-dom';
 import ViewAllListingsFilter from '../ViewAllListingsFilters/ViewAllListingsFilters';
+import logo from '../../assets/images/logo2.png';
 
 interface ViewListingHeaderProps {
     setFilter;
@@ -37,7 +37,7 @@ export default function ViewListingHeader({
                     >
                         <Link to="/">
                             <Image
-                                src={require('../../assets/images/logo2.png')}
+                                src={logo}
                                 alt="company logo"
                                 width={60}
                                 height={60}

@@ -19,6 +19,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Carousel } from '@mantine/carousel';
 import { getSingleListing } from '../../context/ListingContext/apiCalls';
+import logo from '../../assets/images/logo1.png';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
     price: {
@@ -179,7 +180,7 @@ export default function ListingDetailsModal() {
 
             <Group position="apart">
                 <Image
-                    src={require('../../assets/images/logo1.png')}
+                    src={logo}
                     alt="company logo"
                     width={60}
                     height={60}
