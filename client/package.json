@@ -39,7 +39,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "npx tsc",
+        "build": "tsc --project tsconfig.json",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
