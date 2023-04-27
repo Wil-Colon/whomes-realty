@@ -1,0 +1,28 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        margin-left: 50px;
+        width: 70%;
+    }
+    100% {
+        opacity: 1;
+        margin-left: 0px;
+        width: 90%;
+    }
+}
+
+.block-quote {
+    position: absolute;
+    font-size: 20px;
+    color: white;
+    animation: fadeIn 1s;
+    animation-iteration-count: 1;
+    font-weight: bold;
+    background-color: #29222270;
+    border-radius: '5px';
+    width: 90%;
+
+    @media only screen and (max-width: 600px) {
+        font-size: 15px;
+    }
+}
