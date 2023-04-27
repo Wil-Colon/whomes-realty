@@ -18,7 +18,7 @@ import { getUnReadMessages } from '../../../context/MessagesContext/apiCalls';
 import { AuthContext } from '../../../context/AuthContext/AuthContext';
 import { logout } from '../../../context/AuthContext/AuthAction';
 import { MessagesContext } from '../../../context/MessagesContext/MessageContext';
-import logo from '../../../assets/images/logo2.png';
+// import logo from '../../../assets/images/logo2.png';
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const icon = getRef('icon');
@@ -211,7 +211,7 @@ export default function AdminNavbarContent({
             <Navbar.Section grow>
                 <Link to="/">
                     <Image
-                        src={logo}
+                        src={'/logo2.png'}
                         alt="company logo"
                         width={60}
                         height={60}

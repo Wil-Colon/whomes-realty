@@ -7,7 +7,7 @@ const Listing = React.lazy(() => import('../Listing/Listing'));
 
 export default function FeatureListings() {
     const { dispatch, isFetching } = useContext(ListingContext);
-    const [list, setList] = useState() as any;
+    const [list, setList] = useState([]) as any;
     const isMobile = useMediaQuery('(max-width: 769px)');
 
     let listSize = isMobile ? 4 : 6;
@@ -20,8 +20,8 @@ export default function FeatureListings() {
 
             setList(res.data);
         };
-        getList();
-    }, [dispatch]);
+        list.length > 0 && getList();
+    }, [dispatch, list.length]);
 
     return (
         <Container id="listings" size={isMobile ? 800 : 1200}>

@@ -10,7 +10,7 @@ const Listing = React.lazy(() => import('../../Components/Listing/Listing'));
 export default function ViewAllListings() {
     const isMobile = useMediaQuery('(max-width: 769px)');
     const { dispatch } = useContext(ListingContext);
-    const [list, setList] = useState() as any;
+    const [list, setList] = useState([]) as any;
     const [isLoading, setIsloading] = useState(true);
     const [filterValue, setFilterValue] = useState('');
     const [totalPages, setTotalPages] = useState(0);
@@ -25,8 +25,8 @@ export default function ViewAllListings() {
             setIsloading(false);
             setStartIndex(0);
         };
-        getList();
-    }, [dispatch, filterValue]);
+        list.length > 0 && getList();
+    }, [dispatch, filterValue, list.length]);
 
     useEffect(() => {
         list && setTotalPages(Math.ceil(list.length / 6));

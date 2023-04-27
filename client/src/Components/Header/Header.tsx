@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { IconPhone } from '@tabler/icons';
 import { HashLink as Link } from 'react-router-hash-link';
-import logo from '../../assets/images/logo2.png';
+// import logo from '../../assets/images/logo2.png';
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -116,7 +116,12 @@ export default function HeaderSimple({ links }: HeaderSimpleProps) {
             }
         >
             <Container className={classes.header}>
-                <Image src={logo} alt="company logo" width={60} height={60} />
+                <Image
+                    src={'/logo2.png'}
+                    alt="company logo"
+                    width={60}
+                    height={60}
+                />
 
                 <Group spacing={5} className={classes.links}>
                     <IconPhone style={{ color: 'white' }} />
