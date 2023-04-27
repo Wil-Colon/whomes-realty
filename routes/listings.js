@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Listing = require('../models/listing');
+const Listing = require('../models/Listing');
 const verify = require('../verifyToken');
 
 //Get listing by ID
