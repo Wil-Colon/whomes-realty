@@ -180,7 +180,7 @@ export default function ListingDetailsModal() {
 
             <Group position="apart">
                 <Image
-                    src={'/logo1'}
+                    src={'/logo1.png'}
                     alt="company logo"
                     width={60}
                     height={60}
