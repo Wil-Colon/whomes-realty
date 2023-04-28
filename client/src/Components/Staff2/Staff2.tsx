@@ -112,16 +112,10 @@ export default function Staff2() {
                         association of Realtors.
                     </Text>
                 </div>
-                <Image
-                    src={require('../../assets/images/wendySolid-min.jpg')}
-                    className={classes.image}
-                />
+                <Image src={'/wendySolid-min.jpg'} className={classes.image} />
             </div>
             <div className={classes.wrapper}>
-                <Image
-                    src={require('../../assets/images/glendy.jpg')}
-                    className={classes.image}
-                />
+                <Image src={'/glendy.jpg'} className={classes.image} />
                 <div
                     className={classes.body}
                     style={
