@@ -73,16 +73,8 @@ export default function Footer({ links }: FooterCenteredProps) {
                 <Group className={classes.links}>{items}</Group>
                 <Group position="center" style={{ paddingBottom: '10px' }}>
                     <Image width={34} height={34} src={'/equalhousing.png'} />
-                    <Image
-                        width={34}
-                        height={34}
-                        src={require('../../assets/images/MLS.png')}
-                    />
-                    <Image
-                        width={34}
-                        height={34}
-                        src={require('../../assets/images/realtor.png')}
-                    />
+                    <Image width={34} height={34} src={'/MLS.png'} />
+                    <Image width={34} height={34} src={'/realtor.png'} />
                 </Group>
 
                 <Group spacing="xs" position="right" noWrap>
