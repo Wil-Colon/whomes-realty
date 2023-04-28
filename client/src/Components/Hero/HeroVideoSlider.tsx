@@ -24,7 +24,7 @@ export default function HeroVideoSlider() {
             <video
                 autoPlay
                 controls={false}
-                src={require('../../assets/videos/Kitchen in a house.mp4')}
+                src={'/Kitchen in a house.mp4'}
                 loop
                 muted
                 className={!isMobile ? 'video' : ''}
@@ -33,7 +33,7 @@ export default function HeroVideoSlider() {
             <video
                 autoPlay
                 controls={false}
-                src={require('../../assets/videos/Ground floor of a house.mp4')}
+                src={'/Ground floor of a house.mp4'}
                 loop
                 className={!isMobile ? 'video' : ''}
                 muted
@@ -42,7 +42,7 @@ export default function HeroVideoSlider() {
             <video
                 autoPlay
                 controls={false}
-                src={require('../../assets/videos/House by a lake.mp4')}
+                src={'/House by a lake.mp4'}
                 loop
                 className={!isMobile ? 'video' : ''}
                 muted
@@ -51,7 +51,7 @@ export default function HeroVideoSlider() {
             <video
                 autoPlay
                 controls={false}
-                src={require('../../assets/videos/A view of the coast.mp4')}
+                src={'/A view of the coast.mp4'}
                 loop
                 className={!isMobile ? 'video' : ''}
                 muted
