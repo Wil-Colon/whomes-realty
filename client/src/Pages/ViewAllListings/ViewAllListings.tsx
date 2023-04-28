@@ -25,8 +25,8 @@ export default function ViewAllListings() {
             setIsloading(false);
             setStartIndex(0);
         };
-        list.length > 0 && getList();
-    }, [dispatch, filterValue, list.length]);
+        getList();
+    }, [dispatch, filterValue]);
 
     useEffect(() => {
         list && setTotalPages(Math.ceil(list.length / 6));
