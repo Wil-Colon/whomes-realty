@@ -5,7 +5,7 @@ import {
     useWindowScroll,
 } from '@mantine/hooks';
 import { useRef, useState, useEffect } from 'react';
-import background from '../../assets/images/bg-houses.jpg';
+// import background from '../../assets/images/bg-houses.jpg';
 import './quoteComponent.scss';
 
 export default function BlockQuote() {
@@ -39,7 +39,7 @@ export default function BlockQuote() {
                     width: '100%',
                     height: '250px',
                     zIndex: '-1',
-                    backgroundImage: `url(${background})`,
+                    backgroundImage: 'url("/bg-houses.jpg")',
                     WebkitBackgroundSize: '600px',
                     backgroundPositionY: isMobile
                         ? `${scroll.y / 40}%`
