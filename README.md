@@ -15,7 +15,7 @@ as to prevent cluttering of the free Firebase host. State is managed by Context 
 -Mantine
 -Context API
 
-# Why was application created?:
+# Why was application created?
 The application was built purely for learning purposes. The application was the first I've written using Typescript and was used as a learning playground.
 I also wanted to learn simple quering of my mongoose database per a users interactions on the front end, then presenting the retrieved data with pagination.
 Futher learning of firebase image storage, Mantine and Context API for state management. 
