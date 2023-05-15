@@ -2,7 +2,7 @@
 MERN real-estate site. Allows creation/editing/deletion of listings.
 
 # Project Description:
-Application consists of a simple two page front end application consisting of a landing page and a listings page. The listing page that will allow a user to view listings of homes and filter by price, rooms etc. The home page holds a contact form allowing users to send inquiry messages to the receiving Admin Messages pane.  Admin Panel created with login and user verification to allow an admin to create, edit and delete listings. 
+Application consists of a simple two page front end application consisting of a landing page and a listings page. The listing page will allow a user to view listings of homes and filter by price, rooms etc. The home page holds a contact form allowing users to send inquiry messages to the receiving Admin Messages pane.  Admin Panel created with login and user verification to allow an admin to create, edit and delete listings. 
 
 # Built With:
 -Typescript
