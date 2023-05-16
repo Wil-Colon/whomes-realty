@@ -172,10 +172,11 @@ export default function ContactUs() {
                                 <Button
                                     type="submit"
                                     className={classes.control}
-                                    onClick={() =>
+                                    onClick={(e) => {
+                                        e.preventDefault();
                                         form.validate().hasErrors === false &&
-                                        setSubmitted(true)
-                                    }
+                                            setSubmitted(true);
+                                    }}
                                     disabled={submitted}
                                 >
                                     {!submitted ? 'Send Message' : 'Sent!'}
