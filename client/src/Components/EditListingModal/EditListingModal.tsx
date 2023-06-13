@@ -341,9 +341,7 @@ export default function EditListingModal(
         }
     };
 
-    return listingData === null ? (
-        <LoadingOverlay visible={true} />
-    ) : (
+    return (
         <Drawer
             closeOnClickOutside={false}
             opened={open}
