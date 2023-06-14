@@ -80,6 +80,12 @@ export default function ContactUs() {
     const { classes } = useStyles();
     const [submitted, setSubmitted] = useState(false);
 
+    const submitForm = () => {
+        setTimeout(() => {
+            setSubmitted(true);
+        }, 100);
+    };
+
     const form = useForm({
         initialValues: {
             email: '',
@@ -174,7 +180,7 @@ export default function ContactUs() {
                                     className={classes.control}
                                     onClick={() =>
                                         form.validate().hasErrors === false &&
-                                        setSubmitted(true)
+                                        submitForm()
                                     }
                                     disabled={submitted}
                                 >
