@@ -232,15 +232,6 @@ export default function ListingTable({ data }: TableSortProps) {
                     </Menu.Dropdown>
                 </Menu>
             </td>
-            {listingData && (
-                <EditListingModal
-                    open={openedEditModal}
-                    onClose={() => setOpenedEditModal(false)}
-                    setOpened={setOpenedEditModal}
-                    listingData={listingData}
-                    setListingData={setListingData}
-                />
-            )}
             <Modal
                 centered
                 opened={opened}
@@ -283,6 +274,15 @@ export default function ListingTable({ data }: TableSortProps) {
 
     return (
         <>
+            {listingData && (
+                <EditListingModal
+                    open={openedEditModal}
+                    onClose={() => setOpenedEditModal(false)}
+                    setOpened={setOpenedEditModal}
+                    listingData={listingData}
+                    setListingData={setListingData}
+                />
+            )}
             <ScrollArea>
                 <Highlight
                     highlight={'featured'}

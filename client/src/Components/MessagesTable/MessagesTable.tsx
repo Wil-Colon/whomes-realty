@@ -109,14 +109,6 @@ export default function MessagesTable() {
                         transitionDuration={0}
                     />
                 </td>
-
-                <MessageDetailsModal
-                    open={open}
-                    onClose={() => setOpened(false)}
-                    message={openedMessage}
-                    setOpened={setOpened}
-                />
-
                 <td>
                     <Group spacing="sm">
                         <Text
@@ -131,7 +123,6 @@ export default function MessagesTable() {
                         </Text>
                     </Group>
                 </td>
-
                 <td
                     style={{
                         fontWeight: message?.unRead ? 700 : 500,
@@ -177,6 +168,14 @@ export default function MessagesTable() {
 
     return (
         <>
+            {open && (
+                <MessageDetailsModal
+                    open={open}
+                    onClose={() => setOpened(false)}
+                    message={openedMessage}
+                    setOpened={setOpened}
+                />
+            )}
             <button
                 title="Delete Item"
                 disabled={selection.length === 0}
