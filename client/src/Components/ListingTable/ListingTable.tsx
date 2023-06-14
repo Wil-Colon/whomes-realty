@@ -232,41 +232,35 @@ export default function ListingTable({ data }: TableSortProps) {
                     </Menu.Dropdown>
                 </Menu>
             </td>
-            {listingData && (
-                <EditListingModal
-                    open={openedEditModal}
-                    onClose={() => setOpenedEditModal(false)}
-                    setOpened={setOpenedEditModal}
-                    listingData={listingData}
-                    setListingData={setListingData}
-                />
+
+            {opened && (
+                <Modal
+                    centered
+                    opened={opened}
+                    onClose={() => setOpened(false)}
+                    title="Delete Listing?"
+                    size="auto"
+                    transition="slide-up"
+                    withCloseButton={false}
+                    overlayOpacity={0.2}
+                >
+                    <Button
+                        radius="lg"
+                        color="red"
+                        onClick={() => handleDeleteListing()}
+                        style={{ marginRight: '10px' }}
+                    >
+                        Yes
+                    </Button>
+                    <Button
+                        variant="outline"
+                        radius="lg"
+                        onClick={() => setOpened(false)}
+                    >
+                        No
+                    </Button>
+                </Modal>
             )}
-            <Modal
-                centered
-                opened={opened}
-                onClose={() => setOpened(false)}
-                title="Delete Listing?"
-                size="auto"
-                transition="slide-up"
-                withCloseButton={false}
-                overlayOpacity={0.2}
-            >
-                <Button
-                    radius="lg"
-                    color="red"
-                    onClick={() => handleDeleteListing()}
-                    style={{ marginRight: '10px' }}
-                >
-                    Yes
-                </Button>
-                <Button
-                    variant="outline"
-                    radius="lg"
-                    onClick={() => setOpened(false)}
-                >
-                    No
-                </Button>
-            </Modal>
 
             <td>{row.featuredListing === 'true' ? 'Yes' : 'No'}</td>
             <td>{row.status}</td>
@@ -283,6 +277,15 @@ export default function ListingTable({ data }: TableSortProps) {
 
     return (
         <>
+            {listingData && (
+                <EditListingModal
+                    open={openedEditModal}
+                    onClose={() => setOpenedEditModal(false)}
+                    setOpened={setOpenedEditModal}
+                    listingData={listingData}
+                    setListingData={setListingData}
+                />
+            )}
             <ScrollArea>
                 <Highlight
                     highlight={'featured'}
