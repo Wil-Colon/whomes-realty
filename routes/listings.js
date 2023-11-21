@@ -24,6 +24,11 @@ router.post('/', async (req, res) => {
     let listings = [];
 
     try {
+        if (req.query.featuredListing) {
+            listings = await Listing.find({ featuredListing: true });
+            return res.status(200).json(listings);
+        }
+
         if (noimageQuery) {
             listings = await Listing.find({}).select(
                 '-image -propertyType -__v'
