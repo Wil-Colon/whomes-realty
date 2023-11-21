@@ -25,9 +25,7 @@ export const getSingleListing = async (id) => {
 export const getListings = async (dispatch, query?) => {
     dispatch(GetListingStart());
     try {
-        const res = await axios.post(`/api/listing`, {
-            query,
-        });
+        const res = await axios.post(`/api/listing${query}`);
         dispatch(GetListingSuccess(res.data));
         return res;
     } catch (err) {

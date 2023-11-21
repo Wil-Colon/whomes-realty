@@ -21,9 +21,15 @@ router.get('/:id', async (req, res) => {
 //req.body.query for filtering data
 router.post('/', async (req, res) => {
     const noimageQuery = req.query.noimage;
+    const featuredListing = req.query.featuredListing;
     let listings = [];
 
     try {
+        if (featuredListing) {
+            listings = await Listing.find({ featuredListing: true });
+            return res.status(200).json(listings);
+        }
+
         if (noimageQuery) {
             listings = await Listing.find({}).select(
                 '-image -propertyType -__v'
