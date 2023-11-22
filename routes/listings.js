@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
     let listings = [];
 
     try {
-        if (req.query.featuredListing) {
+        if (req.body.query === 'featuredListing') {
             listings = await Listing.find({ featuredListing: true });
             return res.status(200).json(listings);
         }

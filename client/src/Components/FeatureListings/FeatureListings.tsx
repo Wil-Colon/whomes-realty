@@ -13,10 +13,7 @@ export default function FeatureListings() {
     let listSize = isMobile ? 4 : 6;
     useEffect(() => {
         const getList = async () => {
-            const res = (await getListings(
-                dispatch,
-                '?featuredListing=true'
-            )) as any;
+            const res = (await getListings(dispatch, 'featuredListing')) as any;
 
             setList(res.data);
         };
